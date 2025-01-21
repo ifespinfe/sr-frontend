@@ -14,7 +14,7 @@
       class="md:h-full min-h-[300px] hidden md:block md:min-h-0 bottom-0 w-full absolute md:relative bg-background rounded-tl-3xl rounded-tr-3xl md:rounded-tr-none md:rounded-l-3xl"
     >
       <NuxtImg
-        src="/images/night-life.png"
+        src="/images/night-life.jpg"
         class="object-fill md:object-cover w-full h-full absolute rounded-[inherit]"
       />
     </div>

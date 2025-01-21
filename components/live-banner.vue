@@ -1,6 +1,6 @@
 <template>
   <div class="fixed left-0 right-0 bg-[#FFEE99] py-2 z-[20]">
-    <AutoScrollCarousel class="absolute inset-0" v-if="animate && false">
+    <AutoScrollCarousel class="absolute inset-0" v-if="animate">
       <div
         v-for="i in 40"
         :key="i"
