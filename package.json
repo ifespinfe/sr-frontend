@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare",
     "clean": "rm -rf node_modules/.pnpm .nuxt dist",
     "prune": "pnpm prune --prod",
-    "package:slim": "pnpm run clean && pnpm run prune"
+    "package:slim": "pnpm run clean && pnpm run prune",
+    "deploy": "aws s3 sync ./Users/rilwan/Documents/SPIN REQUEST/SPR-FE-NEW/.output/public s3://spin-fe-prod",
+    "deploy-stage": "aws s3 sync ./Users/rilwan/Documents/SPIN REQUEST/SPR-FE-NEW/.output/public s3://spin-fe-stage"
   },
   "dependencies": {
     "@nuxt/image": "^1.8.1",
