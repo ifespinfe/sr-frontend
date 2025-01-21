@@ -1,0 +1,24 @@
+import { openBlock, createElementBlock, createElementVNode } from 'vue';
+
+const _hoisted_1 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: "24",
+  height: "24",
+  fill: "none"
+};
+function render(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1, _cache[0] || (_cache[0] = [
+    createElementVNode("path", {
+      fill: "#C3C3C3",
+      d: "M2 3a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm2 1v16h16V4z"
+    }, null, -1),
+    createElementVNode("path", {
+      fill: "#C3C3C3",
+      d: "M7 8a1 1 0 1 1 2 0 1 1 0 0 1-2 0m0 3a1 1 0 0 1 1-1h.01a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1zM11 11a1 1 0 0 1 1-1h1a3 3 0 0 1 3 3v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3.5a.5.5 0 0 1 1 0V16h1v-3a2 2 0 0 0-2-2h-1v6h1v-3.5a1.5 1.5 0 0 1 3 0V17a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1z"
+    }, null, -1)
+  ]));
+}
+const linkedin = { render };
+
+export { linkedin as default, render };
+//# sourceMappingURL=linkedin-DoDcyWSP.mjs.map
