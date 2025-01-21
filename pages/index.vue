@@ -7,6 +7,7 @@
     <AudiencePerksSection />
     <HostPerksSection />
     <FaqSection />
+    <div>DEPLOYMENT</div>
   </div>
 </template>
 
