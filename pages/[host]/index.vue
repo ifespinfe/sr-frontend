@@ -23,7 +23,7 @@
         v-if="host"
       >
         <div>
-          <div class="grid lg:grid-cols-[auto_1fr] items-start gap-4">
+          <div class="grid lg:grid-cols-[auto_1fr] items-center gap-4">
             <Avatar
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
               :initials="getInitials(host?.stage_name)"

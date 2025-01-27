@@ -1,6 +1,6 @@
 <template>
   <div class="container pb-20">
-    <div class="flex gap-x-2 items-center fixed top-24">
+    <div class="flex gap-x-2 items-center fixed top-24 z-10">
       <SharedBackButton :to="isHost ? '/dashboard' : '/audience'" />
       <div class="text-2xl font-medium font-display">My Profile</div>
     </div>
@@ -17,9 +17,11 @@
       >
         <div :class="cn('space-y-4')">
           <div
-            class="border bg-white/5 p-6 rounded-2xl flex items-center gap-x-8"
+            class="border bg-white/5 p-6 rounded-2xl flex items-center gap-8 flex-wrap lg:flex-nowrap"
           >
-            <div class="size-[140px] relative shrink-0">
+            <div
+              class="size-[100px] sm:size-[120px] lg:size-[140px] relative shrink-0"
+            >
               <Avatar
                 :image="profile_picture"
                 :initials="initials"
@@ -47,21 +49,22 @@
                   }}
                 </div>
               </div>
-              <div class="flex items-center gap-x-6 flex-wrap gap-y-4">
-                <div class="flex items-center text-muted-foreground gap-x-6">
-                  <div><b>234</b> FOLLOWERS</div>
-                  <NuxtLink class="text-primary" to="/following">
-                    <b>234</b> FOLLOWING ></NuxtLink
-                  >
+              <div
+                class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
+              >
+                <div><b>234</b> FOLLOWERS</div>
+                <NuxtLink
+                  class="text-primary flex items-center gap-x-1"
+                  to="/following"
+                >
+                  <b>234</b> <span>FOLLOWING</span> <ChevronRight />
+                </NuxtLink>
+
+                <div class="flex items-center gap-x-2">
+                  <SvgIcon name="genres" /> <b>234</b> REQUESTS
                 </div>
-                <div class="w-px h-[20px] bg-border"></div>
-                <div class="flex items-center text-muted-foreground gap-x-6">
-                  <div class="flex items-center gap-x-2">
-                    <SvgIcon name="genres" /> <b>234</b> REQUESTS
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <SvgIcon name="celebration" /> <b>234</b> EVENTTS
-                  </div>
+                <div class="flex items-center gap-x-2">
+                  <SvgIcon name="celebration" /> <b>234</b> EVENTTS
                 </div>
               </div>
             </div>
@@ -305,7 +308,7 @@ import PasswordChange from "~/components/modals/password-change.vue";
 import UploadPhoto from "~/components/modals/upload-photo.vue";
 import QrCard from "~/components/cards/qr-card.vue";
 import ProfileCard from "~/components/cards/profile-card.vue";
-import { Loader, Edit2 } from "lucide-vue-next";
+import { Loader, Edit2, ChevronRight } from "lucide-vue-next";
 import type { ApiError, ApiResponse } from "~/types";
 import type { AudienceProfileUpdate, AuthUser } from "~/types/auth";
 import type { HostProfileUpdate } from "~/types/auth";
