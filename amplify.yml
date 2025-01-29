@@ -14,9 +14,6 @@ frontend:
       - '**/*'
   postBuild:
      commands:
-       - echo ${S3BUCKET}
-       - echo $S3BUCKET
-       - aws s3 sync amplify-hosting/ s3://$S3BUCKET/
        - echo ${S3BUCKET_STAGE}
        - echo $S3BUCKET_STAGE
-       - aws s3 sync amplify-hosting/ s3://$S3BUCKET_STAGE/
+       - aws s3 sync .amplify-hosting/ s3://$S3BUCKET_STAGE/
