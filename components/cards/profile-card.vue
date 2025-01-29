@@ -61,7 +61,9 @@ const {
   public: { APP_BASE_URL },
 } = useRuntimeConfig();
 
-const profileLink = computed(() => `${APP_BASE_URL}/${props.username}`);
+const profileLink = computed(
+  () => `${APP_BASE_URL}/following/${props.username}`
+);
 const {
   copyLink,
   copied,

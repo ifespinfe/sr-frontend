@@ -5230,7 +5230,7 @@ const _routes = [
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-CuoKAgV8.mjs')
+    component: () => import('./profile-DzFXqyMt.mjs')
   },
   {
     name: "search",
