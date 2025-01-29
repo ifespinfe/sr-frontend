@@ -24,9 +24,13 @@ export interface AuthUser {
   name?: string;
   is_live?: false;
   bank_account?: BankDetails | null;
+  followers?: number;
+  following?: number;
+  total_requests?: number;
   stats?: {
     events: number;
     followers: number;
+    following: number;
     fulfilled: number;
     requests: number;
   };

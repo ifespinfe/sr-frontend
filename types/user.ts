@@ -1,3 +1,4 @@
+import type { AuthUser } from "./auth";
 import type { EventRequest, LiveEvent } from "./event";
 
 export interface Host {
@@ -26,7 +27,13 @@ export interface HostProfile {
   total_events: number;
   total_requests: number;
   total_fulfilled_requests: number;
-  total_followers: [];
+  total_followers: {
+    parent: AuthUser;
+    user: AuthUser;
+    user_id: string | number;
+    parent_id: string | number;
+    id: string | number;
+  }[];
   user: {
     id: number;
     email: string;
@@ -44,4 +51,38 @@ export interface HostProfile {
     bank_account: null;
   };
   live_event?: LiveEvent;
+}
+
+export interface Fan {
+  name: string;
+  user_name: string;
+  id: number | string;
+  profile_picture?: string | null;
+  bio?: string | null;
+  followers?: number;
+  following?: number;
+  profession?: string;
+  role: "audience" | "host";
+  total_events?: number;
+  requests?: number;
+  fulfilled?: number;
+}
+export interface Follower {
+  follower: {
+    data: Fan[];
+    links: {
+      first: string;
+      last: string;
+      next: string | null;
+      prev: string | null;
+    };
+    meta: {
+      current_page: number;
+      from: number;
+      last_page: number;
+      per_page: number;
+      to: number;
+      total: number;
+    };
+  };
 }
