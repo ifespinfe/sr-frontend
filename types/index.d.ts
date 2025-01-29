@@ -1,5 +1,5 @@
 export interface ApiResponse<T> {
-  data: T;
+  data?: T | null;
   message: string;
 }
 export interface ApiError {

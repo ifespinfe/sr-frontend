@@ -15,7 +15,7 @@
     </LiveBanner>
     <SharedBackButton
       to="/audience"
-      :class="cn(data?.data.live_event ? 'mt-10' : '')"
+      :class="cn(data?.data?.live_event ? 'mt-10' : '')"
     />
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
@@ -48,7 +48,7 @@
                   <SvgIcon name="celebration" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data.total_events
+                      data?.data?.total_events
                     }}</span>
                     <span class="text-muted-foreground">EVENTS</span>
                   </div>
@@ -57,7 +57,7 @@
                   <SvgIcon name="genres" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data.total_requests
+                      data?.data?.total_requests
                     }}</span>
                     <span class="text-muted-foreground">REQUESTS</span>
                   </div>
@@ -66,7 +66,7 @@
                   <SvgIcon name="genres" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data.total_fulfilled_requests
+                      data?.data?.total_fulfilled_requests
                     }}</span>
                     <span class="text-muted-foreground">FUFILLED</span>
                   </div>
@@ -74,11 +74,14 @@
               </div>
               <div class="flex flex-col md:flex-row items-center gap-4">
                 <Button
-                  :variant="'secondary'"
+                  :variant="followingHost ? 'destructive' : 'secondary'"
                   class="w-full md:w-auto"
                   :size="'lg'"
+                  @click="followHost"
+                  :loading="following || unfollowing"
+                  hide_loading_text
                 >
-                  Follow
+                  {{ followingHost ? "Unfollow" : "follow" }}
                 </Button>
                 <NuxtLink
                   v-if="data?.data.live_event && !ended"
@@ -90,7 +93,13 @@
                   </Button>
                 </NuxtLink>
 
-                <Button class="w-full md:w-auto" :size="'lg'" v-else>
+                <Button
+                  class="w-full md:w-auto"
+                  :size="'lg'"
+                  v-else
+                  @click="subscibeHandler"
+                  :loading="subscribing"
+                >
                   Notify me when Host Goes Live.
                 </Button>
               </div>
@@ -107,8 +116,8 @@
               <SvgIcon name="badge" />
               <div>
                 <div class="text-lg font-semibold text-foreground">
-                  {{ data?.data.total_fulfilled_requests }} of
-                  {{ data?.data.total_requests }}
+                  {{ data?.data?.total_fulfilled_requests }} of
+                  {{ data?.data?.total_requests }}
                 </div>
                 <div class="text-muted-foreground">Request fufilled</div>
               </div>
@@ -147,8 +156,8 @@
             <SvgIcon name="badge" />
             <div>
               <div class="text-lg font-semibold text-foreground">
-                {{ data?.data.total_fulfilled_requests }} of
-                {{ data?.data.total_requests }}
+                {{ data?.data?.total_fulfilled_requests }} of
+                {{ data?.data?.total_requests }}
               </div>
               <div class="text-muted-foreground">Request fufilled</div>
             </div>
@@ -172,16 +181,44 @@ import Pusher from "pusher-js";
 import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
 
 const route = useRoute();
-const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
-  `/user/host/${route.params.host}`
-);
+const { data, error, status, refresh } = useCustomFetch<
+  ApiResponse<HostProfile>
+>(`/user/host/${route.params.host}`);
 const host = computed(() => data?.value?.data?.user);
 
 const { authEmail } = useAuth();
 
 const liveEventRequests = computed(() => {
-  return data.value?.data.live_event?.requests ?? [];
+  return data.value?.data?.live_event?.requests ?? [];
 });
+
+const followingHost = computed(() => {
+  if (!data.value?.data) return false;
+  return data.value.data.total_followers.some(
+    (user) => user.user.email === authEmail.value
+  );
+});
+
+const {
+  followUser,
+  following,
+  unFollowUser,
+  unfollowing,
+  subOrUnsubscribeUser,
+  subscribing,
+} = useFollowActions();
+
+const followHost = () => {
+  const id = data?.value?.data?.user.id;
+  if (!id) return;
+  followingHost.value ? unFollowUser(id, refresh) : followUser(id, refresh);
+};
+
+const subscibeHandler = () => {
+  const id = data?.value?.data?.user.id;
+  if (!id) return;
+  subOrUnsubscribeUser(id, "subscribe", refresh);
+};
 
 const request_rejected = ref(false);
 
@@ -199,40 +236,40 @@ const {
 
 const ended = ref(false);
 
-onMounted(() => {
-  const pusher = new Pusher("0259a0ebe407b648fd2f", {
-    cluster: "mt1",
-  });
-  pusher.connection.bind("error", (err) => {
-    console.log({ err });
-  });
+// onMounted(() => {
+//   const pusher = new Pusher("0259a0ebe407b648fd2f", {
+//     cluster: "mt1",
+//   });
+//   pusher.connection.bind("error", (err) => {
+//     console.log({ err });
+//   });
 
-  pusher.connection.bind("connected", (data) => {
-    console.log({ data });
-  });
+//   pusher.connection.bind("connected", (data) => {
+//     console.log({ data });
+//   });
 
-  const channel = pusher.subscribe(
-    `SPREvents.${data.value?.data?.live_event?.id ?? "23"}`
-  );
-  console.log({ channel });
+//   const channel = pusher.subscribe(
+//     `SPREvents.${data.value?.data?.live_event?.id ?? "23"}`
+//   );
+//   console.log({ channel });
 
-  channel.bind("HostEndsEvent", (data) => {
-    console.log("HOST ENDED EVENT", data);
-    ended.value = true;
-  });
+//   channel.bind("HostEndsEvent", (data) => {
+//     console.log("HOST ENDED EVENT", data);
+//     ended.value = true;
+//   });
 
-  channel.bind("HostGoesLive", (data) => {
-    console.log("HOST GONE LIVE", data);
-  });
+//   channel.bind("HostGoesLive", (data) => {
+//     console.log("HOST GONE LIVE", data);
+//   });
 
-  channel.bind_global((event, data) => {
-    console.log(`The event ${event} was triggered with data ${data}`);
-  });
+//   channel.bind_global((event, data) => {
+//     console.log(`The event ${event} was triggered with data ${data}`);
+//   });
 
-  // for (const c of channels) {
-  //   console.log({ c });
-  // }
-});
+//   // for (const c of channels) {
+//   //   console.log({ c });
+//   // }
+// });
 
 useSeoMeta({
   title: () => `${host?.value?.stage_name ?? "Live event"}`,

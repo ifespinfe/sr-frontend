@@ -52,19 +52,38 @@
               <div
                 class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
               >
-                <div><b>234</b> FOLLOWERS</div>
+                <div>
+                  <b>{{
+                    isHost
+                      ? data?.data?.stats?.followers ?? "0"
+                      : data?.data?.followers ?? "0"
+                  }}</b>
+                  FOLLOWERS
+                </div>
                 <NuxtLink
                   class="text-primary flex items-center gap-x-1"
                   to="/following"
                 >
-                  <b>234</b> <span>FOLLOWING</span> <ChevronRight />
+                  <b>{{
+                    isHost
+                      ? data?.data?.stats?.following ?? "0"
+                      : data?.data?.following ?? "0"
+                  }}</b>
+                  <span>FOLLOWING</span> <ChevronRight />
                 </NuxtLink>
 
                 <div class="flex items-center gap-x-2">
-                  <SvgIcon name="genres" /> <b>234</b> REQUESTS
+                  <SvgIcon name="genres" />
+                  <b>{{
+                    isHost
+                      ? data?.data?.stats?.requests
+                      : data?.data?.total_requests ?? "0"
+                  }}</b>
+                  REQUESTS
                 </div>
-                <div class="flex items-center gap-x-2">
-                  <SvgIcon name="celebration" /> <b>234</b> EVENTTS
+                <div class="flex items-center gap-x-2" v-if="isHost">
+                  <SvgIcon name="celebration" />
+                  <b>{{ data?.data?.stats?.events ?? "" }}</b> EVENTS
                 </div>
               </div>
             </div>
@@ -125,7 +144,7 @@
 
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
-            v-if="isHost"
+            v-if="isHost && false"
           >
             <div class="font-semibold">Stats</div>
             <div class="flex flex-wrap gap-4 items-center">
@@ -295,8 +314,8 @@
             v-else-if="data?.data?.id"
           />
         </div>
-        <div v-else>
-          <ProfileCard />
+        <div v-else-if="data?.data?.user_name">
+          <ProfileCard :username="data?.data?.user_name" />
         </div>
       </div>
     </SharedLoadingArea>
@@ -375,7 +394,7 @@ const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
       bank_name: data.value?.data?.bank_account?.bank_name ?? "",
       account_name: data.value?.data?.bank_account?.account_name ?? "",
       account_number: data?.value?.data?.bank_account?.account_number ?? "",
-      code: data.value?.data.bank_account?.code ?? "",
+      code: data.value?.data?.bank_account?.code ?? "",
       country: data?.value?.data?.bank_account?.country ?? "",
     },
   };
@@ -472,7 +491,8 @@ watchEffect(() => {
   if (
     payload.bank_name &&
     payload.code &&
-    payload?.account_number?.length > 9
+    payload?.account_number?.length > 9 &&
+    data.value?.data?.role === "host"
   ) {
     verifyAccount(payload);
   }

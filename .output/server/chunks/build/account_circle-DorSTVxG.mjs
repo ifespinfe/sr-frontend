@@ -1,0 +1,20 @@
+import { openBlock, createElementBlock, createElementVNode } from 'vue';
+
+const _hoisted_1 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: "20",
+  height: "19",
+  fill: "none"
+};
+function render(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1, _cache[0] || (_cache[0] = [
+    createElementVNode("path", {
+      fill: "#C3C3C3",
+      d: "M4.023 14.792q1.275-.945 2.778-1.494A9.3 9.3 0 0 1 10 12.75q1.695 0 3.199.548 1.503.549 2.778 1.494a7.9 7.9 0 0 0 1.478-2.373A7.7 7.7 0 0 0 18 9.5q0-3.325-2.338-5.663T10 1.5 4.337 3.837 2 9.5q0 1.57.545 2.92.546 1.347 1.478 2.372M10 10.25q-1.37 0-2.31-.94T6.75 7t.94-2.31q.94-.94 2.31-.94t2.31.94.94 2.31q0 1.37-.94 2.31t-2.31.94M10 19a9.3 9.3 0 0 1-3.713-.744 9.5 9.5 0 0 1-3.016-2.027 9.5 9.5 0 0 1-2.027-3.016A9.3 9.3 0 0 1 .5 9.5q0-1.98.744-3.713a9.5 9.5 0 0 1 2.027-3.016A9.5 9.5 0 0 1 6.287.744 9.3 9.3 0 0 1 10 0a9.3 9.3 0 0 1 3.713.744 9.5 9.5 0 0 1 3.016 2.027 9.5 9.5 0 0 1 2.027 3.016A9.3 9.3 0 0 1 19.5 9.5a9.3 9.3 0 0 1-.744 3.713 9.5 9.5 0 0 1-2.027 3.016 9.5 9.5 0 0 1-3.016 2.027A9.3 9.3 0 0 1 10 19"
+    }, null, -1)
+  ]));
+}
+const account_circle = { render };
+
+export { account_circle as default, render };
+//# sourceMappingURL=account_circle-DorSTVxG.mjs.map
