@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout :name="'auth'">
     <div>
-      <div class="text-primary text-center mb-2 text-xl">Login deployment</div>
+      <div class="text-primary text-center mb-2 text-xl">Login</div>
       <div
         class="text-4xl lg:text-5xl font-semibold my-4 text-center max-w-[595px] mx-auto font-display"
       >

@@ -7,6 +7,11 @@ type FetchMethods = FetchOptions["method"];
 export default class Auth {
   private $fetch: $Fetch;
   SEARCH_HOST = "user/search-host";
+  FOLLOW_USER = "follow";
+  UNFOLLOW_USER = "unfollow";
+  FOLLOWING_LIST = "followers";
+  SUBSCRIBE = "subscribe";
+  UNSUBSCRIBE = "unsubscribe";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -30,5 +35,25 @@ export default class Auth {
       "GET",
       `${this.SEARCH_HOST}?name=${name}&per_page=100&page=1`
     );
+  }
+
+  async followUser(payload: { parent_id: string | number }) {
+    return this.call("POST", this.FOLLOW_USER, payload);
+  }
+
+  async unFollowUser(payload: { parent_id: string | number }) {
+    return this.call("POST", this.UNFOLLOW_USER, payload);
+  }
+
+  async fetchFollowingList() {
+    return this.call("GET", this.FOLLOWING_LIST);
+  }
+
+  async subscribeUser(host_id: string | number) {
+    return this.call("POST", this.SUBSCRIBE, { host_id });
+  }
+
+  async unSubscribeUser(host_id: string | number) {
+    return this.call("POST", this.UNSUBSCRIBE, { host_id });
   }
 }
