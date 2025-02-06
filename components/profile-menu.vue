@@ -5,6 +5,11 @@
         <AvatarRoot
           class="bg-muted inline-flex size-[40px] select-pointer items-center justify-center overflow-hidden rounded-full align-middle"
         >
+          <AvatarImage
+            :src="auth_user?.profile_picture"
+            class="h-full w-full object-cover"
+            v-if="auth_user?.profile_picture"
+          />
           <AvatarFallback
             class="leading-1 flex h-full w-full items-center justify-center text-[15px] font-medium uppercase"
           >

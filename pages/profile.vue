@@ -1,8 +1,8 @@
 <template>
   <div class="container pb-20">
-    <div class="flex gap-x-2 items-center fixed top-24">
+    <div class="flex gap-x-2 items-center fixed top-24 z-10">
       <SharedBackButton :to="isHost ? '/dashboard' : '/audience'" />
-      <div class="text-2xl font-medium font-display">My Profile</div>
+      <div class="text-2xl font-medium font-display">My Profile page</div>
     </div>
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
@@ -11,13 +11,86 @@
             'grid gap-6 mt-20',
             isHost
               ? 'md:grid-cols-[1fr_348px]'
-              : 'md:grid-cols-[1fr_250px] lg:grid-cols-[1fr_348px]'
+              : 'md:grid-cols-[1fr_348px] lg:grid-cols-[1fr_348px]'
           )
         "
       >
         <div :class="cn('space-y-4')">
           <div
+            class="border bg-white/5 p-6 rounded-2xl flex items-center gap-8 flex-wrap lg:flex-nowrap"
+          >
+            <div
+              class="size-[100px] sm:size-[120px] lg:size-[140px] relative shrink-0"
+            >
+              <Avatar
+                :image="profile_picture"
+                :initials="initials"
+                class="!rounded-xl !w-full !h-full !text-3xl"
+              />
+              <UploadPhoto @uploaded="profile_picture = $event">
+                <UiButton
+                  :variant="'secondary'"
+                  :size="'icon'"
+                  class="absolute -bottom-1 -right-1"
+                >
+                  <Edit2 class="size-3" />
+                </UiButton>
+              </UploadPhoto>
+            </div>
+
+            <div class="space-y-5">
+              <div class="space-y-1">
+                <div class="text-xl font-semibold">
+                  {{ data?.data?.user_name ?? data?.data?.email }}
+                </div>
+                <div class="text-foreground/80">
+                  {{
+                    data?.data?.user_name ? data?.data?.email : "Add a username"
+                  }}
+                </div>
+              </div>
+              <div
+                class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
+              >
+                <div>
+                  <b>{{
+                    isHost
+                      ? data?.data?.stats?.followers ?? "0"
+                      : data?.data?.followers ?? "0"
+                  }}</b>
+                  FOLLOWERS
+                </div>
+                <NuxtLink
+                  class="text-primary flex items-center gap-x-1"
+                  to="/following"
+                >
+                  <b>{{
+                    isHost
+                      ? data?.data?.stats?.following ?? "0"
+                      : data?.data?.following ?? "0"
+                  }}</b>
+                  <span>FOLLOWING</span> <ChevronRight />
+                </NuxtLink>
+
+                <div class="flex items-center gap-x-2">
+                  <SvgIcon name="genres" />
+                  <b>{{
+                    isHost
+                      ? data?.data?.stats?.requests
+                      : data?.data?.total_requests ?? "0"
+                  }}</b>
+                  REQUESTS
+                </div>
+                <div class="flex items-center gap-x-2" v-if="isHost">
+                  <SvgIcon name="celebration" />
+                  <b>{{ data?.data?.stats?.events ?? "" }}</b> EVENTS
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
+            v-if="false"
           >
             <div class="font-semibold">Details</div>
             <div class="space-y-6">
@@ -71,7 +144,7 @@
 
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
-            v-if="isHost"
+            v-if="isHost && false"
           >
             <div class="font-semibold">Stats</div>
             <div class="flex flex-wrap gap-4 items-center">
@@ -241,6 +314,9 @@
             v-else-if="data?.data?.id"
           />
         </div>
+        <div v-else-if="data?.data?.user_name">
+          <ProfileCard :username="data?.data?.user_name" />
+        </div>
       </div>
     </SharedLoadingArea>
   </div>
@@ -250,7 +326,8 @@
 import PasswordChange from "~/components/modals/password-change.vue";
 import UploadPhoto from "~/components/modals/upload-photo.vue";
 import QrCard from "~/components/cards/qr-card.vue";
-import { Loader } from "lucide-vue-next";
+import ProfileCard from "~/components/cards/profile-card.vue";
+import { Loader, Edit2, ChevronRight } from "lucide-vue-next";
 import type { ApiError, ApiResponse } from "~/types";
 import type { AudienceProfileUpdate, AuthUser } from "~/types/auth";
 import type { HostProfileUpdate } from "~/types/auth";
@@ -258,6 +335,7 @@ import SvgIcon from "~/components/svg-icon.vue";
 import { UsernameSchema, BioSchema } from "~/schemas/user-schema";
 import type { Bank, BankVerificationPayload } from "~/types/payment";
 import Wallet from "~/components/cards/wallet.vue";
+import Avatar from "~/components/avatar.vue";
 
 const {
   $config: {
@@ -271,7 +349,7 @@ const { auth_user, auth_token, saveAuthUser } = useAuth();
 const isHost = computed(() => auth_user.value?.role === "host");
 
 const { data, status, error, refresh } = useCustomFetch<ApiResponse<AuthUser>>(
-  isHost.value ? "/user?stat=true" : "/user"
+  isHost.value ? "/user?stat=true" : "/user?stat=true"
 );
 
 const { data: bank, status: bank_status } =
@@ -316,7 +394,7 @@ const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
       bank_name: data.value?.data?.bank_account?.bank_name ?? "",
       account_name: data.value?.data?.bank_account?.account_name ?? "",
       account_number: data?.value?.data?.bank_account?.account_number ?? "",
-      code: data.value?.data.bank_account?.code ?? "",
+      code: data.value?.data?.bank_account?.code ?? "",
       country: data?.value?.data?.bank_account?.country ?? "",
     },
   };
@@ -413,7 +491,8 @@ watchEffect(() => {
   if (
     payload.bank_name &&
     payload.code &&
-    payload?.account_number?.length > 9
+    payload?.account_number?.length > 9 &&
+    data.value?.data?.role === "host"
   ) {
     verifyAccount(payload);
   }

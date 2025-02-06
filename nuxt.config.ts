@@ -51,4 +51,28 @@ export default defineNuxtConfig({
   site: {
     url: process.env.APP_BASE_URL,
   },
+  sitemap: {
+    exclude: [
+      "/audience",
+      "/community-guidelines",
+      "/create-event",
+      "/dashboard",
+      "/email-confirmation",
+      "/events",
+      // "/forgot-password",
+      // "/login",
+      "/order-history",
+      // "/privacy-policy",
+      "/profile",
+      "/reset-password",
+      "/search",
+      // "/signup",
+      // "/terms",
+      "/wallet",
+      // "/forgot-password/reset",
+      // "/signup/audience",
+      // "/signup/host",
+    ],
+    sources: ["/api/__sitemap__/urls"],
+  },
 });

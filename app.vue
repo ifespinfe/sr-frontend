@@ -36,7 +36,7 @@ useHead({
     {
       id: "canonical",
       rel: "canonical",
-      href: `${APP_BASE_URL}/${path}`,
+      href: `${APP_BASE_URL}${path}`,
     },
   ],
 });
@@ -51,16 +51,17 @@ useSeoMeta({
   keywords: "DJ, hype man, hosts, song request, hype request",
   ogSiteName: "Spin Request",
   ogUrl: () => APP_BASE_URL,
-  ogImage: () => `${APP_BASE_URL}/images/dj.png`,
-  ogImageSecureUrl: () => `${APP_BASE_URL}/images/dj.png`,
+  ogImage: () => `${APP_BASE_URL}/images/SpinRequest.jpg`,
+  ogImageSecureUrl: () => `${APP_BASE_URL}/images/SpinRequest.jpg`,
   ogImageAlt: "Spin Request",
   ogImageWidth: 217,
   ogImageHeight: 217,
   ogImageType: "image/png",
   twitterSite: "@spinrequest",
-  twitterImage: () => `${APP_BASE_URL}/images/dj.png`,
+  twitterImage: () => `${APP_BASE_URL}/images/SpinRequest.jpg`,
   twitterImageAlt: "Spin Request",
   twitterCard: "summary",
+  fbAppId: "ugz8d26lc8x4eun1fw9a2xtzefo974",
 });
 
 useJsonld(() => ({
@@ -79,7 +80,7 @@ useJsonld(() => ({
     "https://www.tiktok.com/@spinrequest",
     "https://www.youtube.com/@spinrequest",
   ],
-  logo: `${APP_BASE_URL}/images/dj.png`,
+  logo: `${APP_BASE_URL}/images/SpinRequest.jpg`,
   keywords: ["DJ", "hype man", "hosts", "song request", "hype request"],
   foundingDate: "June 2023",
   address: "Nigeria",
