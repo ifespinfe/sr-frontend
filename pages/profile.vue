@@ -2,7 +2,7 @@
   <div class="container pb-20">
     <div class="flex gap-x-2 items-center fixed top-24 z-10">
       <SharedBackButton :to="isHost ? '/dashboard' : '/audience'" />
-      <div class="text-2xl font-medium font-display">My Profile</div>
+      <div class="text-2xl font-medium font-display">My Profile page</div>
     </div>
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
