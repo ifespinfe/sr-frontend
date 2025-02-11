@@ -18,7 +18,7 @@
           {{ profileLink }}
         </div>
       </div>
-      <div class="flex gap-x-2 items-center">
+      <div class="flex gap-x-2 items-center shrink-0">
         <UiButton :size="'icon'" :variant="'outline'" @click="copyLink">
           <Copy class="size-4" />
         </UiButton>
@@ -61,9 +61,7 @@ const {
   public: { APP_BASE_URL },
 } = useRuntimeConfig();
 
-const profileLink = computed(
-  () => `${APP_BASE_URL}/following/${props.username}`
-);
+const profileLink = computed(() => `${APP_BASE_URL}/${props.username}`);
 const {
   copyLink,
   copied,

@@ -224,7 +224,7 @@ const handleSubmit = async (event: HostEvent) => {
       emit("done");
       return;
     }
-    if (response.data.id) {
+    if (response?.data?.id) {
       navigateTo("/dashboard");
     }
   } catch (error) {

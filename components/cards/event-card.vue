@@ -5,9 +5,7 @@
     <div
       class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0"
     ></div>
-    <div
-      class="grid grid-cols-[1fr_auto_auto] gap-x-2 items-center relative z-10"
-    >
+    <div class="grid grid-cols-[1fr_auto_auto] gap-x-2 items-center relative">
       <div class="mb-1 font-semibold text-2xl">
         {{ event.title }}
       </div>
@@ -87,7 +85,11 @@ import type { ApiError } from "~/types";
 import ConfirmDialog from "../modals/confirm-dialog.vue";
 
 const props = defineProps<{ event: LiveEvent }>();
-const emit = defineEmits(["done"]);
+const emit = defineEmits<{
+  done: [];
+  edit: [id: number | string];
+  delete: [id: number | string];
+}>();
 
 const eventFormDetails = computed<EventFormDetails>(() => {
   const [main_type, other_type] = props.event.types.map((item) => item.name);
@@ -153,6 +155,7 @@ const deleteEvent = async () => {
     const response = await eventModule.deleteEvent(props.event.id);
     deleting.value = false;
     showToast({ title: response.message });
+    emit("delete", props.event.id);
     emit("done");
   } catch (error) {
     const e = error as ApiError;

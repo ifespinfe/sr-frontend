@@ -33,15 +33,48 @@
         <div class="overflow-hidden text-ellipsis line-clamp-1">
           {{ link }}
         </div>
-        <CopyCheck v-if="copied" class="size-4" />
-        <Copy v-else class="size-4" />
+        <UiButton class="shrink-0" :size="'icon'" :variant="'outline'">
+          <CopyCheck v-if="copied" class="size-4" />
+          <Copy v-else class="size-4" />
+        </UiButton>
+        <UiPopover>
+          <UiButton
+            :size="'icon'"
+            :variant="'outline'"
+            @click.stop
+            class="shrink-0 ml-2"
+          >
+            <Share2 class="size-4" />
+          </UiButton>
+          <template #content>
+            <div class="flex gap-x-2 items-center">
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(twitterShareLink)"
+              >
+                <SvgIcon name="x" />
+              </UiButton>
+
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(whatsappShareLink)"
+              >
+                <SvgIcon name="whatsapp" class="scale-[0.7]" />
+              </UiButton>
+            </div>
+          </template>
+        </UiPopover>
       </div>
     </div>
 
     <UiButton :size="'lg'" class="w-full mt-6 relative" :disabled="!data?.data">
       <a
         :download="`${name}-spin-request-QR`"
-        :href="data?.data"
+        :href="data?.data ?? '#'"
         class="inset-0 absolute grid place-items-center"
       >
         DOWNLOAD QR CODE
@@ -52,7 +85,7 @@
 
 <script lang="ts" setup>
 import { promiseTimeout } from "@vueuse/core";
-import { Copy, CopyCheck, Loader } from "lucide-vue-next";
+import { Copy, CopyCheck, Loader, Share2 } from "lucide-vue-next";
 import type { ApiResponse } from "~/types";
 const props = defineProps<{
   id?: string | number;
@@ -79,4 +112,13 @@ interface QrResponse {
 const { status, data } = useCustomFetch<ApiResponse<string>>(
   `/qrcode/${props.id}`
 );
+
+const {
+  public: { APP_BASE_URL },
+} = useRuntimeConfig();
+
+const title = ref("Here is my spinRequest profile");
+
+const { externalNavigate, twitterShareLink, whatsappShareLink } =
+  useSocialShare(props.link, title);
 </script>
