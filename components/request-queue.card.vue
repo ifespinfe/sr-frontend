@@ -25,6 +25,7 @@
           :class="
             cn('size-[120px] mx-auto', activeRequest ? 'animate-spin' : null)
           "
+          alt="Disco-disc"
         />
         <Summary
           class="font-semibold text-base"
