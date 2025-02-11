@@ -6,13 +6,7 @@ export default defineSitemapEventHandler(async () => {
   } = useRuntimeConfig();
 
   const response = await $fetch<{ data: { hosts: { slug: string }[] } }>(
-    `${API_BASE_URL}/user/fetch-host`,
-    {
-      headers: {
-        Authorization:
-          "Bearer 351|4Hb7xQbqh5D0XoNRHF2Ay1ALbThqbpX8rtgKGAncce5315b2",
-      },
-    }
+    `${API_BASE_URL}/user/fetch-host`
   );
   return response.data?.hosts?.length
     ? response.data?.hosts?.map((host) => ({

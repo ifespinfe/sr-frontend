@@ -22,6 +22,7 @@
           src="/images/ring-light.png"
           class="w-full h-full object-contain"
           loading="lazy"
+          alt="RingLight"
         />
       </div>
     </div>

@@ -37,6 +37,7 @@
               <NuxtImg
                 src="/images/cloud-wings.png"
                 class="absolute w-full h-full object-cover"
+                alt="cloud-wings"
               />
               <div
                 class="absolute top-0 left-0 border py-x px-2 rounded-full bg-white/5"
@@ -75,6 +76,7 @@
               <NuxtImg
                 src="/images/cloud-wings.png"
                 class="absolute w-full h-full object-cover"
+                alt="cloud-wings"
               />
               <div
                 class="absolute top-0 left-0 border py-x px-2 rounded-full bg-white/5"
