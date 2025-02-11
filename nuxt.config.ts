@@ -13,6 +13,19 @@ export default defineNuxtConfig({
         { name: "format-detection", content: "telephone=no" },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      script: [
+        {
+          src: "https://www.googletagmanager.com/gtag/js?id=G-E298NRK4DP",
+          async: true,
+        },
+        {
+          innerHTML: ` window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-E298NRK4DP');`,
+          type: "text/javascript",
+        },
+      ],
     },
   },
   css: ["~/assets/css/font.css"],
@@ -26,7 +39,7 @@ export default defineNuxtConfig({
     "pinia-plugin-persistedstate/nuxt",
     "@vueuse/nuxt",
     "nuxt-jsonld",
-    "nuxt-gtag",
+    // "nuxt-gtag",
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
   ],
@@ -45,9 +58,9 @@ export default defineNuxtConfig({
   alias: {
     "@spinlander": r("./components/lander"),
   },
-  gtag: {
-    id: "G-E298NRK4DP",
-  },
+  // gtag: {
+  //   id: "G-E298NRK4DP",
+  // },
   site: {
     url: process.env.APP_BASE_URL,
   },
@@ -59,6 +72,7 @@ export default defineNuxtConfig({
       "/dashboard",
       "/email-confirmation",
       "/events",
+      "/following",
       // "/forgot-password",
       // "/login",
       "/order-history",

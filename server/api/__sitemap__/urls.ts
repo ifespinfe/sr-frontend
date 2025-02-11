@@ -1,8 +1,12 @@
 import type { SitemapUrlInput } from "#sitemap/types";
 
 export default defineSitemapEventHandler(async () => {
+  const {
+    public: { API_BASE_URL },
+  } = useRuntimeConfig();
+
   const response = await $fetch<{ data: { hosts: { slug: string }[] } }>(
-    "https://api.spinrequest.com/api/v1/user/fetch-host",
+    `${API_BASE_URL}/user/fetch-host`,
     {
       headers: {
         Authorization:
