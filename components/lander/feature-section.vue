@@ -14,6 +14,7 @@
           <NuxtImg
             src="/images/masked-dj.png"
             class="w-full h-full object-cover rounded-[inherit]"
+            alt="Masked-DJ"
           />
         </div>
         <div class="space-y-3 p-4 md:p-5 relative z-10">
@@ -33,6 +34,7 @@
           <NuxtImg
             src="/images/joyful-woman.png"
             class="w-full h-full object-cover rounded-[inherit]"
+            alt="Joyful-woman"
           />
         </div>
         <div class="space-y-3 p-4 md:p-5 relative z-10">
@@ -52,6 +54,7 @@
           <NuxtImg
             src="/images/jolly.png"
             class="w-full h-full object-cover rounded-[inherit]"
+            alt="Jolly"
           />
         </div>
         <div class="space-y-3 p-4 md:p-5 relative z-10">

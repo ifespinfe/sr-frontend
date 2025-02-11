@@ -15,6 +15,7 @@
     >
       <NuxtImg
         src="/images/night-life.jpg"
+        alt="NightLife"
         class="object-fill md:object-cover w-full h-full absolute rounded-[inherit]"
       />
     </div>
