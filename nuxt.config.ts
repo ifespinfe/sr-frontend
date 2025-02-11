@@ -11,6 +11,10 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { name: "format-detection", content: "telephone=no" },
+        {
+          name: "facebook-domain-verification",
+          content: "ugz8d26lc8x4eun1fw9a2xtzefo974",
+        },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
       script: [
