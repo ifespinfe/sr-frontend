@@ -30,7 +30,7 @@
             <div class="flex items-center gap-x-4 flex-wrap justify-between">
               <div class="flex items-center text-muted-foreground gap-x-2">
                 <div class="size-3 rounded-full bg-[#38F08D]"></div>
-                <div>Earnings</div>
+                <div>Weekly Earnings</div>
               </div>
               <div
                 class="flex items-center text-muted-foreground gap-x-2 justify-self-end"

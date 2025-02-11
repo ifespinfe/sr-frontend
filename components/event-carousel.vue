@@ -10,6 +10,7 @@
             :key="event.id"
             :event="event"
             @done="emit('done')"
+            @delete="emit('delete', event.id)"
           />
         </div>
       </template>
@@ -45,7 +46,7 @@ const embla = ref<EmblaCarouselType>();
 const setEmblaApi = (api: EmblaCarouselType) => {
   embla.value = api;
 };
-const emit = defineEmits(["done"]);
+const emit = defineEmits<{ done: []; delete: [id: number | string] }>();
 
 const { control_list, selected_index, goTo } = useCarouselPagination(embla);
 </script>

@@ -21,7 +21,11 @@
     </div>
 
     <div class="sticky mac:hidden w-scree -trnslate-x-[var(--cp)] mb-6 z-20">
-      <EventCarousel :events="allEvents" @done="refresh" />
+      <EventCarousel
+        :events="allEvents"
+        @done="refresh"
+        @delete="deleteEvent"
+      />
     </div>
 
     <div class="grid mac:grid-cols-[1fr_auto] items-start gap-4">
@@ -98,6 +102,7 @@
           <EventCard
             :event="hostLiveEvent"
             v-if="hostLiveEvent"
+            @delete="deleteEvent"
             @done="refresh"
           />
         </div>
@@ -111,6 +116,7 @@
             v-for="event in hostNewEvents"
             :key="event.id"
             :event="event"
+            @delete="deleteEvent"
             @done="refresh"
           />
         </template>
@@ -140,6 +146,12 @@ const { data, status, error, refresh } =
 
 const { data: wallet, status: wallet_status } =
   useCustomFetch<Wallet>("/wallets");
+
+const deleteEvent = (id: number | string) => {
+  if (!data.value) return;
+  const updatedEvents = data.value?.data?.filter((item) => item.id !== id);
+  Object.assign(data.value, { data: updatedEvents });
+};
 
 const hostNewEvents = computed(() =>
   data.value?.data?.length

@@ -122,6 +122,8 @@ const { data, status } = useCustomFetch<ApiResponse<EventHistory>>(
 
 const events = computed(
   () =>
-    props.event_history?.event_details ?? data.value?.data?.event_details ?? []
+    props.event_history?.event_details ??
+    data.value?.data?.event_details?.slice(0, 5) ??
+    []
 );
 </script>
