@@ -69,7 +69,7 @@
       </div>
     </div>
     <div class="flex justify-center my-8">
-      <NuxtLink to="/audience">
+      <NuxtLink to="/signup/audience">
         <UiButton :size="'lg'"> REQUEST A SONG </UiButton>
       </NuxtLink>
     </div>

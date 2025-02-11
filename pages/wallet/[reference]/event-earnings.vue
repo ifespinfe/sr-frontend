@@ -59,7 +59,7 @@
           <div class="flex items-center justify-between">
             <div class="text-muted-foreground">Withdrawable balance</div>
             <div class="font-semibold">
-              ₦{{ formatMoney(data?.data.earning ?? 0) }}
+              ₦{{ formatMoney(data?.data?.earning ?? 0) }}
             </div>
           </div>
         </div>
@@ -68,13 +68,21 @@
             <div class="text-muted-foreground">Date</div>
 
             <div class="font-semibold">
-              {{ useDateFormat(data?.data?.date ?? "", "YY-MM-DD") }}
+              {{
+                data?.data?.date
+                  ? useDateFormat(data?.data?.date ?? "", "YY-MM-DD")
+                  : "-"
+              }}
             </div>
           </div>
           <div class="flex items-center justify-between">
             <div class="text-muted-foreground">Time</div>
             <div class="font-semibold">
-              {{ useDateFormat(data?.data?.date ?? "", "HH:mm") }}
+              {{
+                data?.data?.date
+                  ? useDateFormat(data?.data?.date ?? "", "HH:mm")
+                  : "-"
+              }}
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -88,7 +96,7 @@
         <div class="text-2xl font-semibold mb-6">Event Requests</div>
         <EventRequestsTable
           :loading="status === 'pending'"
-          :event_requests="data?.data.history ?? []"
+          :event_requests="data?.data?.history ?? []"
           disabled
         />
       </div>

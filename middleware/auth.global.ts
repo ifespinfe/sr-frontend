@@ -1,5 +1,4 @@
 export default defineNuxtRouteMiddleware((to) => {
-  return;
   const AUTH_PAGES = [
     "login",
     "signup",

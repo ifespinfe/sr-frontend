@@ -15,9 +15,13 @@
     </LiveBanner>
     <SharedBackButton
       to="/audience"
-      :class="cn(data?.data?.live_event ? 'mt-10' : '')"
+      :class="cn(data?.data?.live_event ? 'mt-10' : '', 'relative z-10')"
     />
-    <SharedLoadingArea :loading="status === 'pending'" :error="error">
+    <SharedLoadingArea
+      :loading="status === 'pending'"
+      :error="error"
+      class="z-10 relative"
+    >
       <div
         class="grid grid-cols-1 md:grid-cols-[1fr_400px] justify-between gap-6 mt-10"
         v-if="host"
@@ -96,7 +100,7 @@
                 <Button
                   class="w-full md:w-auto"
                   :size="'lg'"
-                  v-else
+                  v-else-if="!data?.data?.live_event"
                   @click="subscibeHandler"
                   :loading="subscribing"
                 >
@@ -105,7 +109,10 @@
               </div>
             </div>
           </div>
-          <div class="mt-10 space-y-2 text-muted-foreground hidden md:block">
+          <div
+            class="mt-10 space-y-2 text-muted-foreground hidden md:block"
+            v-if="data?.data?.live_event"
+          >
             <div>ABOUT ME</div>
             <div class="max-w-[550px]">
               {{ host.bio }}
@@ -130,6 +137,27 @@
             :event="data?.data?.live_event"
             v-if="data?.data?.live_event"
           />
+          <div
+            class="mt-10 space-y-2 text-muted-foreground hidden md:block"
+            v-else
+          >
+            <div>ABOUT ME</div>
+            <div class="max-w-[550px]">
+              {{ host.bio }}
+            </div>
+            <div
+              class="inline-flex bg-white/10 items-center rounded-xl py-4 px-6 gap-4"
+            >
+              <SvgIcon name="badge" />
+              <div>
+                <div class="text-lg font-semibold text-foreground">
+                  {{ data?.data?.total_fulfilled_requests }} of
+                  {{ data?.data?.total_requests }}
+                </div>
+                <div class="text-muted-foreground">Request fufilled</div>
+              </div>
+            </div>
+          </div>
           <div
             class="flex justify-center gap-x-2 mt-4 items-center animate-in slide-in-from-top-4"
             v-if="ended"
@@ -166,6 +194,14 @@
       </div>
     </SharedLoadingArea>
     <RejectedRequestModal v-model="request_rejected" />
+    <div
+      class="fixed left-0 right-0 h-[70vh] top-0 bg-gradient-to-r from-[#4a1520] via-[#462454] to-[#2d4163]"
+      v-if="!data?.data?.live_event"
+    />
+    <div
+      class="fixed left-0 right-0 h-[70vh] top-0 bg-gradient-to-b from-[#4a1520] via-[#462454] to-background"
+      v-if="!data?.data?.live_event"
+    />
   </div>
 </template>
 
@@ -236,40 +272,40 @@ const {
 
 const ended = ref(false);
 
-// onMounted(() => {
-//   const pusher = new Pusher("0259a0ebe407b648fd2f", {
-//     cluster: "mt1",
-//   });
-//   pusher.connection.bind("error", (err) => {
-//     console.log({ err });
-//   });
+onMounted(() => {
+  const pusher = new Pusher("0259a0ebe407b648fd2f", {
+    cluster: "mt1",
+  });
+  pusher.connection.bind("error", (err) => {
+    console.log({ err, state: "ERROR" });
+  });
 
-//   pusher.connection.bind("connected", (data) => {
-//     console.log({ data });
-//   });
+  pusher.connection.bind("connected", (data) => {
+    console.log({ data, state: "CONNECTED" });
+  });
 
-//   const channel = pusher.subscribe(
-//     `SPREvents.${data.value?.data?.live_event?.id ?? "23"}`
-//   );
-//   console.log({ channel });
+  const channel = pusher.subscribe(
+    `SPREvents.${data.value?.data?.live_event?.id ?? null}`
+  );
+  console.log({ channel });
 
-//   channel.bind("HostEndsEvent", (data) => {
-//     console.log("HOST ENDED EVENT", data);
-//     ended.value = true;
-//   });
+  channel.bind("HostEndsEvent", (data) => {
+    console.log("HOST ENDED EVENT", data);
+    ended.value = true;
+  });
 
-//   channel.bind("HostGoesLive", (data) => {
-//     console.log("HOST GONE LIVE", data);
-//   });
+  channel.bind("HostGoesLive", (data) => {
+    console.log("HOST GONE LIVE", data);
+  });
 
-//   channel.bind_global((event, data) => {
-//     console.log(`The event ${event} was triggered with data ${data}`);
-//   });
+  channel.bind_global((event, data) => {
+    console.log(`The event ${event} was triggered with data ${data}`);
+  });
 
-//   // for (const c of channels) {
-//   //   console.log({ c });
-//   // }
-// });
+  // for (const c of channels) {
+  //   console.log({ c });
+  // }
+});
 
 useSeoMeta({
   title: () => `${host?.value?.stage_name ?? "Live event"}`,
