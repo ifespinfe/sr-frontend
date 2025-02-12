@@ -9,6 +9,65 @@
 
     <nav class="flex items-center gap-x-2">
       <template v-if="isLoggedIn">
+        <UiPopover class="relative z-10">
+          <UiButton
+            :variant="'ghost'"
+            @click.stop
+            class="shrink-0 ml-2 sm:space-x-2 !bg-muted"
+          >
+            <div class="hidden sm:block">Share my profile</div>
+            <SvgIcon name="qr" class="text-primary" />
+          </UiButton>
+          <template #content>
+            <div class="flex gap-x-2 items-center">
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(twitterShareLink)"
+              >
+                <SvgIcon name="x" />
+              </UiButton>
+
+              <UiButton
+                :size="'icon'"
+                :variant="'outline'"
+                class="!size-[40px]"
+                @click="shareToFacebook"
+              >
+                <SvgIcon name="facebook" />
+              </UiButton>
+
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(whatsappShareLink)"
+              >
+                <SvgIcon name="whatsapp" class="scale-[0.7]" />
+              </UiButton>
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(tiktokShareLink)"
+              >
+                <SvgIcon name="tiktok" class="scale-[0.7]" />
+              </UiButton>
+            </div>
+          </template>
+        </UiPopover>
+        <UiButton
+          :variant="'secondary'"
+          @click.stop
+          class="shrink-0 ml-2 space-x-2 !bg-muted"
+        >
+          <div>₦{{ formatMoney(auth_user?.balance ?? 0) }}</div>
+          <SvgIcon
+            name="wallet"
+            class="text-primary relative scale-75 hidden sm:block"
+          />
+        </UiButton>
         <NuxtLink to="/audience" v-if="auth_user?.role === 'audience'">
           <UiTooltip message="Search host" :delay="50">
             <Button :size="'icon'" class="!size-[40px]" :variant="'ghost'">
@@ -40,4 +99,16 @@ const homeRoute = computed(() => {
   if (!isLoggedIn.value) return "/";
   return auth_user.value?.role === "audience" ? "/audience" : "/dashboard";
 });
+
+const { public: APP_BASE_URL } = useRuntimeConfig();
+const link = computed(() => `${APP_BASE_URL}/${auth_user.value?.slug}`);
+const title = ref("Here is my spin request profile");
+
+const {
+  externalNavigate,
+  twitterShareLink,
+  whatsappShareLink,
+  tiktokShareLink,
+  shareToFacebook,
+} = useSocialShare(link, title);
 </script>

@@ -78,7 +78,7 @@
               </div>
               <div class="flex flex-col md:flex-row items-center gap-4">
                 <Button
-                  :variant="followingHost ? 'destructive' : 'secondary'"
+                  :variant="followingHost ? 'secondary' : 'primary'"
                   class="w-full md:w-auto"
                   :size="'lg'"
                   @click="followHost"
@@ -100,7 +100,7 @@
                 <Button
                   class="w-full md:w-auto"
                   :size="'lg'"
-                  v-else-if="!data?.data?.live_event"
+                  v-else-if="!data?.data?.live_event && false"
                   @click="subscibeHandler"
                   :loading="subscribing"
                 >

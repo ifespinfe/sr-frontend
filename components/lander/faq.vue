@@ -1,9 +1,7 @@
 <template>
   <div class="bg-[#1C1B1F] py-[100px]">
     <div class="container max-w-[1248px]">
-      <h4
-        class="font-display font-semibold text-4xl md:text-5xl text-center mb-[40px]"
-      >
+      <h4 class="font-display font-semibold text-4xl md:text-5xl mb-[40px]">
         Frequently Asked Questions
       </h4>
       <AccordionRoot
