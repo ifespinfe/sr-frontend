@@ -11,7 +11,7 @@
       >
         <div class="space-y-8 w-full">
           <h3
-            class="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-center"
+            class="font-display text-3xl md:text-4xl lg:text-5xl font-semibold"
           >
             Become a SpinRequest Host & Get Paid
           </h3>
@@ -51,7 +51,7 @@
         </div>
         <NuxtLink class="w-full sm:w-auto mx-auto block" to="/signup/host">
           <UiButton :size="'lg'" class="w-full sm:w-auto mx-auto"
-            >Create an Host account</UiButton
+            >Create a Host account</UiButton
           >
         </NuxtLink>
       </div>

@@ -28,11 +28,8 @@
             />
           </div>
           <div class="flex justify-center my-4">
-            <NuxtLink
-              :to="`/${route.params.host}`"
-              class="underline hover:no-underline"
-            >
-              CONTINUE
+            <NuxtLink :to="`/${route.params.host}`">
+              <UiButton :variant="'outline'"> CONTINUE </UiButton>
             </NuxtLink>
           </div>
         </div>

@@ -21,8 +21,8 @@
     />
     <FormInput
       name="nickname"
-      placeholder="Enter your nickname"
-      label="nickname (optional)"
+      placeholder="Enter your username"
+      label="Username"
       :disabled="!!formInitialValue.nickname"
     />
     <Button

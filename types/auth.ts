@@ -23,6 +23,7 @@ export interface AuthUser {
   user_name?: string;
   name?: string;
   is_live?: false;
+  balance: number;
   bank_account?: BankDetails | null;
   followers?: number;
   following?: number;

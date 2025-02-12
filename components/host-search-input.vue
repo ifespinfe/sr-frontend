@@ -16,13 +16,13 @@
       <NuxtLink :to="`/search?search=${search}`">
         <Button
           :size="'icon'"
-          :variant="'secondary'"
+          :variant="'primary'"
           class="animate-in slide-in-from-left-1 fade-out-0"
           v-if="search || searching"
           :loading="searching"
           :disabled="!searched_hosts?.length"
         >
-          <ArrowRight class="text-primary" />
+          <ArrowRight />
         </Button>
       </NuxtLink>
     </div>
