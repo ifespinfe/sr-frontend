@@ -59,11 +59,28 @@
 
               <UiButton
                 :size="'icon'"
+                :variant="'outline'"
+                class="!size-[40px]"
+                @click="shareToFacebook"
+              >
+                <SvgIcon name="facebook" />
+              </UiButton>
+
+              <UiButton
+                :size="'icon'"
                 :variant="'secondary'"
                 class="!size-[40px]"
                 @click="externalNavigate(whatsappShareLink)"
               >
                 <SvgIcon name="whatsapp" class="scale-[0.7]" />
+              </UiButton>
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(tiktokShareLink)"
+              >
+                <SvgIcon name="tiktok" class="scale-[0.7]" />
               </UiButton>
             </div>
           </template>
@@ -119,6 +136,11 @@ const {
 
 const title = ref("Here is my spinRequest profile");
 
-const { externalNavigate, twitterShareLink, whatsappShareLink } =
-  useSocialShare(props.link, title);
+const {
+  externalNavigate,
+  twitterShareLink,
+  whatsappShareLink,
+  tiktokShareLink,
+  shareToFacebook,
+} = useSocialShare(props.link, title);
 </script>

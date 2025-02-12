@@ -36,6 +36,14 @@
               >
                 <SvgIcon name="x" />
               </UiButton>
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="shareToFacebook"
+              >
+                <SvgIcon name="facebook" />
+              </UiButton>
 
               <UiButton
                 :size="'icon'"
@@ -44,6 +52,14 @@
                 @click="externalNavigate(whatsappShareLink)"
               >
                 <SvgIcon name="whatsapp" class="scale-[0.7]" />
+              </UiButton>
+              <UiButton
+                :size="'icon'"
+                :variant="'secondary'"
+                class="!size-[40px]"
+                @click="externalNavigate(tiktokShareLink)"
+              >
+                <SvgIcon name="tiktok" class="scale-[0.7]" />
               </UiButton>
             </div>
           </template>
@@ -68,5 +84,7 @@ const {
   externalNavigate,
   twitterShareLink,
   whatsappShareLink,
+  shareToFacebook,
+  tiktokShareLink,
 } = useSocialShare(profileLink, title);
 </script>

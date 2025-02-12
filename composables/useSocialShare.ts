@@ -18,6 +18,7 @@ export const useSocialShare = (
   const whatsappShareLink = `https://api.whatsapp.com/send?text=${title}%20${url}&feature=shared&type=custom_url&app_absent=0`;
 
   const emailShareLink = `mailto:?subject=${title}&body=${url}`;
+  const tiktokShareLink = `https://www.tiktok.com/share?url=${url}`;
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(url);
@@ -37,6 +38,7 @@ export const useSocialShare = (
     twitterShareLink,
     whatsappShareLink,
     emailShareLink,
+    tiktokShareLink,
     copied,
   };
 };
