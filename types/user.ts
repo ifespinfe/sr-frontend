@@ -54,8 +54,8 @@ export interface HostProfile {
 }
 
 export interface Fan {
-  name: string;
-  user_name: string;
+  name?: string;
+  user_name?: string;
   id: number | string;
   profile_picture?: string | null;
   bio?: string | null;

@@ -219,7 +219,7 @@ import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
 const route = useRoute();
 const { data, error, status, refresh } = useCustomFetch<
   ApiResponse<HostProfile>
->(`/user/host/${route.params.host}`);
+>(`/user/${route.params.host}`);
 const host = computed(() => data?.value?.data?.user);
 
 const { authEmail } = useAuth();
