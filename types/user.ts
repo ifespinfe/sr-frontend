@@ -37,6 +37,8 @@ export interface HostProfile {
   user: {
     id: number;
     email: string;
+    name: string;
+    user_name: string;
     profile_picture: string;
     bio: string;
     dob: string;

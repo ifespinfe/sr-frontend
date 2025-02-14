@@ -30,13 +30,17 @@
           <div class="grid lg:grid-cols-[auto_1fr] items-center gap-4">
             <Avatar
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
-              :initials="getInitials(host?.stage_name)"
+              :initials="
+                getInitials(
+                  host?.stage_name ?? host.name ?? host.user_name ?? ''
+                )
+              "
               :image="host.profile_picture"
               @click="ended = true"
             />
             <div class="py-2">
               <div class="font-display text-3xl md:text-4xl font-semibold">
-                {{ host?.stage_name }}
+                {{ host?.stage_name ?? host.name ?? host.user_name ?? "" }}
               </div>
               <div class="flex flex-wrap gap-4 items-center my-4 mb-6">
                 <div class="flex items-center gap-2">
