@@ -13,9 +13,9 @@
           <UiButton
             :variant="'ghost'"
             @click.stop
-            class="shrink-0 ml-2 sm:space-x-2 !bg-muted"
+            class="shrink-0 md:space-x-2 !bg-muted"
           >
-            <div class="hidden sm:block">Share my profile</div>
+            <div class="hidden md:block">Share my profile</div>
             <SvgIcon name="qr" class="text-primary" />
           </UiButton>
           <template #content>
@@ -57,18 +57,20 @@
             </div>
           </template>
         </UiPopover>
-        <UiButton
-          :variant="'secondary'"
-          @click.stop
-          class="shrink-0 ml-2 space-x-2 !bg-muted"
-        >
-          <div>₦{{ formatMoney(auth_user?.balance ?? 0) }}</div>
-          <SvgIcon
-            name="wallet"
-            class="text-primary relative scale-75 hidden sm:block"
-          />
-        </UiButton>
-        <NuxtLink to="/audience" v-if="auth_user?.role === 'audience'">
+        <NuxtLink v-if="auth_user?.role === 'host'" to="/wallet">
+          <UiButton
+            :variant="'secondary'"
+            @click.stop
+            class="shrink-0 space-x-2 !bg-muted"
+          >
+            <div class="hidden sm:block">
+              ₦{{ formatMoney(auth_user?.balance ?? 0) }}
+            </div>
+            <SvgIcon name="wallet" class="text-primary relative scale-75" />
+          </UiButton>
+        </NuxtLink>
+
+        <NuxtLink to="/audience">
           <UiTooltip message="Search host" :delay="50">
             <Button :size="'icon'" class="!size-[40px]" :variant="'ghost'">
               <Search class="size-5" />

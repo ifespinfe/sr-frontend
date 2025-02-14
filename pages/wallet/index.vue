@@ -35,7 +35,7 @@
               <div
                 class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
               >
-                <div>₦{{ formatMoney(data?.total_earnings ?? 0) }}</div>
+                <div>₦{{ formatMoney(data?.weekly_earnings ?? 0) }}</div>
                 <UiPopover content="The total amount you’ve made this week.">
                   <Info class="size-4" />
                 </UiPopover>

@@ -488,6 +488,7 @@ watchEffect(() => {
     code: selectedBank.value?.code ?? "",
     country: "Nigeria",
   };
+  console.log("VERIFYING THIS DATA", data.value?.data);
   if (
     payload.bank_name &&
     payload.code &&
