@@ -31,7 +31,7 @@
     </div>
 
     <div
-      class="absolute bottom-[200px] left-0 right-0 rotate-[-3deg] border-t-2 border-b-2 py-4 bg-white/5 text-primary"
+      class="absolute bottom-[0px] md:bottom-[200px] left-0 right-0 rotate-[-3deg] border-t-2 border-b-2 py-4 bg-white/5 text-primary"
     >
       <AutoScrollCarousel>
         <div

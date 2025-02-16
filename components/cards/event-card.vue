@@ -156,7 +156,7 @@ const deleteEvent = async () => {
     deleting.value = false;
     showToast({ title: response.message });
     emit("delete", props.event.id);
-    emit("done");
+    // emit("done");
   } catch (error) {
     const e = error as ApiError;
     deleting.value = false;

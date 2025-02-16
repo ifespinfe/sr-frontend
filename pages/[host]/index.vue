@@ -18,7 +18,7 @@
       :class="cn(data?.data?.live_event ? 'mt-10' : '', 'relative z-10')"
     />
     <SharedLoadingArea
-      :loading="status === 'pending'"
+      :loading="status === 'pending' && !data?.data"
       :error="error"
       class="z-10 relative"
     >
@@ -226,7 +226,7 @@ const { data, error, status, refresh } = useCustomFetch<
 >(`/user/${route.params.host}`);
 const host = computed(() => data?.value?.data?.user);
 
-const { authEmail } = useAuth();
+const { authEmail, auth_user } = useAuth();
 
 const liveEventRequests = computed(() => {
   return data.value?.data?.live_event?.requests ?? [];
@@ -238,6 +238,30 @@ const followingHost = computed(() => {
     (user) => user.user.email === authEmail.value
   );
 });
+
+const onFollowOrUnfollow = (action: "FOLLOW" | "UNFOLLOW") => {
+  if (!data.value || !auth_user.value) return;
+  if (action === "FOLLOW" && data.value.data?.total_followers) {
+    const authFollower = {
+      id: auth_user.value?.id,
+      parent: auth_user.value,
+      parent_id: auth_user.value.id,
+      user: auth_user.value,
+      user_id: auth_user.value.id,
+    };
+    const updatedFollowers = [...data.value.data.total_followers, authFollower];
+    Object.assign(data.value, {
+      data: { ...data.value.data, total_followers: updatedFollowers },
+    });
+  } else {
+    const updatedFollowers = data.value.data?.total_followers.filter(
+      (item) => item.user.email !== auth_user.value?.email
+    );
+    Object.assign(data.value, {
+      data: { ...data.value.data, total_followers: updatedFollowers },
+    });
+  }
+};
 
 const {
   followUser,
@@ -251,7 +275,9 @@ const {
 const followHost = () => {
   const id = data?.value?.data?.user.id;
   if (!id) return;
-  followingHost.value ? unFollowUser(id, refresh) : followUser(id, refresh);
+  followingHost.value
+    ? unFollowUser(id, refresh, () => onFollowOrUnfollow("UNFOLLOW"))
+    : followUser(id, refresh, () => onFollowOrUnfollow("FOLLOW"));
 };
 
 const subscibeHandler = () => {

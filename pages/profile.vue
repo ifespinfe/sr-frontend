@@ -4,7 +4,7 @@
       <SharedBackButton :to="isHost ? '/dashboard' : '/audience'" />
       <div class="text-2xl font-medium font-display">My Profile</div>
     </div>
-    <SharedLoadingArea :loading="status === 'pending'" :error="error">
+    <SharedLoadingArea :error="error">
       <div
         :class="
           cn(

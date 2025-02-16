@@ -9,7 +9,11 @@
 
     <nav class="flex items-center gap-x-2">
       <template v-if="isLoggedIn">
-        <UiPopover class="relative z-10">
+        <UiPopover
+          class="relative z-10"
+          v-if="auth_user?.role === 'host'"
+          to="/wallet"
+        >
           <UiButton
             :variant="'ghost'"
             @click.stop

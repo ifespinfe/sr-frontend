@@ -10,10 +10,12 @@ export const useFollowActions = () => {
 
   const followUser = async (
     parent_id: string | number,
-    onDone?: () => void
+    onDone?: () => void,
+    onInitiation?: () => void
   ) => {
     try {
-      following.value = true;
+      onInitiation?.();
+      // following.value = true;
       const response = await user.followUser({ parent_id });
       following.value = false;
       onDone?.();
@@ -30,10 +32,12 @@ export const useFollowActions = () => {
 
   const unFollowUser = async (
     parent_id: string | number,
-    onDone?: () => void
+    onDone?: () => void,
+    onInitiation?: () => void
   ) => {
     try {
-      unfollowing.value = true;
+      onInitiation?.();
+      // unfollowing.value = true;
       const response = await user.unFollowUser({ parent_id });
       unfollowing.value = false;
       onDone?.();
