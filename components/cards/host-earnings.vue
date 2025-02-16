@@ -48,11 +48,11 @@
       </div>
       <div class="flex gap-x-2 items-center">
         <div class="size-2 bg-[#FF99F1]"></div>
-        <div>Song request</div>
+        <div>Song <span class="hidden sm:inline">request</span></div>
       </div>
       <div class="flex gap-x-2 items-center">
         <div class="size-2 bg-[#FFEE99]"></div>
-        <div>Hype request</div>
+        <div>Hype <span class="hidden sm:inline">request</span></div>
       </div>
     </div>
     <div
@@ -215,6 +215,40 @@ const labels = computed(() => {
   }
 });
 
+const graphLabels = computed(() => {
+  switch (filter.value) {
+    case "yearly":
+      return [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+    case "monthly":
+      return ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
+    case "weekly":
+      return [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+    default:
+      return [];
+  }
+});
+
 const chartData = computed(() => {
   const categories = [
     "expenseEarnings",
@@ -246,7 +280,7 @@ const chartData = computed(() => {
     };
   });
   return {
-    labels: labels.value,
+    labels: graphLabels.value,
     datasets,
   };
 });

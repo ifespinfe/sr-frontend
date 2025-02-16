@@ -29,22 +29,6 @@ ChartJS.register(
   LinearScale
 );
 
-const chartData = ref({
-  labels: ["January", "February", "March", "Hello"],
-  datasets: [
-    {
-      label: "",
-      data: [50, 60, 70, 1160, 45],
-      backgroundColor: "blue",
-    },
-    {
-      label: "",
-      data: [150, 90, 170, 100, 145],
-      backgroundColor: "red",
-    },
-  ],
-});
-
 defineProps<{ chart?: any }>();
 
 const chartOptions = computed<ChartOptions<"bar">>(() => {
