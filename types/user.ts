@@ -45,7 +45,8 @@ export interface HostProfile {
     gender: string;
     country: string;
     email_verified: boolean;
-    role: "host";
+    role: "host" | "audience";
+    type: "host" | "audience";
     slug: string;
     profession: string;
     stage_name: string;

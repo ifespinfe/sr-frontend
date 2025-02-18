@@ -52,7 +52,7 @@
                     <span class="text-muted-foreground">FOLLOWERS</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2" v-if="isHost">
                   <SvgIcon name="celebration" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
@@ -70,7 +70,7 @@
                     <span class="text-muted-foreground">REQUESTS</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2" v-if="isHost">
                   <SvgIcon name="genres" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
@@ -92,7 +92,7 @@
                   {{ followingHost ? "Unfollow" : "follow" }}
                 </Button>
                 <NuxtLink
-                  v-if="data?.data.live_event && !ended"
+                  v-if="data?.data?.live_event && !ended"
                   :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
                   class="w-full md:w-auto"
                 >
@@ -115,7 +115,7 @@
           </div>
           <div
             class="mt-10 space-y-2 text-muted-foreground hidden md:block"
-            v-if="data?.data?.live_event"
+            v-if="data?.data?.live_event && isHost"
           >
             <div>ABOUT ME</div>
             <div class="max-w-[550px]">
@@ -143,7 +143,7 @@
           />
           <div
             class="mt-10 space-y-2 text-muted-foreground hidden md:block"
-            v-else
+            v-else-if="isHost"
           >
             <div>ABOUT ME</div>
             <div class="max-w-[550px]">
@@ -177,7 +177,10 @@
           </div>
         </div>
 
-        <div class="mt-4 space-y-4 text-muted-foreground md:hidden">
+        <div
+          class="mt-4 space-y-4 text-muted-foreground md:hidden"
+          v-if="isHost"
+        >
           <div>ABOUT ME</div>
           <div class="max-w-[550px]">
             {{ host.bio }}
@@ -287,6 +290,10 @@ const subscibeHandler = () => {
 };
 
 const request_rejected = ref(false);
+
+const isHost = computed(() => {
+  return data.value?.data?.user?.type === "host";
+});
 
 const hasPendingRequest = computed(() => {
   return liveEventRequests.value?.some(
