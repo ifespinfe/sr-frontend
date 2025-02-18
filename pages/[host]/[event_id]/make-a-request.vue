@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-6 pb-20">
+  <div class="container pt-6 pb-[200px]">
     <SharedBackButton :to="`/${host_slug}`" />
     <LoadingArea :loading="status === 'pending'" :error="error">
       <div class="max-w-[700px] w-full mx-auto">
@@ -11,6 +11,7 @@
           class="grid grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))] gap-6 my-6"
           v-if="data?.data?.live_event?.types"
           v-model="type"
+          @update:model-value="handleTypeSelection"
         >
           <RadioGroupItem
             class="p-6 w-full lg:p-8 mx-auto text-left ring ring-input bg-white/10 rounded-2xl transition-colors cursor-pointer data-[state='checked']:ring-primary hover:ring-primary/30"
@@ -62,11 +63,12 @@ import type { ApiResponse } from "~/types";
 import type { HostProfile } from "~/types/user";
 import HypeRequestForm from "~/components/forms/hype-request-form.vue";
 import SongRequestForm from "~/components/forms/song-request-form.vue";
+import { promiseTimeout } from "@vueuse/core";
 const route = useRoute();
 const host_slug = route.params.host as string;
 const event_id = route.params.event_id as string;
 const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
-  `/user/host/${host_slug}`
+  `/user/${host_slug}`
 );
 
 watch(data, (data) => {
@@ -77,7 +79,7 @@ watch(data, (data) => {
 
 const type = ref("");
 const selectedRequestType = computed(() => {
-  return data.value?.data.live_event?.types.find(
+  return data.value?.data?.live_event?.types.find(
     (item) => item.name === type.value
   );
 });
@@ -85,4 +87,12 @@ const selectedRequestType = computed(() => {
 useSeoMeta({
   title: "Make A Request",
 });
+
+const handleTypeSelection = async (type: string) => {
+  await promiseTimeout(10);
+  const form = document.querySelector(`form#${type}-${event_id}`);
+  if (form) {
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
 </script>

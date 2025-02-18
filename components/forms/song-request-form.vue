@@ -3,7 +3,8 @@
     :validation-schema="SongRequestSchema"
     :initial-values="formInitialValue"
     @submit="handleSubmit"
-    class="space-y-7"
+    class="space-y-7 scroll-m-40"
+    :id="`song-${event_id}`"
   >
     <FormHiddenInput name="event_id" />
     <FormHiddenInput name="type" />
