@@ -29,7 +29,7 @@
           </div>
           <div class="flex justify-center my-4">
             <NuxtLink :to="`/${route.params.host}`">
-              <UiButton :variant="'outline'"> CONTINUE </UiButton>
+              <UiButton> CONTINUE </UiButton>
             </NuxtLink>
           </div>
         </div>

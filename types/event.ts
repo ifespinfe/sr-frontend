@@ -176,13 +176,16 @@ export interface EventSpender {
   total: string | number;
   user_id: string | number;
   email: string;
-  name: string;
+  name?: string;
+  user_name?: string;
+  nickname?: string;
 }
 
 export interface EventTransactionDetails {
   earning: number;
   title: string;
   reference: string;
+  amount_earned: number;
   "amount earned": number;
   commission_percent: string;
   commission: number;

@@ -8,6 +8,7 @@ export interface Host {
   slug: string;
   profession: string;
   stage_name: string;
+  user_name: string;
   is_live: boolean;
   bio: string;
   dob: string;

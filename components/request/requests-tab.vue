@@ -121,62 +121,87 @@ import Tooltip from "../ui/tooltip.vue";
 import RequestList from "./request-list.vue";
 import RequestHistoryList from "./request-history-list.vue";
 import { eventRequests } from "~/constants/mocks";
-import { useLiveEvent } from "~/composables/useLiveEvent";
-
+import { useLiveEvent, eventRequestKey } from "~/composables/useLiveEvent";
 const props = withDefaults(
-  defineProps<{ requests?: EventRequest[]; event_id?: string | number }>(),
-  {
-    requests: () => eventRequests,
-    event_id: "1",
-  }
+	defineProps<{
+		requests?: EventRequest[];
+		event_id?: string | number;
+		onAction?: () => void;
+	}>(),
+	{
+		requests: () => eventRequests,
+		event_id: "1",
+	},
 );
 const route = useRoute();
 const active_tab = computed(
-  () => route?.query?.request_tab as "song" | "hype" | "history"
+	() => route?.query?.request_tab as "song" | "hype" | "history",
 );
 const request_type = computed(() => active_tab.value ?? "song");
 const { fetchEventRequests } = useLiveEvent();
 const {
-  data: event_requests,
-  status,
-  error,
-  refresh,
+	data: event_requests,
+	status,
+	error,
+	refresh: refreshRequestList,
 } = useAsyncData(
-  `EVENT-${props.event_id}-REQUESTS`,
-  () => fetchEventRequests(props.event_id),
-  {
-    transform: (data) => {
-      const request_order_map = {
-        "now-playing": 0,
-        new: 1,
-        "payment-pending":2,
-        completed:3,
-        declined:4,
-        ignored:5
-      };
+	`EVENT-${props.event_id}-REQUESTS`,
+	() => fetchEventRequests(props.event_id),
+	{
+		transform: (data) => {
+			const request_order_map = {
+				"now-playing": 0,
+				new: 1,
+				"payment-pending": 2,
+				completed: 3,
+				declined: 4,
+				ignored: 5,
+			};
 
-      return data.data.sort(
-        (a, b) => request_order_map?.[a.status] - request_order_map[b.status]
-      );
-    },
-  }
+			return data?.data?.sort(
+				(a, b) => request_order_map?.[a.status] - request_order_map[b.status],
+			);
+		},
+	},
 );
 
-const activeRequests = computed(()=>{
-  if(!event_requests.value || error.value) return []
-  return event_requests.value?.filter(item=> item.status === "new" || item.status === "now-playing")
-})
+const refresh = () => {
+	props.onAction?.();
+	refreshRequestList();
+};
 
-const inActiveRequests = computed(()=>{
-  if(!event_requests.value || error.value) return []
-  return event_requests.value?.filter(item=> item.status !== "new" && item.status !== "now-playing")
-})
+const optimisticallyUpdateEventRequest = (
+	request_id: number | string,
+	status: EventRequest["status"],
+) => {
+	const updatedRequests = event_requests.value?.map((request) => {
+		if (request.id === request_id) return { ...request, status };
+		return request;
+	});
+	event_requests.value = updatedRequests;
+};
+
+provide(eventRequestKey, {optimisticallyUpdateEventRequest, requests:event_requests.value??[]})
+
+const activeRequests = computed(() => {
+	if (!event_requests.value || error.value) return [];
+	return event_requests.value?.filter(
+		(item) => item.status === "new" || item.status === "now-playing",
+	);
+});
+
+const inActiveRequests = computed(() => {
+	if (!event_requests.value || error.value) return [];
+	return event_requests.value?.filter(
+		(item) => item.status !== "new" && item.status !== "now-playing",
+	);
+});
 
 const songRequests = computed(() => {
-  return activeRequests.value.filter((item) => item.type === "song");
+	return activeRequests.value.filter((item) => item.type === "song");
 });
 
 const hypeRequests = computed(() => {
-  return activeRequests.value.filter((item) => item.type === "hype");
+	return activeRequests.value.filter((item) => item.type === "hype");
 });
 </script>

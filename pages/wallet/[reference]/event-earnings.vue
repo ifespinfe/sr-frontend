@@ -8,7 +8,7 @@
         <div class="space-y-2">
           <div class="text-[#38F08D]">EVENT EARNINGS</div>
           <div class="text-4xl font-semibold">
-            ₦{{ formatMoney(data?.data?.earning ?? 0) }}
+            ₦{{ formatMoney(data?.data?.amount_earned ?? 0) }}
           </div>
         </div>
         <div
@@ -45,7 +45,7 @@
           <div class="flex items-center justify-between">
             <div class="text-muted-foreground">Amount earned</div>
             <div class="font-semibold">
-              ₦{{ formatMoney(data?.data?.["amount earned"] ?? 0) }}
+              ₦{{ formatMoney(data?.data?.amount_earned ?? 0) }}
             </div>
           </div>
           <div class="flex items-center justify-between">

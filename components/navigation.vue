@@ -62,11 +62,7 @@
           </template>
         </UiPopover>
         <NuxtLink v-if="auth_user?.role === 'host'" to="/wallet">
-          <UiButton
-            :variant="'secondary'"
-            @click.stop
-            class="shrink-0 space-x-2 !bg-muted"
-          >
+          <UiButton :variant="'secondary'" class="shrink-0 space-x-2 !bg-muted">
             <div class="hidden sm:block">
               ₦{{ formatMoney(auth_user?.balance ?? 0) }}
             </div>
