@@ -76,7 +76,12 @@ const sortedSpenders = computed(() => {
     ...spender,
     position: index + 1,
     active: spender.email === authEmail.value,
-    name: spender?.name ?? spender?.email ?? "",
+    name:
+      spender?.name ??
+      spender?.user_name ??
+      spender?.nickname ??
+      spender?.email ??
+      "",
   }));
   const me = spenders.find((spender) => spender.email === authEmail.value);
   const topSixSpenders = spenders.slice(0, 6);

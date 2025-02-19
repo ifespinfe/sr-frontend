@@ -14,7 +14,7 @@
         id="EVENT_SUMMARY"
       >
         <div class="text-3xl font-semibold mb-1">
-          {{ data?.data.event.title }}
+          {{ data?.data?.event.title }}
         </div>
         <div class="text-muted-foreground">Event sum</div>
         <div class="space-y-4 mt-6">
@@ -26,7 +26,7 @@
               <div
                 class="text-2xl md:text-3xl lg:text-4xl font-bold tabular-nums"
               >
-                ₦{{ formatMoney(data?.data.total_earnings ?? 0) }}
+                ₦{{ formatMoney(data?.data?.total_earnings ?? 0) }}
               </div>
             </div>
             <div
@@ -106,7 +106,7 @@
             >
               <div
                 class="grid grid-cols-[10px_1fr_auto] gap-x-2 text-muted-foreground"
-                v-for="(spender, index) in data?.data.top_spenders"
+                v-for="(spender, index) in data?.data?.top_spenders"
                 :key="spender.user_id"
               >
                 <div class="text-foreground/80">{{ index + 1 }}.</div>
@@ -122,7 +122,7 @@
             </div>
           </div>
           <div class="rounded-3xl border p-4 bg-white/5" id="PRICE-HISTORY">
-            <PricingHistoryTab :history="data?.data.price_histories" />
+            <PricingHistoryTab :history="data?.data?.price_histories" />
           </div>
           <div
             class="grid grid-cols-[1fr,_auto,_auto,_auto] gap-4 items-center"
@@ -194,18 +194,18 @@ const eventDetails = computed(() => {
   const duration = {
     name: "Duration",
     value: readableTimeDifference(
-      data.value?.data.event.start_date ?? today,
-      data.value?.data.event.end_date ?? today
+      data.value?.data?.event.start_date ?? today,
+      data.value?.data?.event.end_date ?? today
     ),
   };
   const location = {
     name: "Location",
-    value: data.value?.data.event.address,
+    value: data.value?.data?.event.address,
   };
   const date = {
     name: "Date",
     value: useDateFormat(
-      data.value?.data.event.start_date,
+      data.value?.data?.event.start_date,
       "dddd, MMMM D, YYYY"
     ),
   };
