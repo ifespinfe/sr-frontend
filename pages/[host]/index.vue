@@ -313,6 +313,7 @@ onMounted(() => {
   const pusher = new Pusher("0259a0ebe407b648fd2f", {
     cluster: "mt1",
   });
+
   pusher.connection.bind("error", (err) => {
     console.log({ err, state: "ERROR" });
   });
