@@ -18,7 +18,7 @@
       :class="cn(data?.data?.live_event ? 'mt-10' : '', 'relative z-10')"
     />
     <SharedLoadingArea
-      :loading="status === 'pending' && !data?.data"
+      :loading="status === 'pending'"
       :error="error"
       class="z-10 relative"
     >
@@ -40,7 +40,7 @@
             />
             <div class="py-2">
               <div class="font-display text-3xl md:text-4xl font-semibold">
-                {{ host?.stage_name ?? host.name ?? host.user_name ?? "" }}
+                {{ host?.user_name ?? host?.stage_name ?? host.name ?? "" }}
               </div>
               <div class="flex flex-wrap gap-4 items-center my-4 mb-6">
                 <div class="flex items-center gap-2">
@@ -222,6 +222,7 @@ import type { PresenceChannel } from "pusher-js";
 import RejectedRequestModal from "~/components/modals/rejected-request.vue";
 import Pusher from "pusher-js";
 import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
+import type { PusherEndEvent } from "~/types/event";
 
 const route = useRoute();
 const { data, error, status, refresh } = useCustomFetch<
@@ -318,7 +319,7 @@ onMounted(() => {
     console.log({ err, state: "ERROR" });
   });
 
-  pusher.connection.bind("connected", (data) => {
+  pusher.connection.bind("connected", (data: PusherEndEvent) => {
     console.log({ data, state: "CONNECTED" });
   });
 
@@ -327,8 +328,10 @@ onMounted(() => {
   );
   console.log({ channel });
 
-  channel.bind("HostEndsEvent", (data) => {
-    console.log("HOST ENDED EVENT", data);
+  channel.bind("HostEndsEvent", (data: PusherEndEvent) => {
+    // console.log("HOST ENDED EVENT", data);
+    showToast({ title: `${data.spr_event_name} ended`, duration: 5000 });
+    refresh();
     ended.value = true;
   });
 
@@ -346,7 +349,8 @@ onMounted(() => {
 });
 
 useSeoMeta({
-  title: () => `${host?.value?.stage_name ?? "Live event"}`,
+  title: () =>
+    `${host?.value?.user_name ?? host?.value?.stage_name ?? "Spin User"}`,
   ogTitle: () =>
     `${data.value?.data?.live_event?.title ?? ""} | ${
       host.value?.stage_name ?? ""

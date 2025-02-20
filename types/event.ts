@@ -216,3 +216,17 @@ export interface AppNotification {
   created_at: string;
   updated_at: string;
 }
+
+export interface PusherEndEvent {
+  host_id: number | string;
+  host_name: string | null;
+  host_title: string;
+  spr_event_address: string;
+  spr_event_country: string;
+  spr_event_end_date: string;
+  spr_event_id: number | number;
+  spr_event_name: string;
+  spr_event_start_date: string;
+  spr_event_state: string;
+  spr_event_status: string;
+}
