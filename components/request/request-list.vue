@@ -30,10 +30,10 @@
               :name="type == 'song' ? 'music' : 'mic'"
             />
           </div>
-          <div class="text-xl text-muted-foreground font-medium">
+          <div class="text-xl text-muted-foreground font-medium text-center">
             No {{ type }} requests
           </div>
-          <div class="text-muted-foreground">
+          <div class="text-muted-foreground text-center">
             Get prepared, requests may come soon
           </div>
         </div>
