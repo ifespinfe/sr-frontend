@@ -56,10 +56,11 @@ export const useLiveEvent = () => {
       optimisticUpdate?.();
       const response = await event.updateEventRequest(request_id, status);
       refreshNotifications();
-      showToast({ title: response.message ?? "Updated" });
+      // showToast({ title: response.message ?? "Updated" });
       updating.value = false;
       update_status.value = null;
-      // response.data && onUpdate?.(); removed since we have optimistic update now
+      response.data && onUpdate?.();
+      // removed since we have optimistic update now
     } catch (error) {
       const e = error as ApiError;
       update_status.value = null;

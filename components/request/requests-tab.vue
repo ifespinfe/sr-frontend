@@ -116,13 +116,14 @@
 
 <script lang="ts" setup>
 import { Loader, ArrowLeft } from "lucide-vue-next";
-import type { EventRequest } from "~/types/event";
+import type { EventRequest, PusherEndEvent, PusherRequestUpdate } from "~/types/event";
 import Button from "../ui/button.vue";
 import Tooltip from "../ui/tooltip.vue";
 import RequestList from "./request-list.vue";
 import RequestHistoryList from "./request-history-list.vue";
 import { eventRequests } from "~/constants/mocks";
 import { useLiveEvent, eventRequestKey } from "~/composables/useLiveEvent";
+import Pusher from "pusher-js";
 const props = withDefaults(
 	defineProps<{
 		requests?: EventRequest[];
@@ -177,6 +178,9 @@ const optimisticallyUpdateEventRequest = (
 ) => {
 	const updatedRequests = event_requests.value?.map((request) => {
 		if (request.id === request_id) return { ...request, status };
+    if(status==='now-playing' && request.status==='now-playing' && request.id!==request_id){
+      return {...request, status:"completed"}
+    }
 		return request;
 	});
 	event_requests.value = updatedRequests;
@@ -205,4 +209,48 @@ const songRequests = computed(() => {
 const hypeRequests = computed(() => {
 	return activeRequests.value.filter((item) => item.type === "hype");
 });
+
+onMounted(() => {
+  const pusher = new Pusher("0259a0ebe407b648fd2f", {
+    cluster: "mt1",
+  });
+
+  pusher.connection.bind("error", (err) => {
+    console.log({ err, state: "ERROR" });
+  });
+
+  pusher.connection.bind("connected", (data: PusherEndEvent) => {
+    console.log({ data, state: "CONNECTED" });
+  });
+
+  const channel = pusher.subscribe(`SPREvents.${props.event_id ?? null}`);
+  console.log({ channel });
+
+  channel.bind("StatusChangedToNew", (data:PusherRequestUpdate) => {
+    showToast({title:'A new request came in', duration:5000})
+    refresh()
+    console.log("NEW REQUEST IN THEN", data);
+  });
+
+  channel.bind("StatusChangedToCompleted", (data:PusherRequestUpdate) => {
+    console.log("NOW COMPLETED", data);
+  });
+
+  channel.bind("StatusChangedToNowPlaying", (data:PusherRequestUpdate) => {
+    console.log("NOW PLAYING", data);
+  });
+
+  channel.bind("StatusChangedToPending", (data:PusherRequestUpdate) => {
+    console.log("NOW PENDING", data);
+  });
+
+  channel.bind("StatusChangedToRejected", (data:PusherRequestUpdate) => {
+    console.log("NOW REJCTED", data);
+  });
+
+  channel.bind_global((event:any, data:any) => {
+    console.log(`The event ${event} was triggered with data ${data}`, data);
+  });
+});
+
 </script>
