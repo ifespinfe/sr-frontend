@@ -2,7 +2,7 @@
   <div class="h-full container pt-6">
     <div
       class="fixed inset-0 z-10 bg-background grid place-items-center"
-      v-if="userID && emailVerifyUrl"
+      v-if="emailVerifyUrl"
     >
       <div class="bg-sp-purple/50 blur-[150px] size-56 absolute"></div>
       <div
@@ -71,15 +71,20 @@
           <div class="text-base">
             Didn't get the mail in your inbox or spam folder?
           </div>
+
           <UiButton
             :variant="'secondary'"
             class="w-full md:w-auto"
             :disabled="resending"
             @click="resendVerificationEmail"
+            v-if="userID"
           >
             <Loader class="size-5 animate-spin" v-if="resending" />
             <span v-else>Resend</span>
           </UiButton>
+          <NuxtLink to="/login" v-else class="w-full md:w-auto">
+            <UiButton class="w-full md:w-auto"> Login to continue </UiButton>
+          </NuxtLink>
         </div>
       </div>
     </template>
