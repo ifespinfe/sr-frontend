@@ -357,7 +357,9 @@ const connectPusher = (id?: number | string) => {
     console.log("NOW PLAYING", data);
     if (data.audience.id === auth_user.value?.id) {
       showToast({
-        title: `${data.host.name} now playing your ${data.request.type} request`,
+        title: `${data.host.name ?? data.host.title} now playing your ${
+          data.request.type
+        } request`,
       });
     }
     refresh();
@@ -371,9 +373,9 @@ const connectPusher = (id?: number | string) => {
     console.log("NOW REJCTED", data);
     if (data.audience.id === auth_user.value?.id) {
       showToast({
-        title: `${data.host.name} rejected your ${data.request.type} request ${
-          data.request.description ?? data.request.song_title
-        }`,
+        title: `${data.host.name ?? data.host.title} rejected your ${
+          data.request.type
+        } request ${data.request.description ?? data.request.song_title}`,
       });
       request_rejected.value = true;
     }
