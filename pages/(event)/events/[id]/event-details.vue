@@ -30,7 +30,7 @@
         <div class="text-2xl font-semibold mb-6">Event Requests</div>
         <EventRequestsTable
           :loading="status === 'pending'"
-          :event_requests="data?.data.requests ?? []"
+          :event_requests="data?.data?.requests ?? []"
           disabled
         />
       </div>
