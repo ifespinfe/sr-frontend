@@ -222,12 +222,18 @@ import type { PresenceChannel } from "pusher-js";
 import RejectedRequestModal from "~/components/modals/rejected-request.vue";
 import Pusher from "pusher-js";
 import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
-import type { PusherEndEvent } from "~/types/event";
+import type { PusherEndEvent, PusherRequestUpdate } from "~/types/event";
 
 const route = useRoute();
+const conneected = ref(false);
 const { data, error, status, refresh } = useCustomFetch<
   ApiResponse<HostProfile>
->(`/user/${route.params.host}`);
+>(`/user/${route.params.host}`, {
+  onResponse(data) {
+    connectPusher(data?.response?._data?.data?.live_event?.id);
+  },
+});
+
 const host = computed(() => data?.value?.data?.user);
 
 const { authEmail, auth_user } = useAuth();
@@ -310,7 +316,8 @@ const {
 
 const ended = ref(false);
 
-onMounted(() => {
+const connectPusher = (id?: number | string) => {
+  if (conneected.value) return;
   const pusher = new Pusher("0259a0ebe407b648fd2f", {
     cluster: "mt1",
   });
@@ -324,8 +331,9 @@ onMounted(() => {
   });
 
   const channel = pusher.subscribe(
-    `SPREvents.${data.value?.data?.live_event?.id ?? null}`
+    `SPREvents.${id ?? data.value?.data?.live_event?.id ?? null}`
   );
+  conneected.value = true;
   console.log({ channel });
 
   channel.bind("HostEndsEvent", (data: PusherEndEvent) => {
@@ -335,18 +343,47 @@ onMounted(() => {
     ended.value = true;
   });
 
-  channel.bind("HostGoesLive", (data) => {
+  channel.bind("HostGoesLive", (data: any) => {
     console.log("HOST GONE LIVE", data);
+    showToast({ title: "Host is now live" });
+    refresh();
+  });
+
+  channel.bind("StatusChangedToCompleted", (data: PusherRequestUpdate) => {
+    console.log("NOW COMPLETED", data);
+  });
+
+  channel.bind("StatusChangedToNowPlaying", (data: PusherRequestUpdate) => {
+    console.log("NOW PLAYING", data);
+    if (data.audience.id === auth_user.value?.id) {
+      showToast({
+        title: `${data.host.name} now playing your ${data.request.type} request`,
+      });
+    }
+    refresh();
+  });
+
+  channel.bind("StatusChangedToPending", (data: PusherRequestUpdate) => {
+    console.log("NOW PENDING", data);
+  });
+
+  channel.bind("StatusChangedToRejected", (data: PusherRequestUpdate) => {
+    console.log("NOW REJCTED", data);
+    if (data.audience.id === auth_user.value?.id) {
+      showToast({
+        title: `${data.host.name} rejected your ${data.request.type} request ${
+          data.request.description ?? data.request.song_title
+        }`,
+      });
+      request_rejected.value = true;
+    }
+    refresh();
   });
 
   channel.bind_global((event, data) => {
     console.log(`The event ${event} was triggered with data ${data}`);
   });
-
-  // for (const c of channels) {
-  //   console.log({ c });
-  // }
-});
+};
 
 useSeoMeta({
   title: () =>

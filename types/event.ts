@@ -230,3 +230,36 @@ export interface PusherEndEvent {
   spr_event_state: string;
   spr_event_status: string;
 }
+
+export interface PusherRequestUpdate {
+  request: {
+    id: number | string;
+    status: EventRequest["status"];
+    type: "hype" | "song";
+    description: string;
+    nickname: string;
+    artist: string | null;
+    song_title: string | null;
+    price: string | number;
+  };
+  event: {
+    id: number | string;
+    name: string;
+    address: string;
+    country: string;
+    state: string;
+    status: EventStatus;
+    start_date: string | null;
+    end_date: string | null;
+  };
+  audience: {
+    id: number | string;
+    name: string | null;
+    stage_name: string | null;
+  };
+  host: {
+    id: number | string;
+    name: string | null;
+    title: string;
+  };
+}
