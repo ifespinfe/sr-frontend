@@ -5,7 +5,7 @@
   >
    
     <TabsList
-      class="p-4 border-b grid grid-cols-[auto_1fr] gap-x-4 items-center min-h-[73px] transition-opacity duration-1000"
+      class="p-4 border-b grid grid-cols-[auto_1fr] gap-x-4 items-center min-h-[73px] transition-opacity duration-1000 relative"
       v-if="request_type === 'history'"
     >
       <div class="text-lg font-medium pl-6 hidden md:block">Request history</div>
@@ -90,7 +90,7 @@
       class="py-8 absolute inset-0 bg-white/5 rounded-[inherit] grid place-items-center z-10"
       v-if="status == 'pending' || error"
     >
-      <Loader class="size-5 animate-spin hidden" v-if="status === 'pending'" />
+      <Loader class="size-5 animate-spin" v-if="status === 'pending'" />
     <!-- hide loader for now -->
       <div v-else-if="error" class="grid place-items-center gap-y-4">
         <div  class="text-destructive text-center">{{ error?.data?.message ?? 'Failed to load request' }}</div>
