@@ -46,10 +46,17 @@
       >
         <Button :variant="'secondary'" :size="'lg'" class="w-full relative">
           <label for="upload" class="absolute inset-0 cursor-pointer">
-            <div class="place-center">CHANGE PHOTO</div>
+            <div class="place-center">
+              CHANGE <span class="hidden sm:inline">PHOTO</span>
+            </div>
           </label>
         </Button>
-        <Button :size="'lg'" @click="completeUpload" :loading="uploading">
+        <Button
+          :size="'lg'"
+          @click="completeUpload"
+          :loading="uploading"
+          hide_loading_text
+        >
           SAVE
         </Button>
       </div>

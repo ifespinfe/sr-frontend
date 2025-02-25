@@ -15,12 +15,6 @@
         </div>
         <div class="max-w-full w-[400px] mx-auto">
           <AudienceSignupForm />
-          <div class="text-center mt-2">
-            Already a user?
-            <NuxtLink to="/login" class="underline hover:no-underline ml-1"
-              >LOGIN</NuxtLink
-            >
-          </div>
         </div>
       </div>
     </NuxtLayout>

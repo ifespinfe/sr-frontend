@@ -155,6 +155,7 @@ export interface EventSummary {
     user_id: number | string;
     email: string;
     name: string | null;
+    stage_name: string | null;
   }[];
 
   price_histories: PriceHistory[];
@@ -179,6 +180,7 @@ export interface EventSpender {
   name?: string;
   user_name?: string;
   nickname?: string;
+  stage_name?: string;
 }
 
 export interface EventTransactionDetails {

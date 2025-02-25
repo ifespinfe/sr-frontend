@@ -29,9 +29,7 @@
             <AccordionContent
               class="px-4 text-muted-foreground overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up"
             >
-              <div class="pt-4">
-                {{ item.content }}
-              </div>
+              <div class="pt-4" v-html="item.content"></div>
             </AccordionContent>
           </AccordionItem>
         </template>
@@ -62,10 +60,10 @@ const faqs = ref([
       "DJs create an event on the platform, Audience members can locate the DJ by entering the DJ’s name or scanning their QR code, Once connected, audience members submit song or hype requests, DJs review and play these requests, tailoring their performance to audience preferences.",
   },
   {
-    value: "who_can_use_spin_request",
-    title: "Who can use Spin Request?",
+    value: "who_is_spin_request_for",
+    title: "Who is Spin Request for?",
     content:
-      "Event Hosts: DJs, MCs, hypemen, TV and radio hosts, and other performers who want to manage song and hype requests during live events. Event Attendees: Anyone attending a live event who wants to make a song or shoutout requests directly to the host.",
+      "Event Hosts & Performers – DJs, MCs, hypemen, TV and radio hosts, and performers can easily manage song and hype requests during live events. <br/> Event Attendees, Guests & Fans –  Anyone attending a live event  who wants  to Make song or shoutout requests directly to the host",
   },
   {
     value: "are_there_any_fees_for_using_spin_request",
@@ -89,7 +87,7 @@ const faqs = ref([
     value: "how_do_i_become_a_dj_on_spin_request",
     title: "How do I become a DJ on Spin Request?",
     content:
-      "Sign up on the platform and create an account, Complete your profile, including payment details, Start creating events and accepting song or hype requests, and Begin earning and managing your gigs seamlessly.",
+      "Sign up – Create your account in minutes.<br/>Set up your profile – Add your details, including payment details.<br/>Start hosting – Create events and accept song or hype requests.<br/>Get paid – Manage gigs and earn seamlessly.",
   },
   {
     value: "what_happens_if_my_song_request_is_not_played",
