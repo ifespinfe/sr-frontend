@@ -53,7 +53,7 @@
             class="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
           >
             <Wallet2 class="mr-2 size-4" />
-            <span>Order History</span>
+            <span>Spin credit</span>
           </NuxtLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild v-if="auth_user?.role === 'host'">

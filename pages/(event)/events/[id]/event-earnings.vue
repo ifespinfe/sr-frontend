@@ -7,7 +7,7 @@
           cn(
             ready_to_print
               ? 'bg-background w-[850px]'
-              : ' bg-white/5 max-w-full w-[867px] mx-auto',
+              : ' bg-background max-w-full w-[867px] mx-auto',
             'rounded-3xl border p-4 sm:p-10'
           )
         "
@@ -16,7 +16,7 @@
         <div class="text-3xl font-semibold mb-1">
           {{ data?.data?.event.title }}
         </div>
-        <div class="text-muted-foreground">Event sum</div>
+        <div class="text-muted-foreground">Event summary</div>
         <div class="space-y-4 mt-6">
           <div
             class="p-2 sm:p-4 rounded-xl border bg-white/5 grid gap-y-4 md:grid-cols-[2fr_3fr]"
@@ -110,7 +110,9 @@
                 :key="spender.user_id"
               >
                 <div class="text-foreground/80">{{ index + 1 }}.</div>
-                <div>{{ spender?.name ?? spender.email }}</div>
+                <div>
+                  {{ spender?.name ?? spender?.stage_name ?? spender.email }}
+                </div>
                 <div>₦{{ formatMoney(spender.total) }}</div>
               </div>
               <div
@@ -226,8 +228,8 @@ const { converting, convertNodeToImage } = useNodeToImage(
 
 const loadEventReceipt = async () => {
   ready_to_print.value = true;
+  await promiseTimeout(50);
   convertNodeToImage();
-  await promiseTimeout(1);
   ready_to_print.value = false;
 };
 

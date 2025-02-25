@@ -1,5 +1,5 @@
 import type yup from "yup";
-import { object, string } from "yup";
+import { object, string, boolean } from "yup";
 
 export const UsernameSchema = string()
   .required("Username is required")
@@ -34,6 +34,7 @@ export const HostSchema = object({
   stage_name: string()
     .required("Stage name is required")
     .min(2, "Stage name should be at least 2 characters long"),
+  agreement: boolean().required("Agree to continue"),
   profession: string().required("Profession is required"),
   password: passwordSchema,
 });

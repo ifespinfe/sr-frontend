@@ -45,6 +45,7 @@ export interface HostProfileUpdate {
     gender: string | null;
     country: string;
     stage_name: string;
+    user_name: string;
     profession: string | null;
   };
   bank_account: BankDetails;

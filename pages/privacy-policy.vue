@@ -191,9 +191,11 @@
       <a href="mailto:spinrequestsupp@gmail.com">spinrequestsupp@gmail.com</a>
     </p>
   </section>
+  <Footer />
 </template>
 
 <script lang="ts" setup>
+import Footer from "~/components/lander/footer.vue";
 useSeoMeta({
   title: "Privacy policy",
 });

@@ -48,7 +48,7 @@
               :value="user.id"
             >
               <NuxtLink
-                :to="`/following/${user.user_name}`"
+                :to="`/${user.slug}`"
                 class="p-3 bg-white/5 border rounded-md transition-colors hover:bg-white/10 grid grid-cols-[50px,_1fr,_auto] gap-x-2 items-center [&:hover_>_.arrow]:block"
               >
                 <Avatar

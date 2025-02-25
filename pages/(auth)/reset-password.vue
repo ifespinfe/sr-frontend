@@ -47,6 +47,7 @@ import Button from "~/components/ui/button.vue";
 import FormInput from "~/components/forms/form-input.vue";
 import { Loader } from "lucide-vue-next";
 import { ResetPasswordSchema } from "~/schemas/user-schema";
+import type { ApiError } from "~/types";
 
 const {
   $repo: { auth },
@@ -77,7 +78,8 @@ const handleSubmit = async ({
     showToast({ title: "Success", description: message, variant: "normal" });
     useRouter().push("/login");
     reseting.value = false;
-  } catch (e) {
+  } catch (error) {
+    const e = error as ApiError;
     reseting.value = false;
     showToast({
       title: "Failed",

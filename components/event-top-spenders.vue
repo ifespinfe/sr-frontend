@@ -79,6 +79,7 @@ const sortedSpenders = computed(() => {
     name:
       spender?.name ??
       spender?.user_name ??
+      spender?.stage_name ??
       spender?.nickname ??
       spender?.email ??
       "",

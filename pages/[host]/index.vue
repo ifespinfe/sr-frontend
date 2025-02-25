@@ -118,7 +118,7 @@
             v-if="data?.data?.live_event && isHost"
           >
             <div>ABOUT ME</div>
-            <div class="max-w-[550px]">
+            <div class="max-w-[450px]">
               {{ host.bio }}
             </div>
             <div
@@ -146,7 +146,7 @@
             v-else-if="isHost"
           >
             <div>ABOUT ME</div>
-            <div class="max-w-[550px]">
+            <div class="max-w-[450px]">
               {{ host.bio }}
             </div>
             <div
@@ -182,7 +182,7 @@
           v-if="isHost"
         >
           <div>ABOUT ME</div>
-          <div class="max-w-[550px]">
+          <div class="max-w-[450px]">
             {{ host.bio }}
           </div>
           <div

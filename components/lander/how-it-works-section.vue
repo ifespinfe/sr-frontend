@@ -111,7 +111,7 @@ const audience_steps = ref([
     icon: "bubble-search",
     title: "Find Your DJ or Host",
     subtitle:
-      "Look for the DJ you want to request from at the event, or scan their unique QR code.",
+      "Search for the DJ you want to request from at the event, or scan their unique QR code.",
   },
   {
     icon: "bubble-question-mark",

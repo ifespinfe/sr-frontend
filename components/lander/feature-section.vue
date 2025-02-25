@@ -18,10 +18,12 @@
           />
         </div>
         <div class="space-y-3 p-4 md:p-5 relative z-10">
-          <h3 class="font-display text-3xl">Turn the Fun to your tune!</h3>
+          <h3 class="font-display text-3xl capitalize">
+            Turn the Fun to your tune!
+          </h3>
           <p class="text-muted-foreground">
             No more begging the DJ for your favorite song. Take charge with
-            SpinRequest! Request your jams live and get the party grooving to
+            SpinRequest! Request your songs live and get the party grooving to
             your beat.
           </p>
         </div>
@@ -38,7 +40,7 @@
           />
         </div>
         <div class="space-y-3 p-4 md:p-5 relative z-10">
-          <h3 class="font-display text-3xl">Steal the spotlight</h3>
+          <h3 class="font-display text-3xl capitalize">Steal the spotlight</h3>
           <p class="text-muted-foreground">
             Request hype shouts from DJs and Hypemen, Get your name out there
             and be the centre of attention without grabbing the mic!.
@@ -58,7 +60,9 @@
           />
         </div>
         <div class="space-y-3 p-4 md:p-5 relative z-10">
-          <h3 class="font-display text-3xl">Make Memories that Matter</h3>
+          <h3 class="font-display text-3xl capitalize">
+            Make Memories that Matter
+          </h3>
           <p class="text-muted-foreground">
             Birthdays, anniversaries, apology missions - make any celebration
             unforgettable. Request a special song for your friends and loved
