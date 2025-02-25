@@ -7,8 +7,7 @@
       <div
         class="font-display text-3xl md:text-4xl font-semibold text-center mb-12"
       >
-        Who do you want to request a song from? to Search for hosts, users, or
-        friends
+        Search for hosts, users, or friends
       </div>
 
       <HostSearchInput />
