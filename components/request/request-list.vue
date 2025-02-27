@@ -23,7 +23,7 @@
         />
       </ListboxItem>
       <div class="min-h-[350px]" v-if="!requests.length && !loading">
-        <div class="place-center grid place-items-center gap-2">
+        <div class="place-center grid place-items-center gap-2 w-full">
           <div class="size-12 rounded-full bg-white/40 relative">
             <SvgIcon
               class="scale-75 place-center"
