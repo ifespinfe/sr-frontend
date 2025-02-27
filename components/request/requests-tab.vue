@@ -34,9 +34,9 @@
           >
             <Button
               :variant="request_type === 'song' ? 'primary' : 'outline'"
-              class="gap-x-2 md:min-w-[100px]"
+              class="gap-x-2 min-w-[100px]"
             >
-              <div>song</div>
+              <div>Song</div>
               <div
                 class="size-5 text-sm bg-secondary text-destructive rounded-full font-semibold count"
               >
@@ -53,9 +53,9 @@
           >
             <Button
               :variant="request_type === 'hype' ? 'primary' : 'outline'"
-              class="gap-x-2 md:min-w-[100px]"
+              class="gap-x-2 min-w-[100px]"
             >
-              <div>hype</div>
+              <div>Hype</div>
               <div
                 class="size-5 text-sm bg-secondary text-destructive rounded-full font-semibold count"
               >

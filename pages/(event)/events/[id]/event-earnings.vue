@@ -93,7 +93,7 @@
               <div class="text-lg font-semibold">Top Spenders</div>
               <UiButton
                 :variant="'ghost'"
-                class="gap-x-2 translate-x-4"
+                class="gap-x-2 translate-x-4 hidden"
                 id="SHARE-BUTTON"
                 @click="refresh"
               >
@@ -102,7 +102,7 @@
               </UiButton>
             </div>
             <div
-              class="grid grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] gap-6"
+              class="grid sm:grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] gap-6"
             >
               <div
                 class="grid grid-cols-[10px_1fr_auto] gap-x-2 text-muted-foreground"
@@ -136,7 +136,7 @@
               :loading="converting"
               @click="loadEventReceipt"
             >
-              Download Receipt
+              Download <span class="hidden sm:inline">Receipt</span>
             </UiButton>
             <UiTooltip message="Share to twitter/X">
               <UiButton
@@ -189,7 +189,9 @@ const { data, error, status, refresh } = useCustomFetch<
   ApiResponse<EventSummary>
 >(`/events/receipt/${route.params.id}`);
 
-const APP_BASE_URL = "https://dev.spinrequest.com";
+const {
+  public: { APP_BASE_URL },
+} = useRuntimeConfig();
 
 const eventDetails = computed(() => {
   const today = new Date();

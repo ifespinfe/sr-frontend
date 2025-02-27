@@ -476,6 +476,7 @@ watchEffect(() => {
         stage_name: user.stage_name,
         user_name: user.user_name,
         profile_picture: user.profile_picture,
+        bank_account: data.value?.data?.bank_account,
       };
       saveAuthUser(auth_token.value, updated_user);
     }
