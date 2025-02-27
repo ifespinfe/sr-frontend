@@ -181,6 +181,8 @@ export interface EventSpender {
   user_name?: string;
   nickname?: string;
   stage_name?: string;
+  position?: number;
+  active?: boolean;
 }
 
 export interface EventTransactionDetails {
@@ -189,6 +191,7 @@ export interface EventTransactionDetails {
   reference: string;
   amount_earned: number;
   "amount earned": number;
+  event_earnings: number;
   commission_percent: string;
   commission: number;
   date: string;

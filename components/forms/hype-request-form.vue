@@ -19,6 +19,7 @@
       placeholder="Enter your username"
       label="Username"
       :disabled="!!formInitialValue.nickname"
+      v-if="false"
     />
     <Button
       type="submit"

@@ -33,7 +33,7 @@
                 <div>Weekly Earnings</div>
               </div>
               <div
-                class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
+                class="flex items-center text-muted-foreground gap-x-2 justify-self-end font-medium"
               >
                 <div>₦{{ formatMoney(data?.current_week_earnings ?? 0) }}</div>
                 <UiPopover content="The total amount you’ve made this week.">
@@ -47,10 +47,10 @@
                 <div>Commision</div>
               </div>
               <div
-                class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
+                class="flex items-center text-muted-foreground gap-x-2 justify-self-end font-medium"
               >
                 <div>
-                  -₦{{ formatMoney((data?.current_week_commission ?? 0) * 1) }}
+                  ₦{{ formatMoney((data?.current_week_commission ?? 0) * 1) }}
                 </div>
                 <UiPopover
                   content="A 15% platform fee to support the services we provide."
