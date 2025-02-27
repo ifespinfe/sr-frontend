@@ -129,7 +129,7 @@ const audience_steps = ref([
     icon: "bubble-play",
     title: "Hear Your Songs & Hypes",
     subtitle:
-      "Relax and enjoy! We'll notify you once the DJ plays your song or delivers your hype shoutout. If your request is rejected, you'll get an immediate refund.",
+      "Relax and enjoy! We'll notify you when the DJ plays your song or delivers your hype shoutout. If your request is rejected, you'll get an immediate refund.",
   },
 ]);
 

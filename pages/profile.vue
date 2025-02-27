@@ -242,7 +242,7 @@
                 />
                 <UiSelectField
                   v-else
-                  :options="['male', 'female']"
+                  :options="['male', 'female', 'other']"
                   placeholder="Select your gender"
                   label="Gender"
                   v-model="audience_profile.user.gender"

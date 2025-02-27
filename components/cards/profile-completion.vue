@@ -19,8 +19,8 @@
         allow us to pay you your earnings
       </div>
     </div>
-    <NuxtLink to="/profile">
-      <UiButton :variant="'secondary'" :size="'lg'">
+    <NuxtLink to="/profile" class="w-full sm:w-auto">
+      <UiButton :variant="'secondary'" :size="'lg'" class="w-full">
         Complete profile
       </UiButton>
     </NuxtLink>

@@ -4,7 +4,7 @@
       <template #container>
         <div class="flex flex-row items-stretch gap-x-2">
           <div
-            class="space-y-4 rounded-3xl p-6 border bg-white/5 shrink-0 w-[90%]"
+            class="space-y-4 rounded-xl p-6 border bg-white/5 shrink-0 w-[90%]"
             v-for="item in wallets"
             :key="item.name"
           >
