@@ -34,7 +34,7 @@ export const HostSchema = object({
   stage_name: string()
     .required("Stage name is required")
     .min(2, "Stage name should be at least 2 characters long"),
-  agreement: boolean().required("Agree to continue"),
+  // agreement: boolean().required("Agree to continue"),
   profession: string().required("Profession is required"),
   password: passwordSchema,
 });
