@@ -33,9 +33,9 @@
                 <div>Weekly Earnings</div>
               </div>
               <div
-                class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
+                class="flex items-center text-muted-foreground gap-x-2 justify-self-end font-medium"
               >
-                <div>₦{{ formatMoney(data?.total_earnings ?? 0) }}</div>
+                <div>₦{{ formatMoney(data?.current_week_earnings ?? 0) }}</div>
                 <UiPopover content="The total amount you’ve made this week.">
                   <Info class="size-4" />
                 </UiPopover>
@@ -47,9 +47,11 @@
                 <div>Commision</div>
               </div>
               <div
-                class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
+                class="flex items-center text-muted-foreground gap-x-2 justify-self-end font-medium"
               >
-                <div>-₦{{ formatMoney((data?.wallet_expenses ?? 0) * 1) }}</div>
+                <div>
+                  ₦{{ formatMoney((data?.current_week_commission ?? 0) * 1) }}
+                </div>
                 <UiPopover
                   content="A 15% platform fee to support the services we provide."
                 >
@@ -72,27 +74,21 @@
       </div>
 
       <div
-        class="grid sm:grid-cols-[repeat(auto-fit,_minmax(400px,_1fr))] gap-6"
+        class="hidden sm:grid sm:grid-cols-[repeat(auto-fit,_minmax(400px,_1fr))] gap-6"
       >
-        <div class="space-y-4 rounded-3xl p-6 border bg-white/5">
-          <div class="text-muted-foreground">Total earnings</div>
+        <div
+          class="space-y-4 rounded-3xl p-6 border bg-white/5"
+          v-for="item in walletBreakdown"
+          :key="item.name"
+        >
+          <div class="text-muted-foreground">{{ item.name }}</div>
           <div class="text-2xl font-semibold tabular-nums">
-            ₦{{ formatMoney(data?.total_earnings ?? 0) }}
+            ₦{{ formatMoney(item.value) }}
           </div>
         </div>
-        <div class="space-y-4 rounded-3xl p-6 border bg-white/5">
-          <div class="text-muted-foreground">Total Song requests earnings</div>
-          <div class="text-2xl font-semibold tabular-nums">
-            ₦{{ formatMoney(data?.song_earnings ?? 0) }}
-          </div>
-        </div>
-
-        <div class="space-y-4 rounded-3xl p-6 border bg-white/5">
-          <div class="text-muted-foreground">Total Hype request Earnings</div>
-          <div class="text-2xl font-semibold tabular-nums">
-            ₦{{ formatMoney(data?.hype_earnings ?? 0) }}
-          </div>
-        </div>
+      </div>
+      <div class="sm:hidden">
+        <WalletCardsCarousel :wallets="walletBreakdown" />
       </div>
 
       <HostEarnings />
@@ -115,6 +111,23 @@ import { Info } from "lucide-vue-next";
 import type { Wallet } from "~/types/payment";
 
 const { data, status, error } = useCustomFetch<Wallet>("/wallets");
+
+const walletBreakdown = computed(() => {
+  return [
+    {
+      name: "Total earnings",
+      value: data.value?.total_earnings ?? 0,
+    },
+    {
+      name: "Total song requests earnings",
+      value: data.value?.song_earnings ?? 0,
+    },
+    {
+      name: "Total hype requests earnings",
+      value: data.value?.hype_earnings ?? 0,
+    },
+  ];
+});
 
 useSeoMeta({
   title: "Wallet",

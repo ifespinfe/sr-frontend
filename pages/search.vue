@@ -164,9 +164,9 @@ useSeoMeta({ title: "Search Results" });
 
 const search = useRoute().query?.search;
 const { data, status } = useCustomFetch<ApiResponse<{ hosts: Host[] }>>(
-  `user/search-host?name=${search}&per_page=100&page=1`
+  `user/search-user?name=${search}&per_page=100&page=1`
 );
-const hosts = computed(() => data.value?.data.hosts ?? []);
+const hosts = computed(() => data.value?.data?.hosts ?? []);
 
 const handleSelection = (e: Event, slug: string) => {
   e.preventDefault();

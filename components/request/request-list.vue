@@ -23,17 +23,17 @@
         />
       </ListboxItem>
       <div class="min-h-[350px]" v-if="!requests.length && !loading">
-        <div class="place-center grid place-items-center gap-2">
+        <div class="place-center grid place-items-center gap-2 w-full">
           <div class="size-12 rounded-full bg-white/40 relative">
             <SvgIcon
               class="scale-75 place-center"
               :name="type == 'song' ? 'music' : 'mic'"
             />
           </div>
-          <div class="text-xl text-muted-foreground font-medium">
+          <div class="text-xl text-muted-foreground font-medium text-center">
             No {{ type }} requests
           </div>
-          <div class="text-muted-foreground">
+          <div class="text-muted-foreground text-center">
             Get prepared, requests may come soon
           </div>
         </div>

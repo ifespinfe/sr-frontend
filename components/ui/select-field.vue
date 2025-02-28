@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import { ChevronDown, Loader } from "lucide-vue-next";
-const selected_option = defineModel<string>();
+const selected_option = defineModel<string | undefined | null>();
 
 withDefaults(
   defineProps<{

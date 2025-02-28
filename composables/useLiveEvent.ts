@@ -1,3 +1,4 @@
+import type { InjectionKey } from "vue";
 import { useNotifications } from "~/components/notification";
 import { eventRequests } from "~/constants/mocks";
 import type {
@@ -46,17 +47,20 @@ export const useLiveEvent = () => {
   const updateEventRequest = async (
     request_id: number | string,
     status: EventRequest["status"],
-    onUpdate?: () => void
+    onUpdate?: () => void,
+    optimisticUpdate?: () => void
   ) => {
     try {
       update_status.value = status;
       updating.value = true;
+      optimisticUpdate?.();
       const response = await event.updateEventRequest(request_id, status);
       refreshNotifications();
-      showToast({ title: response.message ?? "Updated" });
+      // showToast({ title: response.message ?? "Updated" });
       updating.value = false;
       update_status.value = null;
       response.data && onUpdate?.();
+      // removed since we have optimistic update now
     } catch (error) {
       const e = error as ApiError;
       update_status.value = null;
@@ -77,7 +81,7 @@ export const useLiveEvent = () => {
       creating.value = true;
       const response = await event.createRequest(request);
       refreshNotifications();
-      const price = Number(response.data.price);
+      const price = Number(response?.data?.price);
 
       if (!price) {
         creating.value = false;
@@ -87,7 +91,7 @@ export const useLiveEvent = () => {
       if (spin_route) {
         creating.value = false;
         return navigateTo(
-          `/${host_slug}/${request.event_id}/${response.data.id}/make-payment`
+          `/${host_slug}/${request.event_id}/${response?.data?.id}/make-payment`
         );
       }
       const balance = (await wallet.getWallet())?.wallet_balance;
@@ -97,7 +101,7 @@ export const useLiveEvent = () => {
         type = balance >= price ? "wallet" : "split";
       }
       const url = new URL(
-        `${APP_BASE_URL}/${host_slug}/${request.event_id}/${response.data.id}/request-receipt`
+        `${APP_BASE_URL}/${host_slug}/${request.event_id}/${response?.data?.id}/request-receipt`
       );
       const PAYSTACK_PAYMENT: RequestPaymentPayload =
         type === "wallet"
@@ -110,12 +114,13 @@ export const useLiveEvent = () => {
               type,
               gateway: "paystack",
             };
+      if (!response?.data?.id) throw new Error("Failed");
       const payment_response = await event.payForRequest(
         PAYSTACK_PAYMENT,
-        response.data.id
+        response?.data?.id
       );
       creating.value = false;
-      if (payment_response.data.redirect_url) {
+      if (payment_response?.data?.redirect_url) {
         await navigateTo(payment_response.data.redirect_url, {
           external: true,
         });
@@ -161,7 +166,7 @@ export const useLiveEvent = () => {
         request.id
       );
       paying.value = false;
-      if (payment_response.data.redirect_url) {
+      if (payment_response?.data?.redirect_url) {
         return await navigateTo(payment_response.data.redirect_url, {
           external: true,
         });
@@ -192,4 +197,18 @@ export const useLiveEvent = () => {
     payForRequest,
     paying,
   };
+};
+
+export const eventRequestKey = Symbol("event-request-key") as InjectionKey<{
+  requests: EventRequest[];
+  optimisticallyUpdateEventRequest: (
+    request_id: string | number,
+    status: EventRequest["status"]
+  ) => void;
+}>;
+
+export const useEventRequests = () => {
+  const data = inject(eventRequestKey);
+  if (!data) throw new Error("Provide event requests to use it");
+  return data;
 };

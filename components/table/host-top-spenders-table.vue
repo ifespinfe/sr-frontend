@@ -96,6 +96,21 @@
           </div>
         </CollapsibleContent>
       </CollapsibleRoot>
+      <div
+        class="min-h-[297px] grid place-items-center"
+        v-if="!spenders.length"
+      >
+        <div class="space-y-4">
+          <XCircle class="size-8 block mx-auto" />
+          <div class="text-2xl font-semibold text-muted-foreground text-center">
+            No paying audience
+          </div>
+          <div class="text-sm text-muted-foreground text-center">
+            You don't have any paying audience yet. Once you do, your they will
+            appear here
+          </div>
+        </div>
+      </div>
     </template>
   </div>
 </template>

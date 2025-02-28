@@ -8,6 +8,7 @@ export interface Host {
   slug: string;
   profession: string;
   stage_name: string;
+  user_name: string;
   is_live: boolean;
   bio: string;
   dob: string;
@@ -37,13 +38,16 @@ export interface HostProfile {
   user: {
     id: number;
     email: string;
+    name: string;
+    user_name: string;
     profile_picture: string;
     bio: string;
     dob: string;
     gender: string;
     country: string;
     email_verified: boolean;
-    role: "host";
+    role: "host" | "audience";
+    type: "host" | "audience";
     slug: string;
     profession: string;
     stage_name: string;
@@ -54,8 +58,9 @@ export interface HostProfile {
 }
 
 export interface Fan {
-  name: string;
-  user_name: string;
+  name?: string;
+  user_name?: string;
+  slug?: string;
   id: number | string;
   profile_picture?: string | null;
   bio?: string | null;

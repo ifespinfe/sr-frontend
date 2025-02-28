@@ -95,6 +95,28 @@
         </div>
       </div>
       <div
+        class="p-4 rounded-2xl bg-white/5 border animate-in slide-in-from-top-1"
+        v-if="currentSpender"
+      >
+        <div>
+          You rank <span class="font-medium">{{ position }}</span> in spending
+          on
+          <span class="font-medium">{{ event?.title }}</span>
+        </div>
+
+        <div class="grid gap-x-4 grid-cols-[auto,_1fr,_auto] items-center mt-6">
+          <div><SvgIcon name="trophy" /></div>
+          <div class="text-lg font-medium">
+            {{ currentSpender?.name ?? "" }}
+          </div>
+          <Avatar
+            :initials="getInitials(currentSpender?.name ?? '')"
+            class="!bg-[#FF99F1] !text-black"
+          >
+          </Avatar>
+        </div>
+      </div>
+      <div
         class="grid grid-cols-[1fr,_auto,_auto,_auto] gap-4 items-center"
         v-if="!print"
       >
@@ -158,16 +180,53 @@
 import { Copy, CopyCheck, Download } from "lucide-vue-next";
 import saveAs from "file-saver";
 import { useNodeToImage } from "~/composables/useNodeToImage";
-import type { EventRequest, OrderEvent } from "~/types/event";
+import type { EventRequest, EventSpender, OrderEvent } from "~/types/event";
 const props = defineProps<{
   request?: EventRequest;
   event?: OrderEvent | null;
   print?: boolean;
+  spenders?: EventSpender[] | null;
 }>();
 
 const {
   public: { APP_BASE_URL },
 } = useRuntimeConfig();
+
+const { authEmail } = useAuth();
+
+const currentSpender = computed(() => {
+  const spender = props.spenders?.find(
+    (item) => item.email === authEmail.value
+  );
+  if (spender) {
+    return {
+      ...spender,
+      name:
+        spender?.name ??
+        spender?.user_name ??
+        spender?.stage_name ??
+        spender?.nickname ??
+        spender?.email ??
+        "",
+    };
+  }
+  return spender;
+});
+
+const position = computed(() => {
+  if (!currentSpender.value?.position) return "-";
+  const _position = `${currentSpender.value.position}`?.slice(-1);
+  switch (_position) {
+    case "1":
+      return `${_position}st`;
+    case "2":
+      return `${_position}nd`;
+    case "3":
+      return `${_position}rd`;
+    default:
+      return `${_position}th`;
+  }
+});
 
 const eventDetails = computed(() => {
   const event = {

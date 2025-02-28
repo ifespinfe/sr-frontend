@@ -9,7 +9,7 @@
           @select="(e) => handleSelection(e, host.slug)"
         >
           <NuxtLink
-            :to="`/${host?.slug}`"
+            :to="`/${host?.slug ?? host.user_name}`"
             :class="
               cn(
                 host.is_live
@@ -20,11 +20,13 @@
             "
           >
             <Avatar
-              :initials="getInitials(host?.stage_name ?? host?.email)"
+              :initials="
+                getInitials(host?.stage_name ?? host.user_name ?? host?.email)
+              "
               :image="host.profile_picture"
             />
             <span class="text-base font-semibold">{{
-              host?.stage_name ?? host?.email
+              host?.stage_name ?? host.user_name ?? host?.email
             }}</span>
             <div
               v-if="host.is_live"

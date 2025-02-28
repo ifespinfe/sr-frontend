@@ -246,9 +246,11 @@
       </li>
     </ol>
   </section>
+  <Footer />
 </template>
 
 <script lang="ts" setup>
+import Footer from "~/components/lander/footer.vue";
 useSeoMeta({
   title: "Terms of use",
 });

@@ -30,8 +30,8 @@
                 <SvgIcon name="star" />
               </div>
               <p class="text-muted-foreground text-lg md:text-xl max-w-[302px]">
-                Request songs and shout outs from DJsand Hypemen at clubs, bars,
-                and parties!
+                Request songs and shout outs from DJs and Hypemen at clubs,
+                bars, and parties!
               </p>
             </div>
           </div>

@@ -31,6 +31,8 @@ interface InputAttributes {
   id?: string;
   placeholder?: string;
   disabled?: boolean;
+  min?: string;
+  max?: string;
 }
 
 const inputVariant = cva(

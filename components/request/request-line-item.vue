@@ -73,6 +73,7 @@ import { X, Check } from "lucide-vue-next";
 import Button from "../ui/button.vue";
 import ConfirmDialog from "../modals/confirm-dialog.vue";
 import Summary from "../shared/summary.vue";
+import { useEventRequests } from "~/composables/useLiveEvent";
 
 const props = defineProps<{
   request: EventRequest;
@@ -80,8 +81,10 @@ const props = defineProps<{
   onUpdate?: () => void;
 }>();
 const { updateEventRequest, update_status, updating } = useLiveEvent();
+const { optimisticallyUpdateEventRequest } = useEventRequests();
 
 const updateRequest = (status: EventRequest["status"]) => {
+  optimisticallyUpdateEventRequest(props.request.id, status);
   updateEventRequest(props.request.id, status, props.onUpdate);
 };
 </script>

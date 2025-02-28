@@ -5,7 +5,7 @@
         Top Spenders
       </div>
       <ListboxItem
-        v-for="(spender, index) in sortedSpenders"
+        v-for="(spender, index) in spenders"
         :key="spender.user_id + spender.email"
         :value="spender.user_id + spender.email"
         @select="handleSelection"
@@ -19,7 +19,7 @@
               </div>
             </div>
             <Avatar
-              :initials="getInitials(spender.name)"
+              :initials="getInitials(spender?.name ?? '')"
               class="font-bold text-lg"
               :style="{
                 backgroundColor: getHexColor(spender?.name?.charAt(0) ?? 'A'),
@@ -59,7 +59,7 @@ const props = withDefaults(
     loading?: boolean;
   }>(),
   {
-    spenders: () => mockEventSpenders,
+    spenders: () => [],
     loading: false,
   }
 );
@@ -67,23 +67,4 @@ const props = withDefaults(
 const handleSelection = (e: Event) => {
   e.preventDefault();
 };
-
-const { authEmail } = useAuth();
-
-const sortedSpenders = computed(() => {
-  if (!props?.spenders) return [];
-  const spenders = props.spenders.map((spender, index) => ({
-    ...spender,
-    position: index + 1,
-    active: spender.email === authEmail.value,
-    name: spender?.name ?? spender?.email ?? "",
-  }));
-  const me = spenders.find((spender) => spender.email === authEmail.value);
-  const topSixSpenders = spenders.slice(0, 6);
-  const amongTopSix =
-    !!me && topSixSpenders.some((spender) => spender.email === authEmail.value);
-  if (me && !amongTopSix)
-    topSixSpenders.splice(topSixSpenders.length - 1, 1, me);
-  return topSixSpenders;
-});
 </script>

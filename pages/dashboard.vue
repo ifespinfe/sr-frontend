@@ -32,24 +32,29 @@
       <div class="order-2 mac:order-1 space-y-6">
         <ProfileCompletion />
         <div
-          class="relative bg-white/5 rounded-2xl p-6 border flex items-center justify-between overflow-hidden"
+          class="relative bg-white/5 rounded-2xl p-3 sm:p-6 border flex flex-col gap-4 sm:flex-row sm:items-center justify-between overflow-hidden"
         >
           <div
-            class="bg-sp-purple/50 blur-[200px] size-56 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2]"
+            class="bg-sp-purple/50 blur-[200px] size-56 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:z-[2]"
           ></div>
-          <div class="space-y-2">
+          <div class="space-y-2 relative z-10">
             <div class="text-muted-foreground">Withdrawable balance</div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 justify-between items-center">
               <div v-if="wallet_status === 'pending'">
                 <Loader class="size-5 animate-spin" />
               </div>
+
               <div v-else class="text-3xl md:text-4xl font-semibold">
-                ₦{{ formatMoney(wallet?.wallet_balance ?? 0) }}
+                ₦{{
+                  active ? formatMoney(wallet?.wallet_balance ?? 0) : "******"
+                }}
               </div>
+              <SvgIcon name="eye" @click="toggle" v-if="active" />
+              <SvgIcon name="eye-off" @click="toggle" v-else />
             </div>
           </div>
-          <NuxtLink to="/wallet">
-            <Button>MY WALLET</Button>
+          <NuxtLink to="/wallet" class="w-full sm:w-auto relative z-10">
+            <Button class="w-full">MY WALLET</Button>
           </NuxtLink>
         </div>
 
@@ -140,6 +145,8 @@ import type { Wallet } from "~/types/payment";
 definePageMeta({
   middleware: ["host"],
 });
+
+const { active, toggle } = useToggle();
 const { auth_user } = useAuth();
 const { data, status, error, refresh } =
   useCustomFetch<ApiResponse<LiveEvent[]>>("/events");

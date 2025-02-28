@@ -11,7 +11,7 @@ export const RequestBaseSchema = object({
 
 export const HypeRequestSchema = RequestBaseSchema.shape({
   description: string().required("Hype description required"),
-  nickname: string().required("Nickname required"),
+  nickname: string().optional(),
 });
 
 export const SongRequestSchema = RequestBaseSchema.shape({

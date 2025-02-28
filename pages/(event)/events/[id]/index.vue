@@ -3,7 +3,7 @@
     <LiveBanner
       :ending="ending"
       :onEndEvent="endLiveEvent"
-      :start-date="data?.data.start_date"
+      :start-date="data?.data?.start_date"
       animate
     />
 
@@ -18,7 +18,7 @@
       <SharedLoadingArea :error="error" class="mt-8" :loading="ending">
         <div class="grid xl:grid-cols-[1fr_auto] items-start gap-4">
           <div class="xl:max-w-[900px]">
-            <RequestsTab :event_id="eventID" />
+            <RequestsTab :event_id="eventID" v-on:action="refresh" />
           </div>
 
           <div class="max-w-[700px] mx-auto w-full xl:w-[380px] relative">
@@ -57,8 +57,9 @@ import EventRateCard from "~/components/cards/event-rate-card.vue";
 import RequestsTab from "~/components/request/requests-tab.vue";
 import LiveBanner from "~/components/live-banner.vue";
 import type { ApiResponse } from "~/types";
-import type { LiveEvent } from "~/types/event";
+import type { LiveEvent, PusherEndEvent } from "~/types/event";
 import { useLiveEvent } from "~/composables/useLiveEvent";
+import Pusher from "pusher-js";
 
 const route = useRoute();
 const { endEvent, ending } = useLiveEvent();
@@ -75,6 +76,47 @@ const active_tab = computed(
 );
 
 const eventID = computed(() => route.params.id as string);
+
+onMounted(() => {
+  const pusher = new Pusher("0259a0ebe407b648fd2f", {
+    cluster: "mt1",
+  });
+
+  pusher.connection.bind("error", (err) => {
+    console.log({ err, state: "ERROR" });
+  });
+
+  pusher.connection.bind("connected", (data: PusherEndEvent) => {
+    console.log({ data, state: "CONNECTED" });
+  });
+
+  const channel = pusher.subscribe(`SPREvents.${eventID.value ?? null}`);
+  console.log({ channel });
+
+  channel.bind("HostGoesLive", (data) => {
+    console.log("HOST GONE LIVE", data);
+  });
+
+  channel.bind("StatusChangedToCompleted", (data) => {
+    console.log("NOW COMPLETED", data);
+  });
+
+  channel.bind("StatusChangedToNowPlaying", (data) => {
+    console.log("NOW PLAYING", data);
+  });
+
+  channel.bind("StatusChangedToPending", (data) => {
+    console.log("NOW PENDING", data);
+  });
+
+  channel.bind("StatusChangedToRejected", (data) => {
+    console.log("NOW REJCTED", data);
+  });
+
+  channel.bind_global((event, data) => {
+    console.log(`The event ${event} was triggered with data ${data}`);
+  });
+});
 
 const pendingRequests = computed(() =>
   data.value?.data?.requests

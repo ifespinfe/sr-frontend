@@ -23,12 +23,38 @@
       placeholder="Enter your password"
       type="password"
       label="Password"
+      show-error-on-touch
     />
 
     <Button class="w-full" type="submit" :size="'lg'" :disabled="loading">
       <Loader v-if="loading" class="animate-spin mr-2" />
       <span>{{ loading ? "Please wait..." : "Submit" }}</span>
     </Button>
+
+    <div class="text-center">
+      Already a user?
+      <NuxtLink to="/login" class="underline hover:no-underline ml-1"
+        >LOGIN</NuxtLink
+      >
+    </div>
+    <div class="flex gap-2 text-muted-foreground">
+      <p>
+        By signing up, you agree to our
+        <NuxtLink to="/terms" class="underline hover:no-underline"
+          >Terms of use</NuxtLink
+        >,
+        <NuxtLink to="/privacy-policy" class="underline hover:no-underline"
+          >Privacy Policy</NuxtLink
+        >
+        and
+        <NuxtLink
+          to="/community-guidelines"
+          class="underline hover:no-underline"
+          >Guidelines</NuxtLink
+        >
+        of SpinRequest.
+      </p>
+    </div>
   </Form>
 </template>
 

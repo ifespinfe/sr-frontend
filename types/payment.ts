@@ -65,6 +65,9 @@ export interface Wallet {
   wallet_balance: number;
   wallet_earnings: number;
   wallet_expenses: number;
+  weekly_earnings: number;
+  current_week_earnings: number;
+  current_week_commission: number;
   total_earnings: number;
   song_earnings: number;
   hype_earnings: number;

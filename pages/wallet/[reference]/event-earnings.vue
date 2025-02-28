@@ -6,7 +6,7 @@
         class="grid md:grid-cols-3 lg:grid-cols-[2fr,_1fr,_1fr] gap-6 bg-white/5 border p-6 rounded-3xl"
       >
         <div class="space-y-2">
-          <div class="text-[#38F08D]">EVENT EARNINGS</div>
+          <div class="text-[#38F08D]">Withdrawable balance</div>
           <div class="text-4xl font-semibold">
             ₦{{ formatMoney(data?.data?.earning ?? 0) }}
           </div>
@@ -14,26 +14,20 @@
         <div
           class="flex items-center gap-2 md:flex-col md:space-x-0 md:items-start"
         >
-          <div class="text-muted-foreground">Event name</div>
-          <div>{{ data?.data?.title ?? "" }}</div>
+          <div class="text-muted-foreground">Event earnings</div>
+          <div class="text-lg font-medium">
+            ₦{{ formatMoney(data?.data?.event_earnings ?? 0) }}
+          </div>
         </div>
 
         <div
-          class="flex items-center gap-2 md:flex-col md:space-x-0 md:items-start relative"
-          @click="copyTransactionID(data?.data?.reference ?? '')"
+          class="flex items-center gap-2 md:flex-col md:space-x-0 md:items-start"
         >
-          <div class="absolute left-0 translate-x-full">
-            <div
-              class="py-2 px-4 bg-background border rounded-full animate-in slide-in-from-top-3"
-              v-if="copied"
-            >
-              Copied
-            </div>
+          <div class="text-muted-foreground">
+            Commissions ({{ data?.data?.commission_percent ?? 0 }} %)
           </div>
-          <div class="text-muted-foreground">Transaction id</div>
-          <div class="flex items-center gap-x-1 cursor-pointer">
-            <Copy class="size-4 shrink-0" />
-            <div class="shrink-0">{{ data?.data?.reference ?? "" }}</div>
+          <div class="text-lg font-medium">
+            ₦{{ formatMoney(data?.data?.commission ?? 0) }}
           </div>
         </div>
       </div>
@@ -43,23 +37,42 @@
       >
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <div class="text-muted-foreground">Amount earned</div>
+            <div class="text-muted-foreground">Event Name</div>
             <div class="font-semibold">
-              ₦{{ formatMoney(data?.data?.["amount earned"] ?? 0) }}
+              {{ data?.data?.title }}
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <div class="text-muted-foreground">
-              Commissions (-{{ data?.data?.commission_percent ?? 0 }} %)
-            </div>
+            <div class="text-muted-foreground">Date</div>
+
             <div class="font-semibold">
-              -₦{{ formatMoney(data?.data?.commission ?? 0) }}
+              {{
+                data?.data?.date
+                  ? useDateFormat(data?.data?.date ?? "", "YY-MM-DD")
+                  : "-"
+              }}
             </div>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="text-muted-foreground">Withdrawable balance</div>
-            <div class="font-semibold">
-              ₦{{ formatMoney(data?.data?.earning ?? 0) }}
+          <div
+            class="flex items-center gap-2 justify-between relative"
+            @click="copyTransactionID(data?.data?.reference ?? '')"
+          >
+            <div class="absolute left-0 translate-x-full">
+              <div
+                class="py-2 px-4 bg-background border rounded-full animate-in slide-in-from-top-3"
+                v-if="copied"
+              >
+                Copied
+              </div>
+            </div>
+            <div class="text-muted-foreground">Transaction id</div>
+            <div class="flex items-center gap-x-1 cursor-pointer">
+              <Copy class="size-4 shrink-0" />
+              <div
+                class="shrink-0 text-ellipsis line-clamp-1 max-w-fit overflow-hidden text-nowrap font-medium"
+              >
+                {{ data?.data?.reference ?? "" }}
+              </div>
             </div>
           </div>
         </div>

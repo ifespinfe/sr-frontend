@@ -6,7 +6,7 @@ type FetchMethods = FetchOptions["method"];
 
 export default class Auth {
   private $fetch: $Fetch;
-  SEARCH_HOST = "user/search-host";
+  SEARCH_HOST = "user/search-user";
   FOLLOW_USER = "follow";
   UNFOLLOW_USER = "unfollow";
   FOLLOWING_LIST = "followers";

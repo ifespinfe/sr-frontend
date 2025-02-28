@@ -4,7 +4,7 @@
       <SharedBackButton :to="isHost ? '/dashboard' : '/audience'" />
       <div class="text-2xl font-medium font-display">My Profile</div>
     </div>
-    <SharedLoadingArea :loading="status === 'pending'" :error="error">
+    <SharedLoadingArea :error="error" :loading="status === 'pending'">
       <div
         :class="
           cn(
@@ -40,19 +40,30 @@
 
             <div class="space-y-5">
               <div class="space-y-1">
-                <div class="text-xl font-semibold">
-                  {{ data?.data?.user_name ?? data?.data?.email }}
+                <div class="text-xl font-semibold flex items-center gap-2">
+                  <span>{{
+                    data?.data?.user_name ??
+                    data?.data?.stage_name ??
+                    data?.data?.email ??
+                    "Add a username"
+                  }}</span>
+                  <ModalsEditUsername
+                    :username="
+                      data?.data?.user_name ?? data?.data?.stage_name ?? ''
+                    "
+                    :updating="updating"
+                    @save="updateUsername"
+                  />
                 </div>
                 <div class="text-foreground/80">
-                  {{
-                    data?.data?.user_name ? data?.data?.email : "Add a username"
-                  }}
+                  {{ data?.data?.email ?? "Add email" }}
                 </div>
               </div>
               <div
                 class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
               >
-                <div>
+                <div class="flex items-center gap-x-2">
+                  <SvgIcon name="account_circle" />
                   <b>{{
                     isHost
                       ? data?.data?.stats?.followers ?? "0"
@@ -61,9 +72,10 @@
                   FOLLOWERS
                 </div>
                 <NuxtLink
-                  class="text-primary flex items-center gap-x-1"
+                  class="text-primary flex items-center gap-x-2"
                   to="/following"
                 >
+                  <SvgIcon name="account_circle" />
                   <b>{{
                     isHost
                       ? data?.data?.stats?.following ?? "0"
@@ -87,6 +99,18 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            v-if="isHost"
+            class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
+          >
+            <div class="font-semibold">About me</div>
+            <UiTextarea
+              label="Bio"
+              placeholder="Tell your audience about yourself"
+              class="min-h-[80px]"
+              v-model="profile.user.bio"
+            />
           </div>
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
@@ -138,7 +162,7 @@
             </div>
           </div>
 
-          <NuxtLink v-if="!isHost" to="/order-history" class="block">
+          <NuxtLink v-if="!isHost" to="/order-history" class="hidden">
             <Wallet />
           </NuxtLink>
 
@@ -200,23 +224,25 @@
                   type="date"
                   label="Date of birth"
                   v-model="profile.user.dob"
+                  :max="dateLimit"
                 />
                 <UiInputField
                   v-else
                   type="date"
                   label="Date of birth"
                   v-model="audience_profile.user.dob"
+                  :max="dateLimit"
                 />
                 <UiSelectField
                   v-if="isHost"
-                  :options="['male', 'female']"
+                  :options="['male', 'female', 'other']"
                   placeholder="Select your gender"
                   label="Gender"
                   v-model="profile.user.gender"
                 />
                 <UiSelectField
                   v-else
-                  :options="['male', 'female']"
+                  :options="['male', 'female', 'other']"
                   placeholder="Select your gender"
                   label="Gender"
                   v-model="audience_profile.user.gender"
@@ -294,7 +320,12 @@
             </div>
           </div>
           <div class="flex justify-end">
-            <UiButton :size="'lg'" @click="updateProfile" :loading="updating">
+            <UiButton
+              :size="'lg'"
+              @click="updateProfile"
+              :loading="updating"
+              class="w-full sm:w-auto"
+            >
               Save Changes
             </UiButton>
           </div>
@@ -346,6 +377,17 @@ const {
 
 const { auth_user, auth_token, saveAuthUser } = useAuth();
 
+const dateLimit = computed(() => {
+  const today = new Date();
+  const minDate = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate()
+  );
+  const formatted = useDateFormat(minDate, "YYYY-MM-DD")?.value;
+  return formatted;
+});
+
 const isHost = computed(() => auth_user.value?.role === "host");
 
 const { data, status, error, refresh } = useCustomFetch<ApiResponse<AuthUser>>(
@@ -370,7 +412,10 @@ const bankNames = computed(() =>
 );
 
 const name = computed(
-  () => data.value?.data?.stage_name ?? data.value?.data?.email
+  () =>
+    data.value?.data?.stage_name ??
+    data.value?.data?.user_name ??
+    data.value?.data?.email
 );
 const initials = computed(() => getInitials(name.value ?? ""));
 const profile_picture = ref(data.value?.data?.profile_picture ?? "");
@@ -382,7 +427,10 @@ const hostLink = computed(
 const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
   return {
     user: {
-      stage_name: data.value?.data?.stage_name ?? "",
+      stage_name:
+        data.value?.data?.stage_name ?? data.value?.data?.user_name ?? "",
+      user_name:
+        data.value?.data?.user_name ?? data.value?.data?.stage_name ?? "",
       name: data.value?.data?.name ?? "",
       bio: data.value?.data?.bio ?? "",
       dob: data.value?.data?.dob ?? null,
@@ -428,6 +476,7 @@ watchEffect(() => {
         stage_name: user.stage_name,
         user_name: user.user_name,
         profile_picture: user.profile_picture,
+        bank_account: data.value?.data?.bank_account,
       };
       saveAuthUser(auth_token.value, updated_user);
     }
@@ -443,6 +492,7 @@ watchEffect(() => {
     // audience_profile.value.user.name = user.stage_name ?? "";
     profile.value.user.name = user.name ?? "";
     profile.value.user.stage_name = user.stage_name ?? "";
+    profile.value.user.user_name = user.user_name ?? user.stage_name ?? "";
     profile.value.user.profession = user.profession ?? null;
     profile.value.bank_account.account_name =
       user.bank_account?.account_name ?? "";
@@ -492,8 +542,12 @@ watchEffect(() => {
     payload.bank_name &&
     payload.code &&
     payload?.account_number?.length > 9 &&
-    data.value?.data?.role === "host"
+    data.value?.data?.role === "host" &&
+    !profile.value.bank_account.account_name &&
+    !verifying.value &&
+    auth_token.value
   ) {
+    console.log("VERIFYING THIS DATA", data.value?.data);
     verifyAccount(payload);
   }
 });
@@ -532,6 +586,16 @@ const customVerification = async () => {
     }
   }
   return true;
+};
+
+const updateUsername = (username: string) => {
+  if (isHost.value) {
+    profile.value.user.stage_name = username;
+    profile.value.user.user_name = username;
+  } else {
+    audience_profile.value.user.user_name = username;
+  }
+  updateProfile();
 };
 
 const updateProfile = async () => {

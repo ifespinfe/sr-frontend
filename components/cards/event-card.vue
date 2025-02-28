@@ -127,7 +127,17 @@ const {
 
 const loading = ref(false);
 
+const { auth_user } = useAuth();
+
 const goLive = async () => {
+  if (!auth_user.value?.bank_account?.account_number) {
+    showToast({
+      title:
+        "Update your bank account details to ensure seamless payout after your event",
+      variant: "warning",
+    });
+    return;
+  }
   try {
     loading.value = true;
     const response = await eventModule.goLive(props.event.id);
@@ -156,7 +166,7 @@ const deleteEvent = async () => {
     deleting.value = false;
     showToast({ title: response.message });
     emit("delete", props.event.id);
-    emit("done");
+    // emit("done");
   } catch (error) {
     const e = error as ApiError;
     deleting.value = false;

@@ -95,6 +95,7 @@ import Button from "../ui/button.vue";
 import { ChevronDown, Check, X } from "lucide-vue-next";
 import ConfirmDialog from "../modals/confirm-dialog.vue";
 import Summary from "../shared/summary.vue";
+import { useEventRequests } from "~/composables/useLiveEvent";
 
 const props = withDefaults(
   defineProps<{
@@ -110,12 +111,14 @@ const props = withDefaults(
 const open = ref(props.defaultOpen);
 const popover_open = ref(false);
 const { updateEventRequest, update_status, updating } = useLiveEvent();
+const { optimisticallyUpdateEventRequest } = useEventRequests();
 const handleOpening = () => {
   if (props.disabled || popover_open.value) return;
   open.value = !open.value;
 };
 
 const updateRequest = (status: EventRequest["status"]) => {
+  optimisticallyUpdateEventRequest(props.request.id, status);
   updateEventRequest(props.request.id, status, props.onUpdate);
 };
 </script>

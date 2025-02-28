@@ -7,16 +7,16 @@
           cn(
             ready_to_print
               ? 'bg-background w-[850px]'
-              : ' bg-white/5 max-w-full w-[867px] mx-auto',
+              : ' bg-background max-w-full w-[867px] mx-auto',
             'rounded-3xl border p-4 sm:p-10'
           )
         "
         id="EVENT_SUMMARY"
       >
         <div class="text-3xl font-semibold mb-1">
-          {{ data?.data.event.title }}
+          {{ data?.data?.event.title }}
         </div>
-        <div class="text-muted-foreground">Event sum</div>
+        <div class="text-muted-foreground">Event summary</div>
         <div class="space-y-4 mt-6">
           <div
             class="p-2 sm:p-4 rounded-xl border bg-white/5 grid gap-y-4 md:grid-cols-[2fr_3fr]"
@@ -26,7 +26,7 @@
               <div
                 class="text-2xl md:text-3xl lg:text-4xl font-bold tabular-nums"
               >
-                ₦{{ formatMoney(data?.data.total_earnings ?? 0) }}
+                ₦{{ formatMoney(data?.data?.total_earnings ?? 0) }}
               </div>
             </div>
             <div
@@ -93,7 +93,7 @@
               <div class="text-lg font-semibold">Top Spenders</div>
               <UiButton
                 :variant="'ghost'"
-                class="gap-x-2 translate-x-4"
+                class="gap-x-2 translate-x-4 hidden"
                 id="SHARE-BUTTON"
                 @click="refresh"
               >
@@ -102,15 +102,17 @@
               </UiButton>
             </div>
             <div
-              class="grid grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] gap-6"
+              class="grid sm:grid-cols-[repeat(auto-fit,_minmax(330px,_1fr))] gap-6"
             >
               <div
                 class="grid grid-cols-[10px_1fr_auto] gap-x-2 text-muted-foreground"
-                v-for="(spender, index) in data?.data.top_spenders"
+                v-for="(spender, index) in data?.data?.top_spenders"
                 :key="spender.user_id"
               >
                 <div class="text-foreground/80">{{ index + 1 }}.</div>
-                <div>{{ spender?.name ?? spender.email }}</div>
+                <div>
+                  {{ spender?.name ?? spender?.stage_name ?? spender.email }}
+                </div>
                 <div>₦{{ formatMoney(spender.total) }}</div>
               </div>
               <div
@@ -122,7 +124,7 @@
             </div>
           </div>
           <div class="rounded-3xl border p-4 bg-white/5" id="PRICE-HISTORY">
-            <PricingHistoryTab :history="data?.data.price_histories" />
+            <PricingHistoryTab :history="data?.data?.price_histories" />
           </div>
           <div
             class="grid grid-cols-[1fr,_auto,_auto,_auto] gap-4 items-center"
@@ -134,7 +136,7 @@
               :loading="converting"
               @click="loadEventReceipt"
             >
-              Download Receipt
+              Download <span class="hidden sm:inline">Receipt</span>
             </UiButton>
             <UiTooltip message="Share to twitter/X">
               <UiButton
@@ -187,25 +189,27 @@ const { data, error, status, refresh } = useCustomFetch<
   ApiResponse<EventSummary>
 >(`/events/receipt/${route.params.id}`);
 
-const APP_BASE_URL = "https://dev.spinrequest.com";
+const {
+  public: { APP_BASE_URL },
+} = useRuntimeConfig();
 
 const eventDetails = computed(() => {
   const today = new Date();
   const duration = {
     name: "Duration",
     value: readableTimeDifference(
-      data.value?.data.event.start_date ?? today,
-      data.value?.data.event.end_date ?? today
+      data.value?.data?.event.start_date ?? today,
+      data.value?.data?.event.end_date ?? today
     ),
   };
   const location = {
     name: "Location",
-    value: data.value?.data.event.address,
+    value: data.value?.data?.event.address,
   };
   const date = {
     name: "Date",
     value: useDateFormat(
-      data.value?.data.event.start_date,
+      data.value?.data?.event.start_date,
       "dddd, MMMM D, YYYY"
     ),
   };
@@ -226,8 +230,8 @@ const { converting, convertNodeToImage } = useNodeToImage(
 
 const loadEventReceipt = async () => {
   ready_to_print.value = true;
+  await promiseTimeout(50);
   convertNodeToImage();
-  await promiseTimeout(1);
   ready_to_print.value = false;
 };
 

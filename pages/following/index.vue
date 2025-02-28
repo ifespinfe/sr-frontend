@@ -48,11 +48,11 @@
               :value="user.id"
             >
               <NuxtLink
-                :to="`/following/${user.user_name}`"
+                :to="`/${user.slug}`"
                 class="p-3 bg-white/5 border rounded-md transition-colors hover:bg-white/10 grid grid-cols-[50px,_1fr,_auto] gap-x-2 items-center [&:hover_>_.arrow]:block"
               >
                 <Avatar
-                  :initials="getInitials(user.name)"
+                  :initials="getInitials(user?.name ?? user.user_name ?? '-')"
                   :image="user.profile_picture"
                   class="font-bold text-lg"
                   :style="{
@@ -61,7 +61,7 @@
                   }"
                 />
                 <div class="text-muted-foreground font-semibold">
-                  {{ user.name }}
+                  {{ user?.name ?? user.user_name ?? "-" }}
                 </div>
                 <ChevronRight
                   class="size-6 hidden animate-in slide-in-from-left-1 arrow"
