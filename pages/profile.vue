@@ -302,7 +302,7 @@
               />
               <UiInputField
                 label="Account Name"
-                disabled
+                :disabled="!invalid"
                 v-model="profile.bank_account.account_name"
               >
                 <div
@@ -505,10 +505,14 @@ watchEffect(() => {
 });
 
 const verifying = ref(false);
-const verified = ref<Record<string, boolean>>({});
+const invalid = ref(false);
+
+const verifyPayload = computed(
+  () =>
+    `${profile.value.bank_account.account_number}${profile.value.bank_account.code}${profile.value.bank_account.bank_name}`
+);
 const verifyAccount = async (payload: BankVerificationPayload) => {
   try {
-    if (verified.value[payload.account_number + payload.code]) return;
     profile.value.bank_account.account_name = "";
     verifying.value = true;
     const response = await bankModule.verifyBankAccount(payload);
@@ -518,15 +522,19 @@ const verifyAccount = async (payload: BankVerificationPayload) => {
       profile.value.bank_account.account_name = account_name;
     } else
       showToast({
-        title: response.message ?? "Invalid account",
+        title: response.message
+          ? `${response.message}. Enter account number manually instead`
+          : "Invalid account, Enter account number manually instead",
         variant: "warning",
       });
   } catch (e) {
-    verified.value[payload.account_number + payload.code] = true;
+    invalid.value = true;
     verifying.value = false;
     const error = e as ApiError;
     showToast({
-      title: error.data?.message ?? "Invalid account",
+      title: error.data?.message
+        ? `${error.data?.message}. Enter account number manually instead`
+        : "Invalid account, Enter account number manually instead",
       variant: "warning",
     });
     console.error("FAILED TO VERIFY ACCOUNT", payload);
@@ -534,7 +542,7 @@ const verifyAccount = async (payload: BankVerificationPayload) => {
   }
 };
 
-watchEffect(() => {
+watch(verifyPayload, (dat) => {
   const payload: BankVerificationPayload = {
     bank_name: selectedBank.value?.name ?? "",
     account_number: profile.value.bank_account.account_number,
@@ -550,13 +558,11 @@ watchEffect(() => {
     !verifying.value &&
     auth_token.value
   ) {
-    console.log("VERIFYING THIS DATA", data.value?.data);
     verifyAccount(payload);
   }
 });
 
 const updating = ref(false);
-
 const customVerification = async () => {
   const valid_bio = await BioSchema.isValid(profile.value.user.bio);
   if (!valid_bio) {
