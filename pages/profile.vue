@@ -505,8 +505,10 @@ watchEffect(() => {
 });
 
 const verifying = ref(false);
+const verified = ref<Record<string, boolean>>({});
 const verifyAccount = async (payload: BankVerificationPayload) => {
   try {
+    if (verified.value[payload.account_number + payload.code]) return;
     profile.value.bank_account.account_name = "";
     verifying.value = true;
     const response = await bankModule.verifyBankAccount(payload);
@@ -520,6 +522,7 @@ const verifyAccount = async (payload: BankVerificationPayload) => {
         variant: "warning",
       });
   } catch (e) {
+    verified.value[payload.account_number + payload.code] = true;
     verifying.value = false;
     const error = e as ApiError;
     showToast({
