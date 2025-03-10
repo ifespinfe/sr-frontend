@@ -31,82 +31,15 @@
 </template>
 
 <script lang="ts" setup>
-const { data, status, error } = useCustomFetch<Wallet>("/wallets");
-
+const { data, status, error } = useCustomFetch<Wallet>("/hot-live-event");
 const hotEventsList = computed(() => {
-  return [
-    {
-      name: "Golden Tones",
-      time: "20m:30s",
-      location: "ikoyi"
-    },
-    {
-      name: "Golden Tones",
-      time: "20m:30s",
-      location: "lekki"
-    },
-    {
-      name: "Golden Tones",
-      time: "20m:30s",
-      location: "ikeja"
-    },
-    {
-      name: "Golden Tones",
-      time: "20m:30s",
-      location: "ikoyi"
-    },
-    {
-      name: "Golden Tones",
-      time: "20m:30s",
-      location: "ikoyi"
-    },
-    {
-      name: "Golden Tones",
-      time: "20m:30s",
-      location: "ikoyi"
-    },
-  ];
+  return data.value.data.hot_live_events;
 });
 
+const hosts = useCustomFetch<Wallet>("/popular-hosts");
+//console.log(valuen.data.value.data.popular_hosts);
 const popularHostList = computed(() => {
-  return [
-    {
-      name: "Golden Tones",
-      followers: "20",
-      sprEvents: "10",
-      //following: false
-    },
-    {
-      name: "Golden Tones",
-      followers: "20",
-      sprEvents: "9",
-      //following: false
-    },
-    {
-      name: "Golden Tones",
-      followers: "15",
-      sprEvents: "8",
-      //following: false
-    },
-    {
-      name: "Golden Tones",
-      followers: "15",
-      sprEvents: "8",
-      //following: false
-    },
-    {
-      name: "Golden Tones",
-      followers: "15",
-      sprEvents: "8",
-      //following: false
-    },
-    {
-      name: "Golden Tones",
-      followers: "15",
-      sprEvents: "8",
-      //following: false
-    },
-  ];
+  return hosts.data.value.data.popular_hosts;
 });
 
 useSeoMeta({ title: "Request A Song or Hype" });

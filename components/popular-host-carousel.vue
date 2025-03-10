@@ -8,15 +8,16 @@
             v-for="item in popularHost"
             :key="item.name"
           >
-            <div
-            class="rounded-full p-2 border h-40 bg-linear-to-bl from-violet-500 to-fuchsia-500"
-            >
+            <div>
+              <img :src=item.profile_picture class="rounded-full p-2 border h-40 w-40 bg-linear-to-bl from-violet-500 to-fuchsia-500"/>
             </div>
             <div class="mt-2 font-semibold">{{ item.name }}</div>
-            <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.sprEvents }} Events</div>
+            <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.events }} Events</div>
             <div class="mt-4">
-              <button class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
+              <button v-if="!item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
               >follow</button>
+              <span v-if="item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
+              >following</span>
             </div>
           </div>
         </div>
