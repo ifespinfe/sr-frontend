@@ -1,42 +1,33 @@
 <template>
   <div>
-    <Carousel :options="{ slidesToScroll: 'auto' }" :onReady="setEmblaApi">
-      <template #container>
-        <div class="flex flex-row items-stretch gap-x-2 text-center">
-          <div
-            class="p-1 shrink-0 w-[20%]"
-            v-for="item in popularHost"
-            :key="item.name"
+      <div class="lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto flex lg:overflow-x-auto md:overflow-x-auto sm:overflow-x-auto lg:flex md:flex sm:flex lg:flex-row md:flex-row sm:flex-row items-stretch gap-x-2 text-center">
+        <div
+          class="md:block w-40"
+          v-for="item in popularHost"
+          :key="item.name"
+        >
+          <NuxtLink
+            :to=" '/'+item.slug"
+            class=""
           >
             <div>
-              <img :src=item.profile_picture class="rounded-full p-2 border h-40 w-40 bg-linear-to-bl from-violet-500 to-fuchsia-500"/>
+              <img :src=item.profile_picture class="rounded-full p-2 border h-40 w-40"/>
             </div>
-            <div class="mt-2 font-semibold">{{ item.name }}</div>
-            <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.events }} Events</div>
-            <div class="mt-4">
-              <button v-if="!item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
-              >follow</button>
-              <span v-if="item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
-              >following</span>
-            </div>
+          </NuxtLink>
+          
+          <div class="mt-2 font-medium text-base">{{ item.name }}</div>
+          <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.events }} Events</div>
+          <div class="mt-4">
+            <button v-if="!item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
+            >follow</button>
+            <span v-if="item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
+            >following</span>
           </div>
         </div>
-      </template>
-    </Carousel>
+      </div>
     <div
       class="mt-6 p-2 flex items-center justify-center gap-x-2 z-10 relative"
     >
-      <div
-        :class="
-          cn(
-            'size-3 rounded-full transition-all',
-            selected_index === index ? 'bg-primary' : 'bg-muted'
-          )
-        "
-        v-for="(item, index) in control_list"
-        :key="item + index"
-        @click="() => goTo(index)"
-      ></div>
     </div>
   </div>
 </template>
