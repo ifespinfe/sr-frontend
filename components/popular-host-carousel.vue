@@ -18,10 +18,14 @@
           <div class="mt-2 font-medium text-base">{{ item.name }}</div>
           <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.events }} Events</div>
           <div class="mt-4">
-            <button v-if="!item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
-            >follow</button>
-            <span v-if="item.is_following" class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
-            >following</span>
+            <button 
+              v-if="!item.is_following" 
+              class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
+              @click="followUser(item.id)"
+            >
+              FOLLOW
+            </button>
+           
           </div>
         </div>
       </div>
@@ -35,16 +39,23 @@
 <script lang="ts" setup>
 import Carousel from "./shared/carousel.vue";
 import type { EmblaCarouselType } from "embla-carousel";
+import Button from "../../components/ui/button.vue";
 
-defineProps<{ popularHost: { 
+const props = defineProps<{ popularHost: { 
+  id: number | string;
   name: string; 
   followers: number | string;
   sprEvents: number | string;
-  //following: boolean;
+  following: boolean;
 }[] }>();
-const embla = ref<EmblaCarouselType>();
-const setEmblaApi = (api: EmblaCarouselType) => {
-  embla.value = api;
-};
-const { control_list, selected_index, goTo } = useCarouselPagination(embla);
+
+const {
+  followUser,
+  following,
+  unFollowUser,
+  unfollowing,
+  subOrUnsubscribeUser,
+  subscribing,
+} = useFollowActions();
+
 </script>

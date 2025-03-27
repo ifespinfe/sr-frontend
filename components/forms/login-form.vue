@@ -49,6 +49,7 @@ const onSubmit = async ({
   try {
     loading.value = true;
     const response = await $repo.auth.loginUser(payload);
+    console.log(response)
     const message = response?.message;
     showToast({ title: "Success", description: message, variant: "normal" });
     saveAuthUser(response.data.token, response.data.user);
