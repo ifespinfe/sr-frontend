@@ -18,10 +18,10 @@ export const useFollowActions = () => {
       // following.value = true;
       const response = await user.followUser({ parent_id });
       following.value = false;
-      showToast({
-        title: "You have followed host",
-        variant: "normal",
-      });
+      // showToast({
+      //   title: "You have followed host",
+      //   variant: "normal",
+      // });
       onDone?.();
     } catch (e) {
       following.value = false;
@@ -44,10 +44,10 @@ export const useFollowActions = () => {
       // unfollowing.value = true;
       const response = await user.unFollowUser({ parent_id });
       unfollowing.value = false;
-      showToast({
-        title: "You have unfollowed host",
-        variant: "normal",
-      });
+      // showToast({
+      //   title: "You have unfollowed host",
+      //   variant: "normal",
+      // });
       onDone?.();
     } catch (e) {
       unfollowing.value = false;

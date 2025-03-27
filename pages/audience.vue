@@ -12,30 +12,21 @@
 
       <HostSearchInput />
     </div>
-    <HotLiveEventsCarousel :hotEvents="hotEventsList" />
 
-    <div class="max-w-full lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto mt-12">
-      <div
-        class="flex flex-row font-display text-2xl md:text-2xl font-semibold text-start mb-5"
-      >
-      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-6 mt-1 me-2">
-        <path d="M0 24.68H24V0.68H0V24.68Z" fill="white"/>
-      </svg> Popular Host
-      </div>
-    </div>
-    <PopularHostCarousel :popularHost="popularHostList" />
+    <HotLiveEventsCarousel :hotEvents="hotEventsList" v-if="hotEventsList.length > 0" />
+    <PopularHostCarousel :popularHost="popularHostList" v-if="popularHostList.length > 0" />
   </div>
 </template>
 
 <script lang="ts" setup>
-const { data, status, error } = useCustomFetch<Wallet>("/hot-live-event");
+const { data, status } = useCustomFetch<Wallet>("/hot-live-event");
 const hotEventsList = computed(() => {
-  return data.value.data.hot_live_events;
+  return data?.value?.data;
 });
 
-const hosts = useCustomFetch<Wallet>("/popular-hosts");
+const { data: hosts, status: hosts_status } = useCustomFetch<Wallet>("/popular-hosts");
 const popularHostList = computed(() => {
-  return hosts.data.value.data.popular_hosts;
+  return hosts?.value?.data;
 });
 
 useSeoMeta({ title: "Request A Song or Hype" });

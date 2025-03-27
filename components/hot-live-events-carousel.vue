@@ -4,15 +4,13 @@
       class="flex flex-row font-display text-2xl md:text-2xl font-semibold mb-5 mt-20 justify-between"
       >
         <div class="flex c">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 mt-1 me-2">
-            <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
-          </svg> Hot Live Events
+          <SvgIcon name="fire" /> Hot Live Events
         </div>
 
         <div class="order-last">
           <Button :variant="'ghost'"
                 class="!rounded-full border !p-2 prev"
-                @click="prev"
+                
             >
                 <SvgIcon name="arrow_back_ios" />
             </Button>
@@ -22,7 +20,7 @@
             
             <Button :variant="'ghost'"
                 class="!rounded-full border !p-2 next"
-                @click="next"
+
             >
                 <SvgIcon name="arrow_forward_ios" />
             </Button>
@@ -70,7 +68,6 @@
 
 <script lang="ts" setup>
 import { useTemplateRef, onMounted, ref } from 'vue';
-import 'vue3-carousel/carousel.css';
 import Button from "./components/ui/button.vue";
 import SvgIcon from "./components/svg-icon.vue";
 
@@ -95,69 +92,69 @@ const mutatedHotevents = computed(() => {
 // const carouselContainerWidth = carouselContainer.scrollWidth;
 // const carouselItemWidth = carouselItem.offsetWidth;
 
-const root = ref(null);
+// const root = ref(null);
 
-console.log(root.hot-live-events);
-const carouselContainer = ref();
-const carouselItem = ref();
+// // console.log(root.hot-live-events);
+// const carouselContainer = ref();
+// const carouselItem = ref();
 
-// onCreated = (() => {
-//   window.addEventListener("resize", screenWidth);
+// // onCreated = (() => {
+// //   window.addEventListener("resize", screenWidth);
+// // });
+
+
+// const screenWidth =(() => {
+//   carouselContainer = this.$refs.hot-live-events?.offsetWidth;
+//   carouselItem = this.$refs.hot-live-events-item?.offsetWidth;
 // });
 
+// const carouselContainerWidth = carouselContainer.scrollWidth;
+// const carouselItemWidth = carouselItem.offsetWidth;
 
-const screenWidth =(() => {
-  carouselContainer = this.$refs.hot-live-events?.offsetWidth;
-  carouselItem = this.$refs.hot-live-events-item?.offsetWidth;
-});
-
-const carouselContainerWidth = carouselContainer.scrollWidth;
-const carouselItemWidth = carouselItem.offsetWidth;
-
-let scrollPosition = 0;
-// console.log(carouselContainer.clientWidth);
-const next = () => {
+// let scrollPosition = 0;
+// // console.log(carouselContainer.clientWidth);
+// const next = () => {
   
-  if (window.matchMedia("(min-width: 992px)").matches) {
+//   if (window.matchMedia("(min-width: 992px)").matches) {
 
-    if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 5)) { //check if you can go any further
-        scrollPosition += carouselItemWidth;  //update scroll position
-        carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
-    }
-  } else if (window.innerWidth < 992 || window.innerWidth > 576 ) {
-    if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 3)) { //check if you can go any further
-        scrollPosition += carouselItemWidth;  //update scroll position
-        carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
-    }
-  } else {
-    if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 2)) { //check if you can go any further
-        scrollPosition += carouselItemWidth;  //update scroll position
-        carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
-    }
-  }
-}
+//     if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 5)) { //check if you can go any further
+//         scrollPosition += carouselItemWidth;  //update scroll position
+//         carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
+//     }
+//   } else if (window.innerWidth < 992 || window.innerWidth > 576 ) {
+//     if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 3)) { //check if you can go any further
+//         scrollPosition += carouselItemWidth;  //update scroll position
+//         carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
+//     }
+//   } else {
+//     if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 2)) { //check if you can go any further
+//         scrollPosition += carouselItemWidth;  //update scroll position
+//         carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
+//     }
+//   }
+// }
 
-const prev = () => {
-  if (window.matchMedia("(min-width: 992px)").matches) {
-    if (scrollPosition > 0) {
-        scrollPosition -= carouselItemWidth;
-        carouselContainer.animate(
-        { scrollLeft: scrollPosition }, 600);
-    }
-  } else if (window.innerWidth < 992 || window.innerWidth > 576 ) {
-    if (scrollPosition > 0) {
-        scrollPosition -= carouselItemWidth;
-        carouselContainer.animate(
-        { scrollLeft: scrollPosition }, 600);
-    }
-  } else {
-    if (scrollPosition > 0) {
-        scrollPosition -= carouselItemWidth;
-        carouselContainer.animate(
-        { scrollLeft: scrollPosition }, 600);
-    }
-  }
-}
+// const prev = () => {
+//   if (window.matchMedia("(min-width: 992px)").matches) {
+//     if (scrollPosition > 0) {
+//         scrollPosition -= carouselItemWidth;
+//         carouselContainer.animate(
+//         { scrollLeft: scrollPosition }, 600);
+//     }
+//   } else if (window.innerWidth < 992 || window.innerWidth > 576 ) {
+//     if (scrollPosition > 0) {
+//         scrollPosition -= carouselItemWidth;
+//         carouselContainer.animate(
+//         { scrollLeft: scrollPosition }, 600);
+//     }
+//   } else {
+//     if (scrollPosition > 0) {
+//         scrollPosition -= carouselItemWidth;
+//         carouselContainer.animate(
+//         { scrollLeft: scrollPosition }, 600);
+//     }
+//   }
+// }
 </script>
 
 <style scoped>
