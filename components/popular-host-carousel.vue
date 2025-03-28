@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import Button from "./components/ui/button.vue";
+import Button from "./ui/button.vue";
 import SvgIcon from "./svg-icon.vue";
 
 const props = defineProps<{ popularHost: { 
