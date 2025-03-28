@@ -21,7 +21,7 @@ import SvgIcon from "./svg-icon.vue";
 import Button from "./ui/button.vue";
 import Tooltip from "./ui/tooltip.vue";
 import { Check, X, Inbox, Loader } from "lucide-vue-next";
-import Notifications from "./components/modals/notifications.vue";
+import Notifications from "./modals/notifications.vue";
 const {
   notifications,
   markNotificationAsRead,
