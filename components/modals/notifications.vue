@@ -139,7 +139,7 @@
 </template>
 
 <script lang="ts" setup>
-import Button from "./components/ui/button.vue";
-import SvgIcon from "./components/svg-icon.vue";
+import Button from "../ui/button.vue";
+import SvgIcon from "../svg-icon.vue";
 import { Loader, Edit2, ChevronRight } from "lucide-vue-next";
 </script>
