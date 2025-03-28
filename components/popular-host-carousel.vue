@@ -91,16 +91,18 @@ const {
 const toggleFollow = (id, status) => {
   if(!status) {
     followUser(id)
-    toggleIsFollowing(true)
+    toggleIsFollowing(id, true)
   } else { 
     unFollowUser(id);
-    toggleIsFollowing(false)
+    toggleIsFollowing(id, false)
   }
 };
 
-const toggleIsFollowing = (status) => {
+const toggleIsFollowing = (id, status) => {
   for (let i = 0; i < props.popularHost.length; i++)
+  if(props.popularHost[i].id == id) {
     props.popularHost[i].is_following = status;
+  }
 }
 
 </script>
