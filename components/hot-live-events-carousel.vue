@@ -70,7 +70,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, shallowRef } from 'vue';
-import Button from "./components/ui/button.vue";
+import Button from "./ui/button.vue";
 import SvgIcon from "./svg-icon.vue";
 
 const props = defineProps<{ hotEvents: { 
