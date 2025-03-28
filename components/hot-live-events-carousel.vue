@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef, onMounted, ref } from 'vue';
+import { onMounted, ref, shallowRef } from 'vue';
 import Button from "./components/ui/button.vue";
 import SvgIcon from "./svg-icon.vue";
 
@@ -89,6 +89,18 @@ const mutatedHotevents = computed(() => {
   return props.hotEvents;
 });
 
+// const hot_live_events_item = ref()
+// const observer = shallowRef()
+
+// onMounted(() => {
+//   observer.value = new ResizeObserver(
+//     entries => {
+//       hot_live_events_item.value.width = enteries[0].ccontentRect.width
+//     }
+//   )
+//   const ob = observer.value.observe(hot_live_events_item.value)
+//   console.log(ob)
+// });
 // const carouselContainer = useTemplateRef('hot-live-events');
 // const carouselItem = useTemplateRef('hot-live-events-item');
 // const carouselContainerWidth = carouselContainer.scrollWidth;
