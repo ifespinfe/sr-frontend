@@ -45,7 +45,9 @@ export default defineNuxtConfig({
     "nuxt-jsonld",
     // "nuxt-gtag",
     "@nuxtjs/sitemap",
+    //"@tailwindcss/typography"
     "@nuxtjs/robots",
+    "vue3-carousel-nuxt",
   ],
   runtimeConfig: {
     public: {

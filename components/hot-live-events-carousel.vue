@@ -12,17 +12,15 @@
         <div class="order-last">
           <Button :variant="'ghost'"
                 class="!rounded-full border !p-2 prev"
-                
+                @click="prev"
             >
                 <SvgIcon name="arrow_back_ios" />
             </Button>
-            <Button :variant="'ghost'"
-            >
-            </Button>
+           
             
             <Button :variant="'ghost'"
                 class="!rounded-full border !p-2 next"
-
+                @click="next"
             >
                 <SvgIcon name="arrow_forward_ios" />
             </Button>
@@ -32,19 +30,57 @@
     
 
     <div class="lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto relative">
-        <div 
-          class="flex flex-row overflow-x-auto lg:overflow-x-auto md:overflow-x-auto sm:overflow-x-auto xs:overflow-x-auto touch-pan-x" 
-          ref="hot_live_events"
-        >
-          <div 
-            ref="hot_live_events_item"
-            class="carousel-item"  
-            v-for="item in mutatedHotevents" :key="item.id">
-            <NuxtLink
+      <Carousel 
+        ref="carouselRef" 
+        v-model="currentSlide" 
+        v-bind="config"
+        :items-to-show="6"
+        breakpoint-mode="carousel"
+        :breakpoints="{
+          800: {
+            itemsToShow: 5,
+            snapAlign: 'start',
+          },
+          700: {
+            itemsToShow: 4,
+            snapAlign: 'start',
+          },
+          650: {
+            itemsToShow: 4,
+            snapAlign: 'start',
+          },
+          600: {
+            itemsToShow: 3,
+            snapAlign: 'start',
+          },
+          500: {
+            itemsToShow: 3,
+            snapAlign: 'start',
+          },
+          400: {
+            itemsToShow: 2,
+            snapAlign: 'start',
+          },
+          300: {
+            itemsToShow: 2,
+            snapAlign: 'start',
+          },
+          200: {
+            itemsToShow: 1,
+            snapAlign: 'start',
+          },
+          100: {
+            itemsToShow: 1,
+            snapAlign: 'start',
+          }
+        }"
+      >
+        <Slide v-for="item in mutatedHotevents" :key="item.id">
+          <NuxtLink
               :to=" '/events/'+item.id"
             >
               <div
-              class="rounded-xl p-2 border h-48 hot-live"
+              class="rounded-xl p-2 border h-48 hot-live carousel__item"
               >
                 <span 
                   class="text-muted-foreground rounded-full bg-white/2 p-2 border text-xs"
@@ -62,16 +98,23 @@
                 </svg> {{ item.location }}
               </div>
             </NuxtLink>
-          </div>
-        </div>
+        </Slide>
+      </Carousel>
+
     </div>
 
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, shallowRef } from 'vue';
+import { ref } from 'vue';
 import Button from "./ui/button.vue";
 import SvgIcon from "./svg-icon.vue";
+
+const carouselRef = ref()
+const currentSlide = ref(1)
+
+const next = () => carouselRef.value.next()
+const prev = () => carouselRef.value.prev()
 
 const props = defineProps<{ hotEvents: { 
     name: string; 
@@ -88,87 +131,6 @@ const mutatedHotevents = computed(() => {
   }
   return props.hotEvents;
 });
-
-// const hot_live_events_item = ref()
-// const observer = shallowRef()
-
-// onMounted(() => {
-//   observer.value = new ResizeObserver(
-//     entries => {
-//       hot_live_events_item.value.width = enteries[0].ccontentRect.width
-//     }
-//   )
-//   const ob = observer.value.observe(hot_live_events_item.value)
-//   console.log(ob)
-// });
-// const carouselContainer = useTemplateRef('hot-live-events');
-// const carouselItem = useTemplateRef('hot-live-events-item');
-// const carouselContainerWidth = carouselContainer.scrollWidth;
-// const carouselItemWidth = carouselItem.offsetWidth;
-
-// const root = ref(null);
-
-// // console.log(root.hot-live-events);
-// const carouselContainer = ref();
-// const carouselItem = ref();
-
-// // onCreated = (() => {
-// //   window.addEventListener("resize", screenWidth);
-// // });
-
-
-// const screenWidth =(() => {
-//   carouselContainer = this.$refs.hot-live-events?.offsetWidth;
-//   carouselItem = this.$refs.hot-live-events-item?.offsetWidth;
-// });
-
-// const carouselContainerWidth = carouselContainer.scrollWidth;
-// const carouselItemWidth = carouselItem.offsetWidth;
-
-// let scrollPosition = 0;
-// // console.log(carouselContainer.clientWidth);
-// const next = () => {
-  
-//   if (window.matchMedia("(min-width: 992px)").matches) {
-
-//     if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 5)) { //check if you can go any further
-//         scrollPosition += carouselItemWidth;  //update scroll position
-//         carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
-//     }
-//   } else if (window.innerWidth < 992 || window.innerWidth > 576 ) {
-//     if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 3)) { //check if you can go any further
-//         scrollPosition += carouselItemWidth;  //update scroll position
-//         carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
-//     }
-//   } else {
-//     if (scrollPosition < (carouselContainerWidth - carouselItemWidth * 2)) { //check if you can go any further
-//         scrollPosition += carouselItemWidth;  //update scroll position
-//         carouselContainer.animate({ scrollLeft: scrollPosition }, 600); //scroll left
-//     }
-//   }
-// }
-
-// const prev = () => {
-//   if (window.matchMedia("(min-width: 992px)").matches) {
-//     if (scrollPosition > 0) {
-//         scrollPosition -= carouselItemWidth;
-//         carouselContainer.animate(
-//         { scrollLeft: scrollPosition }, 600);
-//     }
-//   } else if (window.innerWidth < 992 || window.innerWidth > 576 ) {
-//     if (scrollPosition > 0) {
-//         scrollPosition -= carouselItemWidth;
-//         carouselContainer.animate(
-//         { scrollLeft: scrollPosition }, 600);
-//     }
-//   } else {
-//     if (scrollPosition > 0) {
-//         scrollPosition -= carouselItemWidth;
-//         carouselContainer.animate(
-//         { scrollLeft: scrollPosition }, 600);
-//     }
-//   }
-// }
 </script>
 
 <style scoped>

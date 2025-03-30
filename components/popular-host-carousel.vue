@@ -11,20 +11,18 @@
 
         <div class="order-last">
           <Button :variant="'ghost'"
-                class="!rounded-full border !p-2 prev"
-                
+              class="!rounded-full border !p-2 prev"
+              @click="prev" 
             >
-                <SvgIcon name="arrow_back_ios" />
-            </Button>
-            <Button :variant="'ghost'"
-            >
+              <SvgIcon name="arrow_back_ios" />
             </Button>
             
+            
             <Button :variant="'ghost'"
-                class="!rounded-full border !p-2 next"
-
+              class="!rounded-full border !p-2 next"
+              @click="next"
             >
-                <SvgIcon name="arrow_forward_ios" />
+              <SvgIcon name="arrow_forward_ios" />
             </Button>
         </div>
       </div>
@@ -33,47 +31,88 @@
  
  
    <div class="lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto relative text-center">
-      <div 
-          class="flex flex-row overflow-x-auto lg:overflow-x-auto md:overflow-x-auto sm:overflow-x-auto xs:overflow-x-auto touch-pan-x" 
-          ref="popular_hosts"
-        >
-        <div
-          ref="popular_hosts_item"
-          class="carousel-item"
-          v-for="item in popularHost"
-          :key="item.name"
-        >
-          <NuxtLink
-            :to=" '/'+item.slug"
-            class=""
-          >
-            <div>
-              <img :src=item.profile_picture class="rounded-full p-2 border h-40 w-40"/>
-            </div>
-          </NuxtLink>
-          
-          <div class="mt-2 font-medium text-base">{{ item.name }}</div>
-          <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.events }} Events</div>
-          <div class="mt-4">
-            <button 
-              class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
-              @click="toggleFollow(item.id, item.is_following)"
+      <Carousel 
+        ref="carouselRef" 
+        v-model="currentSlide" 
+        v-bind="config"
+        :items-to-show="6"
+        breakpoint-mode="carousel"
+        :breakpoints="{
+          800: {
+            itemsToShow: 5,
+            snapAlign: 'start',
+          },
+          700: {
+            itemsToShow: 4,
+            snapAlign: 'start',
+          },
+          650: {
+            itemsToShow: 4,
+            snapAlign: 'start',
+          },
+          600: {
+            itemsToShow: 3,
+            snapAlign: 'start',
+          },
+          500: {
+            itemsToShow: 3,
+            snapAlign: 'start',
+          },
+          400: {
+            itemsToShow: 2,
+            snapAlign: 'start',
+          },
+          300: {
+            itemsToShow: 2,
+            snapAlign: 'start',
+          },
+          200: {
+            itemsToShow: 1,
+            snapAlign: 'start',
+          },
+          100: {
+            itemsToShow: 1,
+            snapAlign: 'start',
+          }
+        }"
+      >
+        <Slide v-for="item in popularHost" :key="item.id">
+          <div class="carousel__item">
+            <NuxtLink
+              :to=" '/'+item.slug"
+              class=""
             >
-              {{ !item.is_following ? 'FOLLOW' : 'UNFOLLOW'}}
-            </button>
+              <div>
+                <img :src=item.profile_picture class="rounded-full p-2 border h-40 w-40"/>
+              </div>
+            </NuxtLink>
+          
+            <div class="mt-2 font-medium text-base">{{ item.name }}</div>
+            <div class="text-muted-foreground mt-2">{{ item.followers }} Followers . {{ item.events }} Events</div>
+            <div class="mt-4">
+              <button 
+                class="uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-10"
+                @click="toggleFollow(item.id, item.is_following)"
+              >
+                {{ !item.is_following ? 'FOLLOW' : 'UNFOLLOW'}}
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
-    <div
-      class="mt-6 p-2 flex items-center justify-center gap-x-2 z-10 relative"
-    >
-    </div>
+        </Slide>
+      </Carousel>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import Button from "./ui/button.vue";
 import SvgIcon from "./svg-icon.vue";
+
+const carouselRef = ref()
+const currentSlide = ref(1)
+
+const next = () => carouselRef.value.next()
+const prev = () => carouselRef.value.prev()
 
 const props = defineProps<{ popularHost: { 
   id: number | string;
