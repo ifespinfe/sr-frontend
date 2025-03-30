@@ -12,9 +12,10 @@
 
       <HostSearchInput />
     </div>
-
-    <HotLiveEventsCarousel :hotEvents="hotEventsList" v-if="hotEventsList.length > 0" />
-    <PopularHostCarousel :popularHost="popularHostList" v-if="popularHostList.length > 0" />
+    <ClientOnly>
+      <HotLiveEventsCarousel :hotEvents="hotEventsList" v-if="hotEventsList.length > 0" />
+      <PopularHostCarousel :popularHost="popularHostList" v-if="popularHostList.length > 0" />
+    </ClientOnly>
   </div>
 </template>
 

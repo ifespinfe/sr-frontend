@@ -33,8 +33,6 @@
    <div class="lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto relative text-center pb-10">
       <Carousel 
         ref="carouselRef" 
-        v-model="currentSlide" 
-        v-bind="config"
         :items-to-show="6"
         breakpoint-mode="carousel"
         :breakpoints="{
