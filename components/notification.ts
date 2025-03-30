@@ -27,7 +27,7 @@ export const provideNotification = () => {
   } = useAsyncData("ALL-NOTIFICATIONS", () => {
     return event.fetchAllNotifications();
   });
-  // console.log(event.fetchAllNotifications())
+  console.log(data.value?.data)
   const notifications = computed(() => data.value?.data ?? []);
   const loading = computed(() => status.value === "pending");
   const markNotificationAsRead = async (id: string | number) => {
