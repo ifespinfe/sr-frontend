@@ -15,8 +15,8 @@
                     </Button>
                     <div class="text-3xl font-semibold">Notifications</div>
                 </div>
-                <div class="border bg-popover text-white rounded-lg p-4">
-                    <div class="bg-[#38373A] text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
+                <div class="border bg-popover text-white rounded-lg p-4" v-if="prepareNotifications.length">
+                    <!-- <div class="bg-[#38373A] text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
                         <div class="w-[10%] me-2">
                             <Button :variant="'ghost'"
                                 class="!rounded-full border !p-2"
@@ -93,24 +93,27 @@
                         <div class="w-[20%] text-muted-foreground text-xs flex justify-end">
                             <span>Just now</span> <SvgIcon name="red_dot" class="ms-2 mt-1" />
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="bg-white/5 text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
+                    <div 
+                        v-for="item in prepareNotifications" :key="item.id"
+                        :class="item.read_at == null ? 'bg-[#38373A]' : 'bg-white/5'"
+                        class=" text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2"
+                    >
                         <div class="w-[10%] me-2">
                             <Button :variant="'destructive'"
                                 class="!rounded-full border !p-2"
                                 style="background-color: #E6684033"
                             >
-                                <SvgIcon name="exclamation" />
+                                <SvgIcon :name=item.data.icon />
                             </Button>
                         </div>
                         <div class="w-[70%]">
-                            <p class="font-semibold text-base">Sorry, your Song was not played</p>
+                            <p class="font-semibold text-base">{{ item?.data?.message }}</p>
                             <div class="text-muted-foreground font-normal">
-                                Omolile by Shazzy wasn't played by DJ Focati. Hosts often have specific preferences, 
-                                so we've refunded $80 as Spin Credit for future requests. Try sending another request and we'll do our best to get it heard!
+                               {{ item?.data?.details }}
 
-                                <div class="flex mt-2">
+                                <div class="flex mt-2" v-if="item?.data?.icon == 'exclamation'">
                                     <NuxtLink
                                         class="text-primary flex items-center gap-x-1"
                                         to="/following"
@@ -128,10 +131,19 @@
                             </div>
                         </div>
                         <div class="w-[20%] text-muted-foreground text-xs flex justify-end">
-                            <span>Just now</span> <SvgIcon name="red_dot" class="ms-2 mt-1" />
+                            <span>
+                            {{ useDateFormat(item.created_at, "Do MMM, YY") }} {{ useDateFormat(item.created_at, "HH:mm AA") }}</span> 
+                            <SvgIcon name="red_dot" class="ms-2 mt-1" />
                         </div>
                     </div>
 
+                </div>
+                <div
+                    class="space-y-2 grid place-items-center place-center"
+                    v-if="!prepareNotifications.length"
+                >
+                    <Inbox />
+                    <div>No new notifications</div>
                 </div>
             </div>
         </div>
@@ -141,5 +153,34 @@
 <script lang="ts" setup>
 import Button from "../ui/button.vue";
 import SvgIcon from "../svg-icon.vue";
-import { Loader, Edit2, ChevronRight } from "lucide-vue-next";
+import { Loader, Edit2, ChevronRight, Inbox } from "lucide-vue-next";
+
+const props = defineProps<{ notifications: { 
+    id: string | number; 
+    type: string;
+    notifiable_type: string;
+    notifiable_id: string | number;
+    data: {
+        message: string;
+        details: string;
+        refund_amount: string
+    };
+    read_at: string | null;
+    created_at: string;
+    updated_at: string;
+}[] }>();
+
+const prepareNotifications = computed (() => {
+    for(let i=0; i < props.notifications.length; i++) {
+        if(props.notifications[i].data.status == 'rejected')
+            props.notifications[i].data.icon = 'exclamation';
+        else if (props.notifications[i].data.type == 'hype')
+            props.notifications[i].data.icon = 'mic_2';
+        else if (props.notifications[i].data = "song")  
+            props.notifications[i].data.icon = 'music_note';
+        else props.notifications[i].data.icon = 'bell';
+    }
+    return props.notifications;
+})
+console.log(prepareNotifications);
 </script>

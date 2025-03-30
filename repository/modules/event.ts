@@ -28,6 +28,7 @@ export default class Auth {
   DELETE_EVENT = "events";
   ALL_NOTIFICATIONS = "user/notification";
   MARK_NOTIFICATION_AS_READ = "user/mark/notification-read";
+  COUNT_UNREAD_NOTIFICATION = "user/count-unread/notification"
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -128,5 +129,9 @@ export default class Auth {
 
   async markAllNotificationsAsRead() {
     return await this.call("GET", this.MARK_NOTIFICATION_AS_READ);
+  }
+
+  async countUnreadNotification() {
+    return await this.call("GET", this.COUNT_UNREAD_NOTIFICATION);
   }
 }

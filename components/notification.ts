@@ -3,6 +3,7 @@ import type { AppNotification } from "~/types/event";
 
 export interface GlobalNotification {
   notifications: Ref<AppNotification[]>;
+  countUnreadlNotificationsAsRead: Ref;
   markNotificationAsRead: (id: number | string) => void;
   markAllNotificationsAsRead: () => void;
   refreshNotifications: () => void;
@@ -23,11 +24,12 @@ export const provideNotification = () => {
   const {
     data,
     status,
+    error,
     refresh: refreshNotifications,
   } = useAsyncData("ALL-NOTIFICATIONS", () => {
     return event.fetchAllNotifications();
   });
-  console.log(data.value?.data)
+  
   const notifications = computed(() => data.value?.data ?? []);
   const loading = computed(() => status.value === "pending");
   const markNotificationAsRead = async (id: string | number) => {
@@ -37,6 +39,7 @@ export const provideNotification = () => {
       Object.assign(updating.value, { [id]: false });
       refreshNotifications();
     } catch (e) {
+      console.log(e)
       const error = e as ApiError;
       Object.assign(updating.value, { [id]: false });
       showToast({
@@ -62,11 +65,21 @@ export const provideNotification = () => {
     }
   };
 
+  const {
+    data: countUnread,
+    status: countUnreadStatus,
+    error: countUnreadError,
+  } = useAsyncData("COUNT-UNREAD-NOTIFICATIONS", () => {
+    return event.markAllNotificationsAsRead();
+  });
+  const countUnreadlNotificationsAsRead = computed(() => countUnread.value?.data ?? 0);
+
   provide(key, {
     notifications,
     loading,
     markAllNotificationsAsRead,
     markNotificationAsRead,
+    countUnreadlNotificationsAsRead,
     refreshNotifications,
     clearing,
     updating,
