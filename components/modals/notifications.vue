@@ -139,7 +139,7 @@
 
                 </div>
                 <div
-                    class="space-y-2 grid place-items-center place-center"
+                    class="border bg-popover text-white rounded-lg p-4 grid place-items-center place-center"
                     v-if="!prepareNotifications.length"
                 >
                     <Inbox />

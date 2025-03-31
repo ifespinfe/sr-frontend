@@ -9,9 +9,9 @@
           </svg> Popular Hosts
         </div>
 
-        <div class="order-last">
+        <div class="order-last invisible lg:visible md:visible">
           <Button :variant="'ghost'"
-              class="!rounded-full border !p-2 prev"
+              class="!rounded-full border !p-2 me-3 prev"
               @click="prev" 
             >
               <SvgIcon name="arrow_back_ios" />
@@ -57,7 +57,7 @@
             snapAlign: 'start',
           },
           400: {
-            itemsToShow: 2,
+            itemsToShow: 3,
             snapAlign: 'start',
           },
           300: {
@@ -65,11 +65,11 @@
             snapAlign: 'start',
           },
           200: {
-            itemsToShow: 1,
+            itemsToShow: 2,
             snapAlign: 'start',
           },
           100: {
-            itemsToShow: 1,
+            itemsToShow: 2,
             snapAlign: 'start',
           }
         }"
@@ -81,7 +81,7 @@
               class=""
             >
               <div>
-                <img :src=item.profile_picture class="rounded-full p-2 border h-40 w-40"/>
+                <img :src=item.profile_picture class="rounded-full p-2 border mx-auto h-20 w-20 lg:h-40 lg:w-40 md:h-40 md:w-40 sm:h-40 sm:w-40"/>
               </div>
             </NuxtLink>
           

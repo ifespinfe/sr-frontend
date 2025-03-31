@@ -9,9 +9,9 @@
           </svg> Hot Live Events
         </div>
 
-        <div class="order-last">
+        <div class="order-last invisible lg:visible md:visible">
           <Button :variant="'ghost'"
-                class="!rounded-full border !p-2 prev"
+                class="!rounded-full border !p-2 me-3 prev"
                 @click="prev"
             >
                 <SvgIcon name="arrow_back_ios" />
@@ -56,7 +56,7 @@
             snapAlign: 'start',
           },
           400: {
-            itemsToShow: 2,
+            itemsToShow: 3,
             snapAlign: 'start',
           },
           300: {
@@ -64,18 +64,18 @@
             snapAlign: 'start',
           },
           200: {
-            itemsToShow: 1,
+            itemsToShow: 2,
             snapAlign: 'start',
           },
           100: {
-            itemsToShow: 1,
+            itemsToShow: 2,
             snapAlign: 'start',
           }
         }"
       >
         <Slide v-for="item in mutatedHotevents" :key="item.id">
           <NuxtLink
-              :to=" '/events/'+item.id"
+              :to="`/${item.slug}/${item.id}/make-a-request`"
             >
               <div
               class="rounded-xl p-2 border h-48 hot-live carousel__item"
@@ -88,9 +88,9 @@
               </div>
               <div class="mt-2 font-medium text-base">{{ item.name }}</div>
               <div
-                class="flex flex-row text-muted-foreground mt-2 text-xs font-normal"
+                class="flex flex-row text-muted-foreground mt-2 font-medium font-normal"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 me-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 me-1 mt-1">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                 </svg> {{ item.location }}
@@ -116,6 +116,7 @@ const prev = () => carouselRef.value.prev()
 
 const props = defineProps<{ hotEvents: { 
     name: string; 
+    slug: string; 
     time: string;
     location: string;
   }[] }>();
@@ -127,6 +128,7 @@ const mutatedHotevents = computed(() => {
     if (!startDate) return "00:00:00";
     props.hotEvents[i].timePassed = formattedTimeDifference(startDate, now.value);
   }
+  console.log(props.hotEvents);
   return props.hotEvents;
 });
 </script>
@@ -169,6 +171,16 @@ const mutatedHotevents = computed(() => {
     display: block;
     flex: 0 0 calc(100% / 2);
     margin-right: 20px;
+  }
+
+  .hot-live {
+    background-image: url('/images/audience-carousel.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 300px;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
   }
 }
 </style>
