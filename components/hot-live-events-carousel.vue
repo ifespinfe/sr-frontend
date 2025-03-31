@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-full lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto mt-12">
+    <div class="max-w-full lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto mt-12 z-0">
       <div
       class="flex flex-row font-display text-2xl md:text-2xl font-semibold mb-5 mt-20 justify-between"
       >

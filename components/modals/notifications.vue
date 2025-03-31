@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute inset-0 bg-black z-index"
+    <div class="absolute inset-0 bg-black z-10 bg-cover "
     >
         <div class=" flex items-start justify-center min-h-screen mt-24 text-center w:"
         >
@@ -143,7 +143,7 @@
                     v-if="!prepareNotifications.length"
                 >
                     <Inbox />
-                    <div>No new notifications</div>
+                    <div>No notifications</div>
                 </div>
             </div>
         </div>

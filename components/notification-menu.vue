@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Button :variant="'ghost'" class="!rounded-full border !p-2 relative" @click="openNotification">
+    <Button 
+      :variant="'ghost'" 
+      class="!rounded-full border !p-2 relative"
+      :loading="clearing"
+      @click="openNotification"
+    >
       <span class="absolute top-0 right-0 text-xs me-2 px-2 py-0.5 rounded-full bg-red-900 text-white" v-if="countUnreadlNotificationsAsRead > 0">
         {{ countUnreadlNotificationsAsRead }}
       </span>
@@ -37,6 +42,7 @@ const {
 
 const show = ref(false);
 const openNotification = () => {
+  markAllNotificationsAsRead;
   show.value = true;
 };
 const closeNotification = () => {
