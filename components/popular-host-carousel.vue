@@ -1,7 +1,7 @@
 <template>
-   <div class="max-w-full lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto mt-12 z-0">
+   <div class="max-w-full lg:w-[70%] md:w-[70%] sm:w-[70%] mx-auto mt-3 z-0">
       <div
-      class="flex flex-row font-display text-2xl md:text-2xl font-semibold mb-5 mt-20 justify-between"
+      class="flex flex-row font-display text-2xl md:text-2xl font-semibold mb-5 mt-5 lg:mt-10 md:mt-10 sm:mt-10 justify-between"
       >
         <div class="flex c">
           <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-6 mt-1 me-2">
