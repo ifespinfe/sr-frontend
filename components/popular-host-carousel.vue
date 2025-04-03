@@ -81,7 +81,12 @@
               class=""
             >
               <div>
-                <img :src=item.profile_picture class="rounded-full p-2 border mx-auto h-20 w-20 lg:h-40 lg:w-40 md:h-40 md:w-40 sm:h-40 sm:w-40"/>
+                <Avatar
+                  class="rounded-full p-2 border mx-auto h-20 w-20 lg:h-40 lg:w-40 md:h-40 md:w-40 sm:h-30 sm:w-30 text-base"
+                  stylle="font-size: 30px;"
+                  :initials="getInitials(item?.name ?? '')"
+                  :image="item?.profile_picture"
+                />
               </div>
             </NuxtLink>
           
