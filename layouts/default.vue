@@ -1,6 +1,8 @@
 <template>
   <main class="debu-screens">
-    <div class="fixed py-4 left-0 top-0 right-0 border-b bg-background z-[100]">
+    <div
+      class="fixed py-4 left-0 top-0 right-0 border-b bg-background/80 backdrop-blur-sm z-[100]"
+    >
       <Navigation />
     </div>
     <div

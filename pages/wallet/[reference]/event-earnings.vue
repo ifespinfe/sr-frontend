@@ -54,7 +54,7 @@
             </div>
           </div>
           <div
-            class="flex items-center gap-2 justify-between relative"
+            class="flex items-start gap-14 justify-between relative"
             @click="copyTransactionID(data?.data?.reference ?? '')"
           >
             <div class="absolute left-0 translate-x-full">
@@ -65,13 +65,13 @@
                 Copied
               </div>
             </div>
-            <div class="text-muted-foreground">Transaction id</div>
-            <div class="flex items-center gap-x-1 cursor-pointer">
-              <Copy class="size-4 shrink-0" />
-              <div
-                class="shrink-0 text-ellipsis line-clamp-1 max-w-fit overflow-hidden text-nowrap font-medium"
-              >
-                {{ data?.data?.reference ?? "" }}
+            <div class="text-muted-foreground shrink-0">Transaction id</div>
+            <div class="flex items-start gap-x-1 cursor-pointer">
+              <Copy class="size-4 shrink-0 mt-1" />
+              <div class="overflow-hidden">
+                <p class="text-wrap break-all font-medium text-end">
+                  {{ data?.data?.reference ?? "" }}
+                </p>
               </div>
             </div>
           </div>

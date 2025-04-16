@@ -4,7 +4,7 @@
   >
     <input
       type="text"
-      placeholder="Search DJs MCs, Hypeman name"
+      :placeholder="searchPlaceholder || 'Search DJs MCs, Hypeman name'"
       class="focus-visible:outline-none bg-transparent text-base absolute inset-0 p-[inherit] z-[3]"
       v-model="search"
       @keyup="handleKeyEvent"
@@ -50,6 +50,12 @@ const show_result = ref(false);
 const {
   $repo: { user },
 } = useNuxtApp();
+
+const props = defineProps<{
+  searchPlaceholder?: string;
+}>();
+
+const { searchPlaceholder } = props || {};
 
 const handleSearch = async () => {
   try {
