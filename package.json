@@ -19,12 +19,13 @@
     "@nuxtjs/robots": "5.1.0",
     "@nuxtjs/sitemap": "7.0.1",
     "@nuxtjs/tailwindcss": "^6.13.1",
-    "@pinia/nuxt": "^0.5.5",
+    "@pinia/nuxt": "^0.9.0",
     "@vuepic/vue-datepicker": "^10.0.0",
     "@vueuse/nuxt": "^12.5.0",
     "chart.js": "^4.4.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "dom-to-image": "^2.6.0",
     "embla-carousel-auto-scroll": "^8.5.2",
     "embla-carousel-autoplay": "^8.5.2",
@@ -48,6 +49,8 @@
     "vue": "latest",
     "vue-chartjs": "^5.3.2",
     "vue-router": "latest",
+    "vue3-carousel": "^0.15.0",
+    "vue3-carousel-nuxt": "^1.1.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -56,6 +59,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "^11.3.0",
+    "daisyui": "^5.0.9",
     "embla-carousel": "^8.5.2",
     "typescript": "^5.7.3"
   }

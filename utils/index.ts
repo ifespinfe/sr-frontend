@@ -1,5 +1,10 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,22 +67,68 @@ export const readableTimeDifference = (
 
 export const formattedTimeDifference = (
   startDate: Date | string,
-  endDate: Date | string
+  endDate: Date | string,
+  type?: "default" | "timer"
 ) => {
-  const start = new Date(startDate).getTime();
-  const end = new Date(endDate).getTime();
-  let diffInSeconds = Math.floor((end - start) / 1000);
+  const isTimer = !!type && type === "timer";
 
-  const hours = Math.floor(diffInSeconds / 3600);
-  diffInSeconds %= 3600;
+  if (!isTimer) {
+    const start = new Date(startDate).getTime();
+    const end = new Date(endDate).getTime();
+    let diffInSeconds = Math.floor((end - start) / 1000);
 
-  const minutes = Math.floor(diffInSeconds / 60);
-  const seconds = diffInSeconds % 60;
+    const weeks = Math.floor(diffInSeconds / (3600 * 24 * 7));
+    diffInSeconds %= 3600 * 24 * 7;
 
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-    2,
-    "0"
-  )}:${String(seconds).padStart(2, "0")}`;
+    const days = Math.floor(diffInSeconds / (3600 * 24));
+    diffInSeconds %= 3600 * 24;
+
+    const hours = Math.floor(diffInSeconds / 3600);
+    diffInSeconds %= 3600;
+
+    const minutes = Math.floor(diffInSeconds / 60);
+    const seconds = diffInSeconds % 60;
+
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(seconds).padStart(2, "0")}`;
+  } else {
+    const start = dayjs(startDate);
+    const end = dayjs(endDate);
+
+    const dayDiff = start.diff(end, "day");
+
+    // Get the duration between two dates
+    const diff = dayjs.duration(end.diff(start));
+
+    const weeks = Math.floor(diff.asDays() / 7);
+    const days = Math.floor(diff.asDays() % 7);
+    const hours = diff.hours();
+    const minutes = diff.minutes();
+    const seconds = diff.seconds();
+
+    if (diff.asDays() >= 1) {
+      return dayjs(start).from(end);
+    }
+
+    let result = "";
+
+    if (weeks > 0) {
+      result += `${weeks}w: `;
+    }
+
+    if (days > 0 || weeks > 0) {
+      result += `${days}d: `;
+    }
+
+    // Always include hours, minutes, seconds
+    result += `${hours ? String(hours).padStart(2, "0") + "h: " : ""} ${
+      minutes ? String(minutes).padStart(2, "0") + "m: " : ""
+    } ${String(seconds).padStart(2, "0")}s`;
+
+    return result;
+  }
 };
 
 export const getHexColor = (letter: string) => {

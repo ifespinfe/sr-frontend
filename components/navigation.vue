@@ -10,14 +10,14 @@
     <nav class="flex items-center gap-x-2">
       <template v-if="isLoggedIn">
         <UiPopover
-          class="relative z-10"
+          class="relative z-10 hidden md:flex"
           v-if="auth_user?.role === 'host'"
           to="/wallet"
         >
           <UiButton
             :variant="'ghost'"
             @click.stop
-            class="shrink-0 md:space-x-2 !bg-muted"
+            class="shrink-0 md:space-x-2 !bg-muted hidden md:flex"
           >
             <div class="hidden md:block">Share my profile</div>
             <SvgIcon name="qr" class="text-primary" />
@@ -61,7 +61,11 @@
             </div>
           </template>
         </UiPopover>
-        <NuxtLink v-if="auth_user?.role === 'host'" to="/wallet">
+        <NuxtLink
+          v-if="auth_user?.role === 'host'"
+          to="/wallet"
+          class="hidden md:block"
+        >
           <UiButton :variant="'secondary'" class="shrink-0 space-x-2 !bg-muted">
             <div class="hidden sm:block">
               ₦{{ formatMoney(auth_user?.balance ?? 0) }}
