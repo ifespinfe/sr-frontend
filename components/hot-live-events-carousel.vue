@@ -185,8 +185,8 @@ const mutatedHotevents = computed(() => {
     const startDate = props.hotEvents[i].time || "00:00:00";
 
     props.hotEvents[i].timePassed = formattedTimeDifference(
-      startDate,
       // "2025-04-12 18:31:02",
+      startDate,
       now.value,
       "timer"
     );
