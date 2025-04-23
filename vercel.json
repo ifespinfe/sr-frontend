@@ -1,0 +1,20 @@
+{
+    "redirects": [
+      {
+        "source": "https://spinrequest.com",
+        "destination": "https://www.spinrequest.com",
+        "permanent": true
+      },
+      {
+        "source": "/",
+        "has": [
+          {
+            "type": "host",
+            "value": "spinrequest.com"
+          }
+        ],
+        "destination": "https://www.spinrequest.com/",
+        "permanent": true
+      }
+    ]
+  }
