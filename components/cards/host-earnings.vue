@@ -128,10 +128,13 @@ const selectedDate = computed(() => {
     case "monthly":
       return {
         week_no: 1,
+        // @ts-expect-error ignre for now
         month: date.value ? date.value.month : todayDate.value.month,
+        // @ts-expect-error ignre for now
         year: date.value ? date.value?.year : todayDate.value.year,
       };
     default: {
+      // @ts-expect-error ignre for now
       const _date = date.value?.[0] ? date.value?.[0] : new Date();
       const details = getDateDetails(_date);
 
@@ -151,6 +154,7 @@ const resetDate = (type: string) => {
     return;
   }
   if (type === "monthly") {
+    // @ts-expect-error year could be string | number
     date.value = {
       year: todayDate.value.year,
       month: todayDate.value.month,
@@ -172,7 +176,7 @@ const selectedYear = computed(() => {
   return selectedDate.value.year;
 });
 
-const { data, status } = useCustomFetch("/user/earnings", {
+const { data, status } = useCustomFetch("/graph/earnings", {
   query: {
     filter: filter,
     week_no: weekNumber,
@@ -256,6 +260,7 @@ const chartData = computed(() => {
     "songEarnings",
   ] as const;
 
+  // @ts-expect-error ignre for now
   const chart = data?.value?.data ?? {};
   const datasets = categories.map((category) => {
     const label =
