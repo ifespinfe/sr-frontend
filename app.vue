@@ -22,6 +22,7 @@ const useIdFunction = () => useId();
 import Toast from "./components/shared/toast.vue";
 import { provideNotification } from "./components/notification";
 
+const { isLoggedIn } = useAuth();
 const store = useToastStore();
 const { toastOnAction, toggleToast } = store;
 const {
@@ -87,21 +88,8 @@ useJsonld(() => ({
   address: "Nigeria",
 }));
 
-onMounted(() => {
-  if (typeof window !== "undefined") {
-    window.addEventListener("beforeunload", handleBeforeUnload);
-  }
-});
-
-onBeforeUnmount(() => {
-  if (typeof window !== "undefined") {
-    window.removeEventListener("beforeunload", handleBeforeUnload);
-  }
-});
-
-const handleBeforeUnload = () => {
-  const { logOut } = useAuth();
-
-  logOut();
-};
+//enables inactivity tracking if user is logged in
+if (isLoggedIn) {
+  useInactivityLogout(30);
+}
 </script>
