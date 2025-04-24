@@ -21,6 +21,7 @@ import { ConfigProvider } from "radix-vue";
 const useIdFunction = () => useId();
 import Toast from "./components/shared/toast.vue";
 import { provideNotification } from "./components/notification";
+
 const store = useToastStore();
 const { toastOnAction, toggleToast } = store;
 const {
@@ -85,4 +86,22 @@ useJsonld(() => ({
   foundingDate: "June 2023",
   address: "Nigeria",
 }));
+
+onMounted(() => {
+  if (typeof window !== "undefined") {
+    window.addEventListener("beforeunload", handleBeforeUnload);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (typeof window !== "undefined") {
+    window.removeEventListener("beforeunload", handleBeforeUnload);
+  }
+});
+
+const handleBeforeUnload = () => {
+  const { logOut } = useAuth();
+
+  logOut();
+};
 </script>
