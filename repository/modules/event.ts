@@ -26,9 +26,9 @@ export default class Auth {
   EVENT_REQUESTS = "requests";
   CREATE_REQUEST = "requests";
   DELETE_EVENT = "events";
-  ALL_NOTIFICATIONS = "user/notification";
-  MARK_NOTIFICATION_AS_READ = "user/mark/notification-read";
-  COUNT_UNREAD_NOTIFICATION = "user/count-unread/notification"
+  ALL_NOTIFICATIONS = "notification";
+  MARK_NOTIFICATION_AS_READ = "mark/notification-read";
+  COUNT_UNREAD_NOTIFICATION = "count-unread/notification";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
