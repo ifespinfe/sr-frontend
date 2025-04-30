@@ -6,38 +6,40 @@
     </div>
     <Wallet hide-caret />
     <div class="bg-white/5 border rounded-3xl p-6 mt-8">
-      <div class="text-2xl font-semibold mb-6 flex items-center gap-4">
-        <h3
-          role="button"
-          tabindex="0"
-          class="hover:text-primary cursor-pointer select-none"
-          :class="
-            cn({
-              'underline underline-offset-4 text-primary': activeTab === 'all',
-            })
-          "
-          @click="activeTab = 'all'"
+      <TabsRoot class="space-y-6" default-value="all">
+        <TabsList
+          class="flex gap-x-px items-center justify-start border max-w-fit p-1 rounded-full"
+          aria-label="How to use spin request"
         >
-          All transactions
-        </h3>
-        &bull;
-        <h3
-          role="button"
-          tabindex="0"
-          class="hover:text-primary cursor-pointer select-none"
-          :class="
-            cn({
-              'underline underline-offset-4 text-primary':
-                activeTab === 'credit',
-            })
-          "
-          @click="activeTab = 'credit'"
+          <TabsTrigger
+            class="border rounded-full w-[194px] py-3 bg-white/5 hover:bg-white/10 transition-colors text-muted-foreground text-center font-semibold data-[state=active]:border-transparent data-[state=active]:bg-primary data-[state=active]:text-foreground"
+            value="all"
+            as-child
+          >
+            <button>All History</button>
+          </TabsTrigger>
+
+          <TabsTrigger
+            class="border rounded-full w-[194px] py-3 bg-white/5 hover:bg-white/10 transition-colors text-muted-foreground text-center font-semibold data-[state=active]:border-transparent data-[state=active]:bg-primary data-[state=active]:text-foreground"
+            value="credit"
+            as-child
+          >
+            <button>Credit History</button>
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent
+          class="grid grid-cols-[repeat(auto-fit,_minmax(320px,_1fr))] gap-4"
+          value="all"
         >
-          Credit
-        </h3>
-      </div>
-      <OrderHistoryTable v-if="activeTab === 'all'" />
-      <OrderHistoryCreditTable v-if="activeTab === 'credit'" />
+          <OrderHistoryTable />
+        </TabsContent>
+        <TabsContent
+          class="grid grid-cols-[repeat(auto-fit,_minmax(320px,_1fr))] gap-4"
+          value="credit"
+        >
+          <OrderHistoryCreditTable />
+        </TabsContent>
+      </TabsRoot>
     </div>
   </div>
 </template>
