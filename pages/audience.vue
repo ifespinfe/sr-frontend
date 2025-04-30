@@ -16,27 +16,36 @@
       </div>
     </div>
 
-    <div class="mb-12">
-      <HotLiveEventsCarousel
-        :hotEvents="hotEventsList"
-        v-if="hotEventsList && hotEventsList.length > 0"
-      />
-    </div>
-
-    <PopularHostCarousel
-      :popularHost="popularHostList"
-      v-if="popularHostList && popularHostList.length > 0"
+    <Loader
+      v-if="status === 'pending'"
+      :aria-label="'loading contents'"
+      class="size-8 text-muted-foreground mx-auto my-10 animate-spin"
     />
+
+    <template v-else>
+      <div class="mb-12">
+        <HotLiveEventsCarousel
+          :hotEvents="hotEventsList"
+          v-if="hotEventsList && hotEventsList.length > 0"
+        />
+      </div>
+
+      <PopularHostCarousel
+        :popularHost="popularHostList"
+        v-if="popularHostList && popularHostList.length > 0"
+      />
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Loader } from "lucide-vue-next";
 import type {
   HotLiveEventsListItem,
   PopularHostsListItem,
 } from "~/types/audience";
 
-const { data } = useCustomFetch<{ data: HotLiveEventsListItem[] }>(
+const { data, status } = useCustomFetch<{ data: HotLiveEventsListItem[] }>(
   "/hot-live-event",
   {
     server: true,
