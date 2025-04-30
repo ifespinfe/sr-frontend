@@ -5,7 +5,12 @@ import type { AuthUser } from "~/types/auth";
 export const useAuthStore = defineStore(
   "auth-store",
   () => {
-    const cookie_token = useCookie(AUTH_TOKEN_KEY);
+    const cookie_token = useCookie(AUTH_TOKEN_KEY, {
+      path: "/",
+      secure: true,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
+      sameSite: "strict",
+    });
     const auth_token = ref<string | null | undefined>(cookie_token.value);
     const auth_user = ref<AuthUser | null>(null);
     const isLoggedIn = computed(() => !!auth_token.value);
