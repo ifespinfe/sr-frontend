@@ -66,5 +66,5 @@ const popularHostList = computed(() => {
   return hosts?.value?.data;
 });
 
-useSeoMeta({ title: "Request A Song or Hype" });
+useSeoMeta({ title: "Request a Song or Hype" });
 </script>
