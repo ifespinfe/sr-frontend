@@ -31,6 +31,18 @@
           <slot></slot>
         </tbody>
       </table>
+
+      <div
+        v-if="paginationMeta && !loading"
+        class="mt-6 mb-2 w-full flex justify-end"
+      >
+        <TablePagination
+          :page="paginationMeta.page"
+          :per_page="paginationMeta.per_page"
+          :total="paginationMeta.total"
+          @page-change="paginationMeta.onPageChange"
+        />
+      </div>
     </div>
 
     <slot name="empty" v-else />
@@ -38,11 +50,19 @@
 </template>
 
 <script lang="ts" setup>
+import { update } from "lodash-es";
+import TablePagination from "./pagination.vue";
 withDefaults(
   defineProps<{
     loading?: boolean;
     heading: string[];
     data: unknown[];
+    paginationMeta?: {
+      page: number;
+      per_page: number;
+      total: number;
+      onPageChange: (page: number) => void;
+    };
   }>(),
   {
     loading: false,
