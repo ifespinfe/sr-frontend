@@ -87,9 +87,4 @@ useJsonld(() => ({
   foundingDate: "June 2023",
   address: "Nigeria",
 }));
-
-//enables inactivity tracking if user is logged in
-if (isLoggedIn) {
-  useInactivityLogout(30);
-}
 </script>
