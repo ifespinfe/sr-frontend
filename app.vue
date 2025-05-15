@@ -21,6 +21,8 @@ import { ConfigProvider } from "radix-vue";
 const useIdFunction = () => useId();
 import Toast from "./components/shared/toast.vue";
 import { provideNotification } from "./components/notification";
+
+const { isLoggedIn } = useAuth();
 const store = useToastStore();
 const { toastOnAction, toggleToast } = store;
 const {

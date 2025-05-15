@@ -182,6 +182,6 @@ const allEvents = computed(() =>
 );
 
 useSeoMeta({
-  title: "Host Dashboard",
+  title: "Host Dashboard | Spin Request",
 });
 </script>

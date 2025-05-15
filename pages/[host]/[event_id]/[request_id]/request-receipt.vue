@@ -55,21 +55,29 @@ import type { ApiResponse } from "~/types";
 import type { EventSpender, LiveEvent } from "~/types/event";
 import EventTopSpenders from "~/components/event-top-spenders.vue";
 import { promiseTimeout } from "@vueuse/core";
+
 const route = useRoute();
 const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
   `events/${route.params.event_id}`
 );
 
-const reference = route?.query?.reference ?? ("" as string);
+const reference = computed(() => {
+  // return (route?.query?.trxref || route?.query?.reference) ?? ("" as string);
+  return route?.query?.reference ?? ("" as string);
+});
 
+console.log("reference3333", reference.value);
 const {
   data: verification,
   status: verification_status,
   error: verification_error,
   refresh,
-} = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`, {
-  immediate: !!reference,
-});
+} = useCustomFetch<ApiResponse<LiveEvent>>(
+  `transactions/${reference.value}/verify`,
+  {
+    immediate: !!reference.value,
+  }
+);
 
 const {
   data: top_spenders,

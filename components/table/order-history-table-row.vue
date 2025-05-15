@@ -41,9 +41,9 @@
         </div>
       </div>
     </td>
-    <td>{{ order.dj }}</td>
-    <td>{{ order.payment_gateway }}</td>
-    <td>{{ order.date }}</td>
+    <td>{{ isCredit ? order.date : order.dj }}</td>
+    <td>{{ isCredit ? order.response_description : order.payment_gateway }}</td>
+    <td v-if="!isCredit">{{ order.date }}</td>
     <td @click="copyText(order.reference)">
       <div class="flex items-center gap-x-2 relative">
         <div
@@ -71,6 +71,7 @@
     >
       {{ order.status }}
     </td>
+    <td v-if="!!isCredit">{{ order.payment_gateway }}</td>
     <td class="w-[50x]">
       <ClientOnly>
         <Teleport to="#teleports">
@@ -125,7 +126,9 @@ import type { Order } from "~/types/payment";
 import type { EventRequest, OrderEvent } from "~/types/event";
 import type { ApiError } from "~/types";
 import RequestReceiptItem from "../request-receipt-item.vue";
-const props = defineProps<{ order: Order }>();
+const props = defineProps<{ order: Order; isCredit?: boolean }>();
+
+const { isCredit } = props || {};
 
 const copied = ref(false);
 const copyText = async (text: string) => {

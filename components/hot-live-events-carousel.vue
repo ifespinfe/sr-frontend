@@ -118,12 +118,12 @@
               </div>
             </div>
             <div
-              class="mb-1 font-medium text-base leading-[1.2] tracking-wide group-hover:text-sp-purple-200 transition-all duration-75 ease-in"
+              class="mb-1.5 font-medium text-base leading-[1.2] tracking-wide group-hover:text-sp-purple-200 transition-all duration-75 ease-in"
             >
               {{ item.name }}
             </div>
             <div
-              class="pb-4 flex flex-row gap-1 items-center text-muted-foreground text-sm font-[400]"
+              class="pb-4 flex flex-row gap-1.5 items-start text-muted-foreground text-sm font-[400]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +131,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-3.5"
+                class="size-3.5 shrink-0 mt-[3px]"
               >
                 <path
                   stroke-linecap="round"

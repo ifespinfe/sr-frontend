@@ -86,9 +86,9 @@ export interface LiveEvent {
 
 export type OrderEvent = Pick<LiveEvent, "address" | "title" | "start_date">;
 export interface EventHistory {
-  previous_event_count: number;
-  song_requests_count: number;
-  hype_requests_count: number;
+  // previous_event_count: number;
+  // song_requests_count: number;
+  // hype_requests_count: number;
   event_details: {
     id: number;
     title: string;
@@ -101,6 +101,19 @@ export interface EventHistory {
     earnings: number;
     requests_count: number;
   }[];
+  meta_data: {
+    total: number;
+    count: number;
+    per_page: number;
+    current_page: number;
+    total_pages: number;
+  };
+  link: {
+    prev: string | null;
+    next: string | null;
+    first: string | null;
+    last: string | null;
+  };
 }
 
 export interface HostAudience {

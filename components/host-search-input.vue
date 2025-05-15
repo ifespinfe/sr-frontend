@@ -27,6 +27,13 @@
       </NuxtLink>
     </div>
     <div class="absolute left-0 translate-y-[35px] z-[5] w-full">
+      <div
+        v-if="searching"
+        class="py-1 w-full flex justify-center bg-background/50 backdrop-blur"
+      >
+        <Loader class="size-5 animate-spin" />
+        <sopan class="pl-1 text-sm tracking-wide">searching....</sopan>
+      </div>
       <HostSearchList
         :hosts="searched_hosts"
         class="animate-in slide-in-from-top-1 fade-in-20"
@@ -41,6 +48,7 @@ import { Search, ArrowRight } from "lucide-vue-next";
 import Button from "./ui/button.vue";
 import type { Host } from "~/types/user";
 import debounce from "lodash-es/debounce";
+import { Loader } from "lucide-vue-next";
 
 const search = ref("");
 const searching = ref(false);
@@ -73,7 +81,7 @@ const handleSearch = async () => {
   }
 };
 
-const debouncedSearch = debounce(handleSearch, 300);
+const debouncedSearch = debounce(handleSearch, 1000);
 
 watch(search, (data) => {
   if (data) {
