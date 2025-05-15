@@ -72,10 +72,12 @@ const {
   status: verification_status,
   error: verification_error,
   refresh,
-} = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`, {
-  immediate: !!reference,
-  server: false,
-});
+} = useCustomFetch<ApiResponse<LiveEvent>>(
+  `transactions/${reference.value}/verify`,
+  {
+    immediate: !!reference.value,
+  }
+);
 
 const {
   data: top_spenders,
