@@ -62,6 +62,7 @@ const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
 );
 
 const reference = computed(() => {
+  // check route
   return route?.query?.reference ?? ("" as string);
 });
 
