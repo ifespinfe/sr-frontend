@@ -87,7 +87,10 @@ const { authEmail } = useAuth();
 const eventRequests = computed(() => {
   const requests = props?.event?.requests?.length
     ? [...props.event.requests].filter(
-        (x) => x.status?.toLowerCase() === "now-playing"
+        (x) =>
+          x.status?.toLowerCase() === "now-playing" ||
+          x.status?.toLowerCase() === "new" ||
+          x.status?.toLowerCase() === "completed"
       )
     : [];
   return requests
