@@ -62,7 +62,6 @@ const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
 );
 
 const reference = computed(() => {
-  // return (route?.query?.trxref || route?.query?.reference) ?? ("" as string);
   return route?.query?.reference ?? ("" as string);
 });
 
