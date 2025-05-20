@@ -18,7 +18,7 @@
       :class="cn(data?.data?.live_event ? 'mt-10' : '', 'relative z-10')"
     />
     <SharedLoadingArea
-      :loading="status === 'pending'"
+      :loading="!!data ? false : status === 'pending'"
       :error="error"
       class="z-10 relative"
     >

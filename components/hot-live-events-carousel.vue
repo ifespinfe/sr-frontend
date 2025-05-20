@@ -99,7 +99,7 @@
         <Slide v-for="(item, idx) in mutatedHotevents" :key="item.id">
           <NuxtLink
             class="block group w-full h-full overflow-hidden"
-            :to="`/${item.slug}/${item.id}/make-a-request`"
+            :to="`/${item.slug}`"
           >
             <div class="mb-3.5">
               <div
