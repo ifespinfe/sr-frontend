@@ -9,13 +9,13 @@
         </div>
         <RadioGroupRoot
           class="grid grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))] gap-6 my-6"
-          v-if="data?.data?.live_event?.types"
+          v-if="host_events_data?.data?.types"
           v-model="type"
           @update:model-value="handleTypeSelection"
         >
           <RadioGroupItem
             class="p-6 w-full lg:p-8 mx-auto text-left ring ring-input bg-white/10 rounded-2xl transition-colors cursor-pointer data-[state='checked']:ring-primary hover:ring-primary/30"
-            v-for="item in data?.data?.live_event?.types"
+            v-for="item in host_events_data?.data?.types"
             :key="item.id"
             :value="item.name"
           >
@@ -60,7 +60,7 @@
 <script lang="ts" setup>
 import LoadingArea from "~/components/shared/loading-area.vue";
 import type { ApiResponse } from "~/types";
-import type { HostProfile } from "~/types/user";
+import type { HostProfile, MakeARequestRes } from "~/types/user";
 import HypeRequestForm from "~/components/forms/hype-request-form.vue";
 import SongRequestForm from "~/components/forms/song-request-form.vue";
 import { promiseTimeout } from "@vueuse/core";
@@ -70,16 +70,23 @@ const event_id = route.params.event_id as string;
 const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
   `/user/${host_slug}`
 );
+const {
+  data: host_events_data,
+  error: host_events_error,
+  status: host_events_status,
+} = useCustomFetch<ApiResponse<MakeARequestRes>>(
+  `/user/live/event/${host_slug}`
+);
 
-watch(data, (data) => {
-  if (data?.data?.live_event?.types?.length === 1) {
-    type.value = data.data.live_event.types[0].name;
+watch(host_events_data, (data) => {
+  if (data?.data?.types?.length === 1) {
+    type.value = data.data.types[0].name;
   }
 });
 
 const type = ref("");
 const selectedRequestType = computed(() => {
-  return data.value?.data?.live_event?.types.find(
+  return host_events_data.value?.data?.types.find(
     (item) => item.name === type.value
   );
 });

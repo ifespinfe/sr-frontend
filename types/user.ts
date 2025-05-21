@@ -1,5 +1,5 @@
 import type { AuthUser } from "./auth";
-import type { EventRequest, LiveEvent } from "./event";
+import type { EventRequest, EventType, LiveEvent } from "./event";
 
 export interface Host {
   id: number;
@@ -55,6 +55,11 @@ export interface HostProfile {
     bank_account: null;
   };
   live_event?: LiveEvent;
+}
+
+export interface MakeARequestRes {
+  types: EventType[];
+  requests: unknown[];
 }
 
 export interface Fan {

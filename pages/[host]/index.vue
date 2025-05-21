@@ -5,7 +5,7 @@
       :user="'audience'"
       :start-date="data?.data?.live_event?.start_date"
       animate
-      v-if="data?.data.live_event && !ended"
+      v-if="data?.data?.live_event && !ended"
     >
       <NuxtLink
         :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
