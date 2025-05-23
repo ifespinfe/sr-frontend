@@ -59,7 +59,54 @@ export interface HostProfile {
 
 export interface MakeARequestRes {
   types: EventType[];
-  requests: unknown[];
+  requests: {
+    id: number;
+    host: {
+      id: number;
+      name: string | null;
+      email: string;
+      type: string;
+      stage_name: string;
+      profession: string;
+      slug: string;
+      qrcode: string;
+      profile_picture: string;
+      bio: string;
+      gender: string;
+      dob: string;
+      country: string;
+      created_at: string;
+      updated_at: string;
+      active: number;
+      last_login: string;
+    };
+    nickname: string;
+    audience: {
+      id: number;
+      name: null | string;
+      email: string;
+      type: string;
+      stage_name: string;
+      profession: null | string;
+      slug: string;
+      qrcode: string;
+      bio: null | string;
+      gender: string;
+      dob: string;
+      country: string;
+      created_at: string;
+      updated_at: string;
+      active: number;
+      last_login: string;
+    };
+    type: string;
+    status: string;
+    description: null | string;
+    artist: string;
+    song_title: string;
+    price: string;
+    created_at: string;
+  }[];
 }
 
 export interface Fan {
