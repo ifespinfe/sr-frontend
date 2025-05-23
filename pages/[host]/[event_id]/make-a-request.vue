@@ -1,7 +1,10 @@
 <template>
   <div class="container pt-6 pb-[200px]">
     <SharedBackButton :to="`/${host_slug}`" />
-    <LoadingArea :loading="status === 'pending'" :error="error">
+    <LoadingArea
+      :loading="status === 'pending' || host_events_status === 'pending'"
+      :error="error || host_events_error"
+    >
       <div class="max-w-[700px] w-full mx-auto">
         <div class="text-primary text-center text-lg">Make a request</div>
         <div class="text-3xl font-semibold text-center font-display mt-2 mb-4">

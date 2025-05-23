@@ -1,12 +1,15 @@
 <template>
   <div>
-    <Button 
-      :variant="'ghost'" 
+    <Button
+      :variant="'ghost'"
       class="!rounded-full border !p-2 relative"
       :loading="clearing"
       @click="openNotification"
     >
-      <span class="absolute top-0 right-0 text-xs me-2 px-2 py-0.5 rounded-full bg-red-900 text-white" v-if="countUnreadlNotificationsAsRead > 0">
+      <span
+        class="absolute top-0 right-0 text-xs me-2 px-2 py-0.5 rounded-full bg-red-900 text-white"
+        v-if="countUnreadlNotificationsAsRead > 0"
+      >
         {{ countUnreadlNotificationsAsRead }}
       </span>
       <Loader class="animate-spn size-3" v-if="loading" />
@@ -15,11 +18,13 @@
 
     <ClientOnly>
       <Teleport to="#teleports">
-        <Notifications :notifications="notifications" v-if="show" @close="closeNotification"/>
+        <Notifications
+          :notifications="notifications"
+          v-if="show"
+          @close="closeNotification"
+        />
       </Teleport>
     </ClientOnly>
-
-
   </div>
 </template>
 
@@ -47,5 +52,5 @@ const openNotification = () => {
 };
 const closeNotification = () => {
   show.value = false;
-}
+};
 </script>
