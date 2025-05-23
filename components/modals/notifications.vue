@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute inset-0 bg-black z-10 bg-cover">
+  <div class="fixed h-screen inset-0 bg-black z-[1000] bg-cover \">
     <div
       class="flex items-start justify-center min-h-screen mt-24 text-center w:"
     >
@@ -19,7 +19,7 @@
           <div class="text-3xl font-semibold">Notifications</div>
         </div>
         <div
-          class="border bg-popover text-white rounded-lg p-4"
+          class="border bg-popover text-white rounded-lg p-4 shadow-lg max-h-[65vh] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb:hover]:bg-gray-500"
           v-if="prepareNotifications.length"
         >
           <!-- <div class="bg-[#38373A] text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
@@ -105,9 +105,9 @@
             v-for="item in prepareNotifications"
             :key="item.id"
             :class="item.read_at == null ? 'bg-[#38373A]' : 'bg-white/5'"
-            class="text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2"
+            class="flex items-center gap-4 rounded-3 border p-2 rounded-lg"
           >
-            <div class="w-[10%] me-2">
+            <div class="shrink-0">
               <Button
                 :variant="'destructive'"
                 class="!rounded-full border !p-2"
@@ -116,34 +116,47 @@
                 <SvgIcon :name="item.data.icon" />
               </Button>
             </div>
-            <div class="w-[70%]">
-              <p class="font-semibold text-base">{{ item?.data?.message }}</p>
-              <div class="text-muted-foreground font-normal">
-                {{ item?.data?.details }}
 
-                <div class="flex mt-2" v-if="item?.data?.icon == 'exclamation'">
-                  <NuxtLink
-                    class="text-primary flex items-center gap-x-1"
-                    to="/following"
-                  >
-                    <span>REQUEST AGAIN</span> <ChevronRight />
-                  </NuxtLink>
+            <div
+              class="w-full text-start flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2"
+            >
+              <div class="w-full">
+                <p class="font-semibold text-base">
+                  {{ item?.data?.message }}
+                </p>
+                <div class="text-muted-foreground font-normal">
+                  {{ item?.data?.details }}
 
-                  <NuxtLink
-                    class="text-primary flex items-center gap-x-1"
-                    to="/following"
+                  <div
+                    class="flex flex-col sm:flex-row mt-2 gap-2"
+                    v-if="item?.data?.icon == 'exclamation'"
                   >
-                    <span>VIEW CREDITS</span> <ChevronRight />
-                  </NuxtLink>
+                    <NuxtLink
+                      class="text-primary flex items-center gap-x-1"
+                      to="/following"
+                    >
+                      <span>REQUEST AGAIN</span> <ChevronRight />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      class="text-primary flex items-center gap-x-1"
+                      to="/following"
+                    >
+                      <span>VIEW CREDITS</span> <ChevronRight />
+                    </NuxtLink>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="w-[20%] text-muted-foreground text-xs flex justify-end">
-              <span>
-                {{ useDateFormat(item.created_at, "Do MMM, YY") }}
-                {{ useDateFormat(item.created_at, "HH:mm AA") }}</span
+
+              <div
+                class="w-full md:w-[25%] text-muted-foreground text-xs flex justify-start md:justify-end"
               >
-              <SvgIcon name="red_dot" class="ms-2 mt-1" />
+                <span>
+                  {{ useDateFormat(item.created_at, "Do MMM, YY") }}
+                  {{ useDateFormat(item.created_at, "HH:mm AA") }}</span
+                >
+                <SvgIcon name="red_dot" class="ms-2 mt-1" />
+              </div>
             </div>
           </div>
         </div>
@@ -196,5 +209,4 @@ const prepareNotifications = computed(() => {
   }
   return props.notifications;
 });
-console.log("555555", prepareNotifications);
 </script>
