@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto max-w-[1085px]">
     <div class="mb-4 flex flex-row font-display justify-between">
-      <div class="flex text-2xl font-medium">
+      <div class="flex text-xl md:text-2xl font-medium">
         <!-- <svg
           width="24"
           height="25"
@@ -35,8 +35,8 @@
     </div>
 
     <div class="w-full relative">
-      <div
-        class="absolute top-0 bottom-0 right-0 w-14 z-[5]"
+      <!-- <div
+        class="absolute top-0 bottom-0 right-0 w-8 z-[5] hidden md:block"
         style="
           background: linear-gradient(
             270deg,
@@ -44,12 +44,15 @@
             rgba(17, 16, 20, 0) 100%
           );
         "
-      ></div>
+      ></div> -->
 
       <Carousel
         ref="carouselRef"
         :items-to-show="'auto'"
         :gap="20"
+        :transition="300"
+        :wrap-around="false"
+        snap-align="start"
         breakpoint-mode="carousel"
         :breakpoints="{
           1000: {
@@ -64,38 +67,10 @@
             itemsToShow: 4,
             snapAlign: 'start',
           },
-          650: {
-            itemsToShow: 4,
-            snapAlign: 'start',
-          },
-          600: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          500: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          400: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          300: {
-            itemsToShow: 2,
-            snapAlign: 'start',
-          },
-          200: {
-            itemsToShow: 1,
-            snapAlign: 'start',
-          },
-          100: {
-            itemsToShow: 1,
-            snapAlign: 'start',
-          },
         }"
       >
         <Slide v-for="item in popularHost" :key="item.id">
-          <div class="h-full w-full overflow-hidden">
+          <div class="h-full w-40 overflow-hidden">
             <NuxtLink :to="'/' + item.slug" class="">
               <AvatarRoot
                 class="bg-muted inline-flex w-full rounded-full aspect-square font-medium leading-1 uppercase select-pointer justify-center overflow-hidden align-middle relative border-2 hover:border-sp-purple transition-all duration-75 ease-in"
