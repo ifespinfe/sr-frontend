@@ -129,3 +129,10 @@
 .scrollbar-dark-slim::-webkit-scrollbar-thumb:hover {
   background: #6b7280; /* gray-500 */
 }
+
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+}
