@@ -1,13 +1,12 @@
 <template>
-  <div class="fixed h-screen inset-0 bg-black z-[1000] bg-cover \">
-    <div
-      class="flex items-start justify-center min-h-screen mt-24 text-center w:"
-    >
-      <div
-        class="lg:w-[60%] md:w-[70%] sm:w-[100%] xs:w-[100%] shadow-xl p-6"
-        role="dialog"
-        aria-modal="true"
-      >
+  <div
+    class="fixed inset-x-0 bottom-0 bg-black z-[10] bg-cover px-2 md:px-4"
+    style="height: calc(100dvh - 74px)"
+  >
+    <div class="mt-8 max-w-[1400px] mx-auto">
+      <!-- content -->
+      <div class="px-0 md:px-6 max-w-5xl" role="dialog" aria-modal="true">
+        <!-- header -->
         <div class="text-start mb-3 flex items-start">
           <Button
             :variant="'ghost'"
@@ -18,96 +17,19 @@
           </Button>
           <div class="text-3xl font-semibold">Notifications</div>
         </div>
+        <!-- notifications -->
         <div
-          class="border bg-popover text-white rounded-lg p-4 shadow-lg max-h-[65vh] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb:hover]:bg-gray-500"
+          class="bg-[#A799FF10] space-y-2.5 text-white rounded-lg p-4 max-h-[72vh] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-800 [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb:hover]:bg-gray-500"
           v-if="prepareNotifications.length"
         >
-          <!-- <div class="bg-[#38373A] text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
-                        <div class="w-[10%] me-2">
-                            <Button :variant="'ghost'"
-                                class="!rounded-full border !p-2"
-                                style="background-color: #E6684033"
-                            >
-                                <SvgIcon name="music_note" />
-                            </Button>
-                        </div>
-                        <div class="w-[70%]">
-                            <p class="font-semibold text-base">Song request was accepted</p>
-                            <p class="text-muted-foreground font-normal">
-                                Dj focati is now playing Oyinmo by Youngiduu
-                            </p>
-                        </div>
-                        <div class="w-[20%] text-muted-foreground text-xs flex justify-end">
-                            <span>Just now</span> <SvgIcon name="red_dot" class="ms-2 mt-1" />
-                        </div>
-                    </div>
-
-                    <div class="bg-[#38373A] text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
-                        <div class="w-[10%] me-2 md:me-3 sm:me-3 xs:me-3">
-                            <Button :variant="'ghost'"
-                                class="!rounded-full border !p-2"
-                                style="background-color: #E6684033"
-                            >
-                                <SvgIcon name="exclamation" />
-                            </Button>
-                        </div>
-                        <div class="w-[70%]">
-                            <p class="font-semibold text-base">Sorry, your Song was not played</p>
-                            <div class="text-muted-foreground font-normal">
-                                Omolile by Shazzy wasn't played by DJ Focati. Hosts often have specific preferences, 
-                                so we've refunded $80 as Spin Credit for future requests. Try sending another request and we'll do our best to get it heard!
-
-                                <div class="flex mt-2">
-                                    <NuxtLink
-                                        class="text-primary flex items-center gap-x-1"
-                                        to="/following"
-                                    >
-                                        <span>REQUEST AGAIN</span> <ChevronRight />
-                                    </NuxtLink>
-
-                                    <NuxtLink
-                                        class="text-primary flex items-center gap-x-1"
-                                        to="/following"
-                                    >
-                                        <span>VIEW CREDITS</span> <ChevronRight />
-                                    </NuxtLink>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-[20%] text-muted-foreground text-xs flex justify-end">
-                            <span>Just now</span> <SvgIcon name="red_dot" class="ms-2 mt-1" />
-                        </div>
-                    </div>
-
-                    <div class="bg-[#38373A] text-start rounded-3 border p-2 w-[100%] rounded-lg flex justify-between mb-2">
-                        <div class="w-[10%] me-2">
-                            <Button :variant="'ghost'"
-                                class="!rounded-full border !p-2"
-                                style="background-color: #E6684033"
-                            >
-                                <SvgIcon name="mic_2" />
-                            </Button>
-                        </div>
-                        <div class="w-[70%]">
-                            <p class="font-semibold text-base">
-                            Song request was accepted
-                            </p>
-                            <p class="text-muted-foreground font-normal">
-                                Dj focati is now playing Oyinmo by Youngiduu
-                            </p>
-                        </div>
-                        <div class="w-[20%] text-muted-foreground text-xs flex justify-end">
-                            <span>Just now</span> <SvgIcon name="red_dot" class="ms-2 mt-1" />
-                        </div>
-                    </div> -->
-
           <div
             v-for="item in prepareNotifications"
             :key="item.id"
-            :class="item.read_at == null ? 'bg-[#38373A]' : 'bg-white/5'"
-            class="flex items-center gap-4 rounded-3 border p-2 rounded-lg"
+            :class="!item.read_at ? 'bg-[#38373A]' : 'bg-white/5'"
+            class="rounded-3 border px-2 py-3 rounded-lg flex items-center gap-3 justify-start"
           >
-            <div class="shrink-0">
+            <!-- icon -->
+            <div class="shrink-0 mb-auto">
               <Button
                 :variant="'destructive'"
                 class="!rounded-full border !p-2"
@@ -117,49 +39,61 @@
               </Button>
             </div>
 
-            <div
-              class="w-full text-start flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2"
-            >
-              <div class="w-full">
-                <p class="font-semibold text-base">
+            <div class="w-full">
+              <!-- label and time -->
+              <div class="w-full flex justify-between items-start gap-4">
+                <h5 class="font-medium text-base capitalize">
                   {{ item?.data?.message }}
-                </p>
-                <div class="text-muted-foreground font-normal">
-                  {{ item?.data?.details }}
-
-                  <div
-                    class="flex flex-col sm:flex-row mt-2 gap-2"
-                    v-if="item?.data?.icon == 'exclamation'"
+                </h5>
+                <div
+                  class="pt-1 text-muted-foreground text-xs font-medium shrink-0"
+                >
+                  <!-- <span class="hidden md:inline-block">
+                    {{ useDateFormat(item.created_at, "DD MMM, hh:mmA") }}
+                  </span> -->
+                  <span class="tracking-wide">
+                    {{ useTimeAgo(item.created_at) }}</span
                   >
-                    <NuxtLink
-                      class="text-primary flex items-center gap-x-1"
-                      to="/following"
-                    >
-                      <span>REQUEST AGAIN</span> <ChevronRight />
-                    </NuxtLink>
-
-                    <NuxtLink
-                      class="text-primary flex items-center gap-x-1"
-                      to="/following"
-                    >
-                      <span>VIEW CREDITS</span> <ChevronRight />
-                    </NuxtLink>
-                  </div>
+                  <SvgIcon
+                    v-if="!item.read_at"
+                    name="red_dot"
+                    class="ms-2 mt-1"
+                  />
                 </div>
               </div>
 
               <div
-                class="w-full md:w-[25%] text-muted-foreground text-xs flex justify-start md:justify-end"
+                v-if="item?.data?.details || item?.data?.icon == 'exclamation'"
+                class="w-full mt-1"
               >
-                <span>
-                  {{ useDateFormat(item.created_at, "Do MMM, YY") }}
-                  {{ useDateFormat(item.created_at, "HH:mm AA") }}</span
+                <p class="text-muted-foreground">
+                  {{ item?.data?.details }}
+                </p>
+
+                <div
+                  class="mt-4 flex items-start gap-3 md:gap-4 flex-wrap font-medium text-sm"
+                  v-if="item?.data?.icon == 'exclamation'"
                 >
-                <SvgIcon name="red_dot" class="ms-2 mt-1" />
+                  <NuxtLink
+                    class="text-primary flex items-center gap-x-1"
+                    to="/following"
+                  >
+                    <span class="shrink-0">REQUEST AGAIN</span> <ChevronRight />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    class="text-primary flex items-center gap-x-1"
+                    to="/following"
+                  >
+                    <span class="shrink-0">VIEW CREDITS</span> <ChevronRight />
+                  </NuxtLink>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- no notifications -->
         <div
           class="border bg-popover text-white rounded-lg p-4 grid place-items-center place-center"
           v-if="!prepareNotifications.length"
@@ -208,5 +142,12 @@ const prepareNotifications = computed(() => {
     else props.notifications[i].data.icon = "bell";
   }
   return props.notifications;
+});
+
+onMounted(() => {
+  document.body.classList.add("no-scroll");
+});
+onUnmounted(() => {
+  document.body.classList.remove("no-scroll");
 });
 </script>
