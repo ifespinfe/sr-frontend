@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto max-w-[1085px]">
     <div class="mb-4 flex flex-row font-display justify-between">
-      <div class="flex text-2xl font-medium">
+      <div class="flex text-xl md:text-2xl font-medium">
         <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -48,55 +48,118 @@
         "
       ></div>
 
-      <Carousel
-        ref="carouselRef"
-        :items-to-show="'auto'"
-        :gap="20"
-        breakpoint-mode="carousel"
-        :breakpoints="{
-          1000: {
-            itemsToShow: 6,
-            snapAlign: 'start',
-          },
-          800: {
-            itemsToShow: 5,
-            snapAlign: 'start',
-          },
-          700: {
-            itemsToShow: 4,
-            snapAlign: 'start',
-          },
-          650: {
-            itemsToShow: 4,
-            snapAlign: 'start',
-          },
-          600: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          500: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          400: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          300: {
-            itemsToShow: 2,
-            snapAlign: 'start',
-          },
-          200: {
-            itemsToShow: 1,
-            snapAlign: 'start',
-          },
-          100: {
-            itemsToShow: 1,
-            snapAlign: 'start',
-          },
-        }"
+      <div class="hidden md:block">
+        <Carousel
+          ref="carouselRef"
+          :items-to-show="'auto'"
+          :gap="20"
+          breakpoint-mode="carousel"
+          :breakpoints="{
+            1000: {
+              itemsToShow: 6,
+              snapAlign: 'start',
+            },
+            800: {
+              itemsToShow: 5,
+              snapAlign: 'start',
+            },
+            700: {
+              itemsToShow: 4,
+              snapAlign: 'start',
+            },
+            650: {
+              itemsToShow: 4,
+              snapAlign: 'start',
+            },
+            600: {
+              itemsToShow: 3,
+              snapAlign: 'start',
+            },
+            500: {
+              itemsToShow: 3,
+              snapAlign: 'start',
+            },
+            400: {
+              itemsToShow: 3,
+              snapAlign: 'start',
+            },
+            300: {
+              itemsToShow: 2,
+              snapAlign: 'start',
+            },
+            200: {
+              itemsToShow: 1,
+              snapAlign: 'start',
+            },
+            100: {
+              itemsToShow: 1,
+              snapAlign: 'start',
+            },
+          }"
+        >
+          <Slide v-for="(item, idx) in mutatedHotevents" :key="item.id">
+            <NuxtLink
+              class="block group w-full h-full overflow-hidden"
+              :to="`/${item.slug}`"
+            >
+              <div class="mb-3.5">
+                <div
+                  class="py-2 px-1 hot-live carousel__item !aspect-square overflow-hidden rounded-2xl border-2 group-hover:border-sp-purple transition-all duration-75 ease-in relative"
+                >
+                  <span
+                    class="rounded-full bg-white/2 p-2 border text-xs bg-white/15 tracking-wide relative z-[2]"
+                  >
+                    {{ item.timePassed }}
+                  </span>
+                  <img
+                    :alt="item.name"
+                    :src="getImageByIndex(idx + 1)"
+                    style="position: absolute; inset: 0"
+                  />
+                </div>
+              </div>
+              <div
+                class="mb-1.5 font-medium text-base leading-[1.2] tracking-wide group-hover:text-sp-purple-200 transition-all duration-75 ease-in"
+              >
+                {{ item.name }}
+              </div>
+              <div
+                class="pb-4 flex flex-row gap-1.5 items-start text-muted-foreground text-sm font-[400]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-3.5 shrink-0 mt-[3px]"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                  />
+                </svg>
+                {{ item.location }}
+              </div>
+            </NuxtLink>
+          </Slide>
+        </Carousel>
+      </div>
+
+      <div
+        class="flex md:hidden items-center justify-start gap-4 w-[90vw] overflow-x-auto scrollbar-hide"
       >
-        <Slide v-for="(item, idx) in mutatedHotevents" :key="item.id">
+        <div
+          v-for="(item, idx) in mutatedHotevents"
+          :key="item.id"
+          class="shrink-0 w-40"
+        >
           <NuxtLink
             class="block group w-full h-full overflow-hidden"
             :to="`/${item.slug}`"
@@ -147,8 +210,8 @@
               {{ item.location }}
             </div>
           </NuxtLink>
-        </Slide>
-      </Carousel>
+        </div>
+      </div>
     </div>
   </div>
 </template>
