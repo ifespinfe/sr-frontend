@@ -38,7 +38,7 @@
 
     <div class="relative">
       <div
-        class="absolute top-0 bottom-0 right-0 w-14 z-[5]"
+        class="absolute top-0 bottom-0 right-0 w-14 z-[5] hidden md:block"
         style="
           background: linear-gradient(
             270deg,
@@ -153,7 +153,7 @@
       </div>
 
       <div
-        class="flex md:hidden items-center justify-start gap-4 w-[90vw] overflow-x-auto scrollbar-hide"
+        class="flex md:hidden items-center justify-start gap-4 w-[90vw] overflow-x-auto"
       >
         <div
           v-for="(item, idx) in mutatedHotevents"
