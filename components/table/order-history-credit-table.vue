@@ -2,11 +2,17 @@
   <TableContainer
     :heading="heading"
     :data="mergedOrders"
-    :loading="status === 'pending'"
+    :loading="!data && status === 'pending'"
+    :pagination-meta="{
+      page: meta?.current_page || 1,
+      per_page: meta?.per_page || DEFAULT_PAGE_LIMIT,
+      total: meta?.total || 0,
+      onPageChange,
+    }"
   >
     <OrderHistoryTableRow
       v-for="(order, index) in mergedOrders"
-      :key="order.id + order.parent_id + order.date + index"
+      :key="index"
       :order="order"
       :is-credit="true"
       @reload="refresh"
@@ -35,6 +41,19 @@ import { groupBy } from "lodash-es";
 import type { ApiResponse } from "~/types";
 import type { Order } from "~/types/payment";
 import OrderHistoryTableRow from "./order-history-table-row.vue";
+import { DEFAULT_PAGE_LIMIT } from "~/utils/constants/globals";
+import type { Pagination } from "~/types/pagination";
+
+interface CreditType {
+  amount: string;
+  created_at: string;
+  description: string;
+  event_price: string;
+  reference: string;
+  type: "credit";
+}
+const currentPage = ref(1);
+const perPage = ref(DEFAULT_PAGE_LIMIT);
 
 const heading = ref([
   "",
@@ -47,29 +66,62 @@ const heading = ref([
   "",
 ]);
 
-const { data, status, refresh } =
-  useCustomFetch<ApiResponse<Order[]>>("/transactions");
+const { data, status, refresh } = useCustomFetch<Pagination<CreditType>>(
+  "/wallets",
+  {
+    params: computed(() => ({
+      page: currentPage.value,
+      per_page: perPage.value,
+    })),
+    watch: [currentPage, perPage],
+    immediate: true,
+  }
+);
 
-const groupedOrders = computed(() => {
-  const orders = data.value?.data ?? [];
-  return groupBy(orders, "parent_id");
+// console.log("55551ppppp", data?.value?.data);
+const meta = computed(() => {
+  return data.value?.meta_data;
 });
+
+// const groupedOrders = computed(() => {
+//   const orders = data.value?.data ?? [];
+
+//   return groupBy(orders, "created_at");
+// });
 
 const mergedOrders = computed(() => {
-  return Object.values(groupedOrders.value)
-    .reverse()
-    .map((item) => {
-      return item.reduce((acc, item) => {
-        if (!acc.amount) {
-          Object.assign(acc, item);
-          return acc;
-        }
-        acc.amount = Number(acc.amount) + Number(item.amount);
-        acc.reference = `${acc.reference}-${item.reference}`;
-        acc.payment_gateway = `${acc.payment_gateway} + ${item.payment_gateway}`;
-        return acc;
-      }, {} as Order);
-    })
-    .filter((item) => item.status?.toLowerCase() === "refunded");
+  const orders = data.value?.data ?? [];
+
+  return orders?.map((item, idx) => {
+    const x: Order = {
+      amount: item.amount,
+      date: useDateFormat(item.created_at, "DD-MM-YYYY").value,
+      dj: "--",
+      // @ts-expect-error type err
+      description: item.description,
+      id: (Number(currentPage) || 1) * idx,
+      parent_id: 0,
+      parent_type: "--",
+      payment_gateway: "wallet",
+      reference: item.reference,
+      response_code: "--",
+      response_description: item.description,
+      status: "refunded",
+      time: item.created_at,
+      // @ts-expect-error type err
+      type: item.request_type || "song",
+      title: "no title",
+      start_date: item.created_at,
+      address: "--",
+    };
+
+    return x;
+  });
 });
+
+console.log("orderrrrrrsssrr", mergedOrders.value);
+
+function onPageChange(page: number) {
+  currentPage.value = page;
+}
 </script>
