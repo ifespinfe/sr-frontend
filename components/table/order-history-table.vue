@@ -2,7 +2,13 @@
   <TableContainer
     :heading="heading"
     :data="mergedOrders"
-    :loading="status === 'pending'"
+    :loading="!data && status === 'pending'"
+    :pagination-meta="{
+      page: meta?.current_page || 1,
+      per_page: meta?.per_page || DEFAULT_PAGE_LIMIT,
+      total: meta?.total || 0,
+      onPageChange,
+    }"
   >
     <OrderHistoryTableRow
       v-for="(order, index) in mergedOrders"
@@ -31,9 +37,14 @@
 import TableContainer from "~/components/table/container.vue";
 import { XCircle } from "lucide-vue-next";
 import { groupBy } from "lodash-es";
-import type { ApiResponse } from "~/types";
 import type { Order } from "~/types/payment";
 import OrderHistoryTableRow from "./order-history-table-row.vue";
+import type { ApiResponse } from "~/types";
+import type { Pagination } from "~/types/pagination";
+import { DEFAULT_PAGE_LIMIT } from "~/utils/constants/globals";
+
+const currentPage = ref(1);
+const perPage = ref(DEFAULT_PAGE_LIMIT);
 
 const heading = ref([
   "",
@@ -46,11 +57,26 @@ const heading = ref([
   "",
 ]);
 
-const { data, status, refresh } =
-  useCustomFetch<ApiResponse<Order[]>>("/transactions");
+const { data, status, refresh } = useCustomFetch<
+  ApiResponse<Pagination<Order, "transactions">>
+>("/transactions", {
+  params: computed(() => ({
+    page: currentPage.value,
+    per_page: perPage.value,
+  })),
+  watch: [currentPage, perPage],
+  immediate: true,
+  // onResponse: (data) => {
+  //   props.onDone?.(data.response._data?.data);
+  // },
+});
+
+const meta = computed(() => {
+  return data.value?.data?.meta_data;
+});
 
 const groupedOrders = computed(() => {
-  const orders = data.value?.data ?? [];
+  const orders = data.value?.data?.transactions ?? [];
   return groupBy(orders, "parent_id");
 });
 
@@ -70,4 +96,8 @@ const mergedOrders = computed(() => {
       }, {} as Order);
     });
 });
+
+function onPageChange(page: number) {
+  currentPage.value = page;
+}
 </script>

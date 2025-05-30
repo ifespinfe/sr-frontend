@@ -1,7 +1,10 @@
 <template>
   <div class="container py-20">
     <SharedBackButton to="/events" class="fixed top-24" />
-    <SharedLoadingArea :loading="status === 'pending'" :error="error">
+    <SharedLoadingArea
+      :loading="!data && event_data_status === 'pending'"
+      :error="error"
+    >
       <div
         class="grid sm:grid-cols-[repeat(auto-fit,_minmax(400px,_1fr))] gap-6"
       >
@@ -30,7 +33,16 @@
         <div class="text-2xl font-semibold mb-6">Event Requests</div>
         <EventRequestsTable
           :loading="status === 'pending'"
-          :event_requests="data?.data?.requests ?? []"
+          :event_requests="requests?.data?.requests ?? []"
+          :meta="
+            meta
+              ? {
+                  ...meta,
+                  page: meta?.current_page || 1,
+                  onPageChange: onPageChange,
+                }
+              : undefined
+          "
           disabled
         />
       </div>
@@ -41,12 +53,41 @@
 <script lang="ts" setup>
 import EventRequestsTable from "~/components/table/event-requests-table.vue";
 import type { ApiResponse } from "~/types";
-import type { LiveEvent } from "~/types/event";
+import type { EventRequest, LiveEvent } from "~/types/event";
+import type { Pagination } from "~/types/pagination";
+import { DEFAULT_PAGE_LIMIT } from "~/utils/constants/globals";
 const route = useRoute();
 const eventID = computed(() => route.params.id as string);
-const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
-  `/events/${eventID.value}`
+
+const currentPage = ref(1);
+const perPage = ref(DEFAULT_PAGE_LIMIT);
+
+const { data, status: event_data_status } = useCustomFetch<
+  ApiResponse<LiveEvent>
+>(`/events/${eventID.value}`);
+const {
+  data: requests,
+  status,
+  error,
+} = useCustomFetch<ApiResponse<Pagination<EventRequest, "requests">>>(
+  `/events/${eventID.value}/requests`,
+  {
+    params: computed(() => ({
+      page: currentPage.value,
+      per_page: perPage.value,
+    })),
+    watch: [currentPage, perPage],
+    immediate: true,
+  }
 );
+
+const meta = computed(() => {
+  return requests.value?.data?.meta_data;
+});
+
+function onPageChange(page: number) {
+  currentPage.value = page;
+}
 
 useSeoMeta({
   title: () => data.value?.data?.title ?? "",
