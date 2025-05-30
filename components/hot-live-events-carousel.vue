@@ -37,7 +37,7 @@
     </div>
 
     <div class="relative">
-      <div
+      <!-- <div
         class="absolute top-0 bottom-0 right-0 w-8 z-[5] hidden md:block"
         style="
           background: linear-gradient(
@@ -46,84 +46,68 @@
             rgba(17, 16, 20, 0) 100%
           );
         "
-      ></div>
+      ></div> -->
 
-      <Carousel
-        ref="carouselRef"
-        :items-to-show="'auto'"
-        :gap="20"
-        :transition="300"
-        :wrap-around="false"
-        snap-align="start"
-        breakpoint-mode="carousel"
-        :breakpoints="{
-          1000: {
-            itemsToShow: 6,
-            snapAlign: 'start',
-          },
-          800: {
-            itemsToShow: 5,
-            snapAlign: 'start',
-          },
-          700: {
-            itemsToShow: 4,
-            snapAlign: 'start',
-          },
-        }"
-      >
-        <Slide v-for="(item, idx) in mutatedHotevents" :key="item.id">
-          <NuxtLink
-            class="block group w-40 h-full overflow-hidden"
-            :to="`/${item.slug}`"
+      <div class="embla" ref="emblaRef">
+        <div class="embla__container pr-10">
+          <div
+            class="embla__slide"
+            v-for="(item, idx) in mutatedHotevents"
+            :key="item.id"
           >
-            <div class="mb-3.5">
-              <div
-                class="py-2 px-1 hot-live carousel__item !aspect-square overflow-hidden rounded-2xl border-2 group-hover:border-sp-purple transition-all duration-75 ease-in relative"
-              >
-                <span
-                  class="rounded-full bg-white/2 p-2 border text-xs bg-white/15 tracking-wide relative z-[2]"
+            <NuxtLink
+              class="block group w-40 h-full overflow-hidden"
+              :to="`/${item.slug}`"
+            >
+              <div class="mb-3.5">
+                <div
+                  class="py-2 px-1 hot-live carousel__item !aspect-square overflow-hidden rounded-2xl border-2 group-hover:border-sp-purple transition-all duration-75 ease-in relative"
                 >
-                  {{ item.timePassed }}
-                </span>
-                <img
-                  :alt="item.name"
-                  :src="getImageByIndex(idx + 1)"
-                  style="position: absolute; inset: 0"
-                />
+                  <span
+                    class="rounded-full bg-white/2 p-2 border text-xs bg-white/15 tracking-wide relative z-[2]"
+                  >
+                    {{ item.timePassed }}
+                  </span>
+                  <img
+                    :alt="item.name"
+                    :src="getImageByIndex(idx + 1)"
+                    style="position: absolute; inset: 0"
+                  />
+                </div>
               </div>
-            </div>
-            <div
-              class="mb-1.5 font-medium text-base leading-[1.2] tracking-wide group-hover:text-sp-purple-200 transition-all duration-75 ease-in"
-            >
-              {{ item.name }}
-            </div>
-            <div
-              class="pb-4 flex flex-row gap-1.5 items-start text-muted-foreground text-sm font-[400]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-3.5 shrink-0 mt-[3px]"
+              <div
+                class="mb-1.5 font-medium text-base leading-[1.2] tracking-wide group-hover:text-sp-purple-200 transition-all duration-75 ease-in"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                />
-              </svg>
-              {{ item.location }}
-            </div>
-          </NuxtLink>
-        </Slide>
-      </Carousel>
+                {{ item.name }}
+              </div>
+              <div
+                class="pb-4 flex flex-row gap-1.5 items-start text-muted-foreground text-sm font-[400]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-3.5 shrink-0 mt-[3px]"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                  />
+                </svg>
+                {{ item.location }}
+              </div>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -143,12 +127,30 @@ import image7 from "../assets/images/event7.png";
 import image8 from "../assets/images/event8.png";
 import image9 from "../assets/images/event9.png";
 import image10 from "../assets/images/event10.png";
+import emblaCarouselVue from "embla-carousel-vue";
+import type { EmblaCarouselType } from "embla-carousel";
 
-const carouselRef = ref();
-const currentSlide = ref(1);
+const [emblaRef, emblaApi] = emblaCarouselVue({
+  loop: false,
+  dragFree: true,
+  containScroll: "trimSnaps",
+});
 
-const next = () => carouselRef.value.next();
-const prev = () => carouselRef.value.prev();
+const prevBtnDisabled = ref(true);
+const nextBtnDisabled = ref(true);
+const next = () => {
+  if (!emblaApi?.value) return;
+  emblaApi.value.scrollNext(true);
+};
+const prev = () => {
+  if (!emblaApi?.value) return;
+  emblaApi.value.scrollPrev(true);
+};
+
+const onSelect = (emblaApi: EmblaCarouselType) => {
+  prevBtnDisabled.value = !emblaApi.canScrollPrev();
+  nextBtnDisabled.value = !emblaApi.canScrollNext();
+};
 
 const props = defineProps<{
   hotEvents: HotLiveEventsListItem[];
@@ -193,9 +195,28 @@ function getImageByIndex(index: number): string {
   const randomIndex = Math.floor(Math.random() * images.length);
   return images[randomIndex];
 }
+
+onMounted(() => {
+  if (emblaApi.value) {
+    // @ts-expect-error type ish
+    onSelect(emblaApi.value); // Access API
+  }
+});
 </script>
 
 <style scoped>
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  gap: 20px;
+}
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
 .hot-live {
   background-image: url("/images/audience-carousel.png");
   background-repeat: no-repeat;
