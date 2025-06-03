@@ -161,12 +161,12 @@ definePageMeta({
 const { active, toggle } = useToggle();
 const { auth_user } = useAuth();
 const { data, status, error, refresh } = useCustomFetch<
-  ApiResponse<Pagination<LiveEvent, "event_details">>
+  ApiResponse<Pagination<LiveEvent, "event_data">>
 >("/events", {
   params: computed(() => ({
     page: currentPage.value,
     per_page: perPage.value,
-    only_events: true,
+    only_events: "",
   })),
   watch: [currentPage, perPage],
   immediate: true,
@@ -175,22 +175,22 @@ const { data, status, error, refresh } = useCustomFetch<
   // },
 });
 
-console.log("55555eb=ventssssss", data.value?.data?.event_details);
+console.log("777777sss", data.value?.data?.event_data);
 
 const { data: wallet, status: wallet_status } =
   useCustomFetch<Wallet>("/wallets");
 
 const deleteEvent = (id: number | string) => {
   if (!data.value) return;
-  const updatedEvents = data.value?.data?.event_details?.filter(
+  const updatedEvents = data.value?.data?.event_data?.filter(
     (item) => item.id !== id
   );
   Object.assign(data.value, { data: updatedEvents });
 };
 
 const hostNewEvents = computed(() =>
-  data.value?.data?.event_details?.length
-    ? data.value?.data?.event_details.filter((event) => event.status === "new")
+  data.value?.data?.event_data?.length
+    ? data.value?.data?.event_data.filter((event) => event.status === "new")
     : []
 );
 
@@ -200,7 +200,7 @@ const updatePastEvents = (state?: EventHistory) => {
 };
 
 const hostLiveEvent = computed(() =>
-  data.value?.data?.event_details?.find((item) => item.status === "live")
+  data.value?.data?.event_data?.find((item) => item.status === "live")
 );
 
 const allEvents = computed(() =>
