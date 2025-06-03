@@ -102,10 +102,18 @@
           </div>
         </div>
 
+        <!-- loading -->
+        <div
+          v-if="!prepareNotifications.length && loading"
+          class="my-10 flex w-full justify-center items-center"
+        >
+          <Loader class="size-6 animate-spin" />
+        </div>
+
         <!-- no notifications -->
         <div
           class="border bg-popover text-white rounded-lg p-4 grid place-items-center place-center"
-          v-if="!prepareNotifications.length"
+          v-if="!prepareNotifications.length && !loading"
         >
           <Inbox />
           <div>No notifications</div>
@@ -139,6 +147,7 @@ interface Notification {
 }
 const props = defineProps<{
   notifications: Notification[];
+  loading: boolean;
 }>();
 
 console.log("wellllll", props.notifications);

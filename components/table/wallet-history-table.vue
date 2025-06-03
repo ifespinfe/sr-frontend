@@ -1,5 +1,15 @@
 <template>
-  <TableContainer :heading="heading" :data="history" :loading="loading">
+  <TableContainer
+    :heading="heading"
+    :data="history"
+    :loading="loading"
+    :pagination-meta="{
+      page: meta?.page || 1,
+      per_page: meta?.per_page || DEFAULT_PAGE_LIMIT,
+      total: meta?.total || 0,
+      onPageChange: meta.onPageChange,
+    }"
+  >
     <NuxtLink
       custom
       v-for="item in history"
@@ -77,8 +87,19 @@
 import TableContainer from "~/components/table/container.vue";
 import { XCircle, ArrowRight } from "lucide-vue-next";
 import type { WalletHistory } from "~/types/payment";
+import { DEFAULT_PAGE_LIMIT } from "~/utils/constants/globals";
+interface PaginationMeta {
+  page: number;
+  per_page: number;
+  total: number;
+  onPageChange: (page: number) => void;
+}
 
-defineProps<{ loading: boolean; history: WalletHistory[] }>();
+defineProps<{
+  loading: boolean;
+  history: WalletHistory[];
+  meta: PaginationMeta;
+}>();
 const heading = ref(["", "AMOUNT", "TYPE", "DATE", "TIME", "STATUS", ""]);
 const order = ref({ status: "pending" });
 </script>

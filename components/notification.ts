@@ -30,6 +30,8 @@ export const provideNotification = () => {
     return event.fetchAllNotifications();
   });
 
+  // console.log("notifss i2322s", data.value);
+
   const notifications = computed(() => data.value?.data ?? []);
   // console.log("ppppp2", notifications.value);
   const loading = computed(() => status.value === "pending");

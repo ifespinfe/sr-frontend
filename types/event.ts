@@ -80,8 +80,8 @@ export interface LiveEvent {
   earnings: number;
   hype_earnings: number;
   song_earnings: number;
-  types: EventType[];
-  requests: EventRequest[];
+  types?: EventType[];
+  requests?: EventRequest[];
 }
 
 export type OrderEvent = Pick<LiveEvent, "address" | "title" | "start_date">;

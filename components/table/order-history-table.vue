@@ -2,7 +2,7 @@
   <TableContainer
     :heading="heading"
     :data="mergedOrders"
-    :loading="!data && status === 'pending'"
+    :loading="status === 'pending'"
     :pagination-meta="{
       page: meta?.current_page || 1,
       per_page: meta?.per_page || DEFAULT_PAGE_LIMIT,
