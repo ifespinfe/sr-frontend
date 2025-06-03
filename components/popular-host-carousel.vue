@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto max-w-[1085px]">
     <div class="mb-4 flex flex-row font-display justify-between">
-      <div class="flex text-2xl font-medium">
+      <div class="flex text-xl md:text-2xl font-medium">
         <!-- <svg
           width="24"
           height="25"
@@ -35,8 +35,8 @@
     </div>
 
     <div class="w-full relative">
-      <div
-        class="absolute top-0 bottom-0 right-0 w-14 z-[5]"
+      <!-- <div
+        class="absolute top-0 bottom-0 right-0 w-8 z-[5] hidden md:block"
         style="
           background: linear-gradient(
             270deg,
@@ -44,98 +44,57 @@
             rgba(17, 16, 20, 0) 100%
           );
         "
-      ></div>
+      ></div> -->
 
-      <Carousel
-        ref="carouselRef"
-        :items-to-show="'auto'"
-        :gap="20"
-        breakpoint-mode="carousel"
-        :breakpoints="{
-          1000: {
-            itemsToShow: 6,
-            snapAlign: 'start',
-          },
-          800: {
-            itemsToShow: 5,
-            snapAlign: 'start',
-          },
-          700: {
-            itemsToShow: 4,
-            snapAlign: 'start',
-          },
-          650: {
-            itemsToShow: 4,
-            snapAlign: 'start',
-          },
-          600: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          500: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          400: {
-            itemsToShow: 3,
-            snapAlign: 'start',
-          },
-          300: {
-            itemsToShow: 2,
-            snapAlign: 'start',
-          },
-          200: {
-            itemsToShow: 1,
-            snapAlign: 'start',
-          },
-          100: {
-            itemsToShow: 1,
-            snapAlign: 'start',
-          },
-        }"
-      >
-        <Slide v-for="item in popularHost" :key="item.id">
-          <div class="h-full w-full overflow-hidden">
-            <NuxtLink :to="'/' + item.slug" class="">
-              <AvatarRoot
-                class="bg-muted inline-flex w-full rounded-full aspect-square font-medium leading-1 uppercase select-pointer justify-center overflow-hidden align-middle relative border-2 hover:border-sp-purple transition-all duration-75 ease-in"
-              >
-                <AvatarImage
-                  :src="item?.profile_picture"
-                  class="h-full w-full object-cover"
-                  v-if="item?.profile_picture"
-                />
-                <AvatarFallback
-                  v-if="!item?.profile_picture"
-                  class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full items-center text-center px-2 text-lg sm:text-xl md:text-2xl lg:text-3xl"
+      <div class="embla" ref="emblaRef">
+        <div class="embla__container pr-10">
+          <div
+            class="embla__slide"
+            v-for="(item, idx) in popularHost"
+            :key="item.id"
+          >
+            <div class="h-full w-40 overflow-hidden">
+              <NuxtLink :to="'/' + item.slug" class="">
+                <AvatarRoot
+                  class="bg-muted inline-flex w-full rounded-full aspect-square font-medium leading-1 uppercase select-pointer justify-center overflow-hidden align-middle relative border-2 hover:border-sp-purple transition-all duration-75 ease-in"
                 >
-                  {{ getInitials(item?.name ?? "") }}
-                </AvatarFallback>
-              </AvatarRoot>
-            </NuxtLink>
+                  <AvatarImage
+                    :src="item?.profile_picture"
+                    class="h-full w-full object-cover"
+                    v-if="item?.profile_picture"
+                  />
+                  <AvatarFallback
+                    v-if="!item?.profile_picture"
+                    class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full items-center text-center px-2 text-lg sm:text-xl md:text-2xl lg:text-3xl"
+                  >
+                    {{ getInitials(item?.name ?? "") }}
+                  </AvatarFallback>
+                </AvatarRoot>
+              </NuxtLink>
 
-            <div
-              class="mt-4 mb-1 leading-[1.2] font-medium text-lg text-center"
-            >
-              {{ item.name }}
-            </div>
-            <div
-              class="mb-4 text-muted-foreground text-sm font-normal text-center"
-            >
-              {{ item.followers }} Followers . {{ item.events }} Events
-            </div>
-
-            <div class="flex justify-center w-full">
-              <button
-                class="w-fit uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-6"
-                @click="toggleFollow(item.id, item.is_following)"
+              <div
+                class="mt-4 mb-1 leading-[1.2] font-medium text-lg text-center"
               >
-                {{ !item.is_following ? "FOLLOW" : "UNFOLLOW" }}
-              </button>
+                {{ item.name }}
+              </div>
+              <div
+                class="mb-4 text-muted-foreground text-sm font-normal text-center"
+              >
+                {{ item.followers }} Followers . {{ item.events }} Events
+              </div>
+
+              <div class="flex justify-center w-full">
+                <button
+                  class="w-fit uppercase inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 border border-ring h-10 px-6"
+                  @click="toggleFollow(item.id, item.is_following)"
+                >
+                  {{ !item.is_following ? "FOLLOW" : "UNFOLLOW" }}
+                </button>
+              </div>
             </div>
           </div>
-        </Slide>
-      </Carousel>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -146,11 +105,30 @@ import Button from "./ui/button.vue";
 import SvgIcon from "./svg-icon.vue";
 import type { PopularHostsListItem } from "~/types/audience";
 
-const carouselRef = ref();
-const currentSlide = ref(1);
+import emblaCarouselVue from "embla-carousel-vue";
+import type { EmblaCarouselType } from "embla-carousel";
 
-const next = () => carouselRef.value.next();
-const prev = () => carouselRef.value.prev();
+const [emblaRef, emblaApi] = emblaCarouselVue({
+  loop: false,
+  dragFree: true,
+  containScroll: "trimSnaps",
+});
+
+const prevBtnDisabled = ref(true);
+const nextBtnDisabled = ref(true);
+const next = () => {
+  if (!emblaApi?.value) return;
+  emblaApi.value.scrollNext(true);
+};
+const prev = () => {
+  if (!emblaApi?.value) return;
+  emblaApi.value.scrollPrev(true);
+};
+
+const onSelect = (emblaApi: EmblaCarouselType) => {
+  prevBtnDisabled.value = !emblaApi.canScrollPrev();
+  nextBtnDisabled.value = !emblaApi.canScrollNext();
+};
 
 const props = defineProps<{
   popularHost: PopularHostsListItem[];
@@ -174,9 +152,28 @@ const toggleIsFollowing = (id: number | string, status: boolean) => {
       props.popularHost[i].is_following = status;
     }
 };
+
+onMounted(() => {
+  if (emblaApi.value) {
+    // @ts-expect-error type ish
+    onSelect(emblaApi.value);
+  }
+});
 </script>
 
 <style scoped>
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  gap: 20px;
+}
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
 .touch-pan-x {
   touch-action: pan-x;
 }

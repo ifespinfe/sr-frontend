@@ -29,7 +29,7 @@
     "dom-to-image": "^2.6.0",
     "embla-carousel-auto-scroll": "^8.5.2",
     "embla-carousel-autoplay": "^8.5.2",
-    "embla-carousel-vue": "^8.5.2",
+    "embla-carousel-vue": "^8.6.0",
     "file-saver": "^2.0.5",
     "lodash-es": "^4.17.21",
     "lucide-vue-next": "^0.447.0",

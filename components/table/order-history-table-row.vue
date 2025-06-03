@@ -63,6 +63,7 @@
       </div>
     </td>
     <td
+      v-if="!isCredit"
       :class="{
         'text-[#38F08D]': order.status === 'success',
         'text-[#6DC9FC]': order.status === 'refunded',
@@ -71,8 +72,8 @@
     >
       {{ order.status }}
     </td>
-    <td v-if="!!isCredit">{{ order.payment_gateway }}</td>
-    <td class="w-[50x]">
+    <!-- <td v-if="!!isCredit">{{ order.payment_gateway }}</td> -->
+    <td v-if="!isCredit" class="w-[50x]">
       <ClientOnly>
         <Teleport to="#teleports">
           <div class="absolute h-0 overflow-hidden">

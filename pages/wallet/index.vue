@@ -97,7 +97,15 @@
         <div class="text-2xl font-semibold mb-6">Transaction History</div>
         <WalletHistoryTable
           :loading="status === 'pending'"
-          :history="data?.data ?? []"
+          :history="data?.transactions ?? []"
+          :meta="{
+            page: data?.meta_data?.current_page || 1,
+            per_page: data?.meta_data?.per_page || DEFAULT_PAGE_LIMIT,
+            total: data?.meta_data?.total || 0,
+            onPageChange: (pg: number) => {
+              currentPage = pg;
+            },
+          }"
         />
       </div>
     </SharedLoadingArea>
@@ -109,9 +117,20 @@ import WalletHistoryTable from "~/components/table/wallet-history-table.vue";
 import HostEarnings from "~/components/cards/host-earnings.vue";
 import { Info } from "lucide-vue-next";
 import type { Wallet } from "~/types/payment";
+import { DEFAULT_PAGE_LIMIT } from "~/utils/constants/globals";
 
-const { data, status, error } = useCustomFetch<Wallet>("/wallets");
+const currentPage = ref(1);
+const perPage = ref(DEFAULT_PAGE_LIMIT);
 
+const { data, status, error } = useCustomFetch<Wallet>("/wallets", {
+  params: computed(() => ({
+    page: currentPage.value,
+    per_page: perPage.value,
+  })),
+  watch: [currentPage, perPage],
+  immediate: true,
+});
+// console.log("host has dataaaaaa", data);
 const walletBreakdown = computed(() => {
   return [
     {

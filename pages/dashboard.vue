@@ -116,7 +116,14 @@
           <Loader class="size-5 animate-spin" />
         </div>
 
-        <template v-if="data && !error">
+        <template
+          v-if="
+            !!data &&
+            !error &&
+            Array.isArray(hostNewEvents) &&
+            hostNewEvents.length
+          "
+        >
           <EventCard
             v-for="event in hostNewEvents"
             :key="event.id"
@@ -141,6 +148,11 @@ import EventHistoryTable from "~/components/table/event-history-table.vue";
 import HostTopSpendersTable from "~/components/table/host-top-spenders-table.vue";
 import ProfileCompletion from "~/components/cards/profile-completion.vue";
 import type { Wallet } from "~/types/payment";
+import type { Pagination } from "~/types/pagination";
+import { DEFAULT_PAGE_LIMIT } from "~/utils/constants/globals";
+
+const currentPage = ref(1);
+const perPage = ref(100);
 
 definePageMeta({
   middleware: ["host"],
@@ -148,21 +160,37 @@ definePageMeta({
 
 const { active, toggle } = useToggle();
 const { auth_user } = useAuth();
-const { data, status, error, refresh } =
-  useCustomFetch<ApiResponse<LiveEvent[]>>("/events");
+const { data, status, error, refresh } = useCustomFetch<
+  ApiResponse<Pagination<LiveEvent, "event_data">>
+>("/events", {
+  params: computed(() => ({
+    page: currentPage.value,
+    per_page: perPage.value,
+    only_events: "",
+  })),
+  watch: [currentPage, perPage],
+  immediate: true,
+  // onResponse: (data) => {
+  //   props.onDone?.(data.response._data?.data);
+  // },
+});
+
+console.log("777777sss", data.value?.data?.event_data);
 
 const { data: wallet, status: wallet_status } =
   useCustomFetch<Wallet>("/wallets");
 
 const deleteEvent = (id: number | string) => {
   if (!data.value) return;
-  const updatedEvents = data.value?.data?.filter((item) => item.id !== id);
+  const updatedEvents = data.value?.data?.event_data?.filter(
+    (item) => item.id !== id
+  );
   Object.assign(data.value, { data: updatedEvents });
 };
 
 const hostNewEvents = computed(() =>
-  data.value?.data?.length
-    ? data.value?.data.filter((event) => event.status === "new")
+  data.value?.data?.event_data?.length
+    ? data.value?.data?.event_data.filter((event) => event.status === "new")
     : []
 );
 
@@ -172,7 +200,7 @@ const updatePastEvents = (state?: EventHistory) => {
 };
 
 const hostLiveEvent = computed(() =>
-  data.value?.data?.find((item) => item.status === "live")
+  data.value?.data?.event_data?.find((item) => item.status === "live")
 );
 
 const allEvents = computed(() =>

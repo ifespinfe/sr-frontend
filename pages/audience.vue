@@ -17,7 +17,7 @@
     </div>
 
     <Loader
-      v-if="status === 'pending'"
+      v-if="!!hotEventsList || !!popularHostList ? false : status === 'pending'"
       :aria-label="'loading contents'"
       class="size-8 text-muted-foreground mx-auto my-10 animate-spin"
     />

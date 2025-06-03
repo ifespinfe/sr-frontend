@@ -5,7 +5,7 @@
       :user="'audience'"
       :start-date="data?.data?.live_event?.start_date"
       animate
-      v-if="data?.data.live_event && !ended"
+      v-if="data?.data?.live_event && !ended"
     >
       <NuxtLink
         :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
@@ -18,7 +18,7 @@
       :class="cn(data?.data?.live_event ? 'mt-10' : '', 'relative z-10')"
     />
     <SharedLoadingArea
-      :loading="status === 'pending'"
+      :loading="!!data ? false : status === 'pending'"
       :error="error"
       class="z-10 relative"
     >
@@ -138,6 +138,7 @@
 
         <div>
           <RequestQueueCard
+            :requests="host_events_data?.data?.requests || []"
             :event="data?.data?.live_event"
             v-if="data?.data?.live_event"
           />
@@ -216,7 +217,7 @@
 import Button from "../../components/ui/button.vue";
 import Avatar from "~/components/avatar.vue";
 import type { ApiResponse } from "~/types";
-import type { HostProfile } from "~/types/user";
+import type { HostProfile, MakeARequestRes } from "~/types/user";
 import RequestQueueCard from "~/components/request-queue.card.vue";
 import type { PresenceChannel } from "pusher-js";
 import RejectedRequestModal from "~/components/modals/rejected-request.vue";
@@ -233,13 +234,20 @@ const { data, error, status, refresh } = useCustomFetch<
     connectPusher(data?.response?._data?.data?.live_event?.id);
   },
 });
+const {
+  data: host_events_data,
+  error: host_events_error,
+  status: host_events_status,
+} = useCustomFetch<ApiResponse<MakeARequestRes>>(
+  `/user/live/event/${route.params.host}`
+);
 
 const host = computed(() => data?.value?.data?.user);
 
 const { authEmail, auth_user } = useAuth();
 
 const liveEventRequests = computed(() => {
-  return data.value?.data?.live_event?.requests ?? [];
+  return host_events_data.value?.data?.requests ?? [];
 });
 
 const followingHost = computed(() => {
@@ -304,7 +312,7 @@ const isHost = computed(() => {
 
 const hasPendingRequest = computed(() => {
   return liveEventRequests.value?.some(
-    (item) => item.audience.email === authEmail.value
+    (item) => item?.audience.email === authEmail.value
   );
 });
 
@@ -322,7 +330,7 @@ const connectPusher = (id?: number | string) => {
     cluster: "mt1",
   });
 
-  pusher.connection.bind("error", (err) => {
+  pusher.connection.bind("error", (err: any) => {
     console.log({ err, state: "ERROR" });
   });
 

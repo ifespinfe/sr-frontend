@@ -29,8 +29,11 @@ export const provideNotification = () => {
   } = useAsyncData("ALL-NOTIFICATIONS", () => {
     return event.fetchAllNotifications();
   });
-  
+
+  // console.log("notifss i2322s", data.value);
+
   const notifications = computed(() => data.value?.data ?? []);
+  // console.log("ppppp2", notifications.value);
   const loading = computed(() => status.value === "pending");
   const markNotificationAsRead = async (id: string | number) => {
     try {
@@ -39,7 +42,7 @@ export const provideNotification = () => {
       Object.assign(updating.value, { [id]: false });
       refreshNotifications();
     } catch (e) {
-      console.log(e)
+      console.log(e);
       const error = e as ApiError;
       Object.assign(updating.value, { [id]: false });
       showToast({
@@ -72,7 +75,9 @@ export const provideNotification = () => {
   } = useAsyncData("COUNT-UNREAD-NOTIFICATIONS", () => {
     return event.markAllNotificationsAsRead();
   });
-  const countUnreadlNotificationsAsRead = computed(() => countUnread.value?.data ?? 0);
+  const countUnreadlNotificationsAsRead = computed(
+    () => countUnread.value?.data ?? 0
+  );
 
   provide(key, {
     notifications,

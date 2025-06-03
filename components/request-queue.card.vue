@@ -32,8 +32,8 @@
           v-if="activeRequest && hasPendingRequest"
           :content="
             activeRequest?.type === 'hype'
-              ? activeRequest?.description
-              : activeRequest?.song_title ?? ''
+              ? activeRequest?.description || '--'
+              : activeRequest?.song_title ?? '--'
           "
         />
         <div class="text-sm text-muted-foreground" v-if="activeRequest">
@@ -78,16 +78,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { HostProfile } from "~/types/user";
+import type { HostProfile, MakeARequestRes } from "~/types/user";
 import Summary from "./shared/summary.vue";
-const props = defineProps<{ event: HostProfile["live_event"] }>();
+const props = defineProps<{
+  event: HostProfile["live_event"];
+  requests: MakeARequestRes["requests"];
+}>();
 
 const { authEmail } = useAuth();
 
 const eventRequests = computed(() => {
-  const requests = props?.event?.requests?.length
-    ? [...props.event.requests].filter(
-        (x) => x.status?.toLowerCase() === "now-playing"
+  const requests = props?.requests?.length
+    ? [...props.requests].filter(
+        (x) =>
+          x.status?.toLowerCase() === "now-playing" ||
+          x.status?.toLowerCase() === "new" ||
+          x.status?.toLowerCase() === "completed"
       )
     : [];
   return requests
@@ -103,6 +109,6 @@ const hasPendingRequest = computed(() =>
 );
 
 const activeRequest = computed(() =>
-  props?.event?.requests?.find((item) => item?.status === "now-playing")
+  props?.requests?.find((item) => item?.status === "now-playing")
 );
 </script>

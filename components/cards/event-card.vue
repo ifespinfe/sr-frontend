@@ -84,7 +84,7 @@ import EditEvent from "../modals/edit-event.vue";
 import type { ApiError } from "~/types";
 import ConfirmDialog from "../modals/confirm-dialog.vue";
 
-const props = defineProps<{ event: LiveEvent }>();
+const props = defineProps<{ event: LiveEvent; showLess?: boolean }>();
 const emit = defineEmits<{
   done: [];
   edit: [id: number | string];
@@ -92,17 +92,19 @@ const emit = defineEmits<{
 }>();
 
 const eventFormDetails = computed<EventFormDetails>(() => {
-  const [main_type, other_type] = props.event.types.map((item) => item.name);
+  // const [main_type, other_type] = props.event.types?.map((item) => item.name);
+  const types = props.event.types?.map((item) => item.name);
   return {
     title: props?.event?.title ?? "",
     address: props?.event?.address ?? "",
     country: props?.event?.country,
     state: props?.event?.state,
     hype_price:
-      props.event.types.find((item) => item.name === "hype")?.price ?? 0,
+      props.event.types?.find((item) => item.name === "hype")?.price ?? 0,
     song_price:
-      props.event.types.find((item) => item.name === "song")?.price ?? 0,
-    type: other_type ? "both" : main_type,
+      props.event.types?.find((item) => item.name === "song")?.price ?? 0,
+    // type: other_type ? "both" : main_type || "both",
+    type: types && types?.length === 1 ? types[0] : "both",
   };
 });
 
