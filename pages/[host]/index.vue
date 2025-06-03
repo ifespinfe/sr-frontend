@@ -225,12 +225,14 @@ import Pusher from "pusher-js";
 import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
 import type { PusherEndEvent, PusherRequestUpdate } from "~/types/event";
 
+const eventID = ref<string | number>();
 const route = useRoute();
 const conneected = ref(false);
 const { data, error, status, refresh } = useCustomFetch<
   ApiResponse<HostProfile>
 >(`/user/${route.params.host}`, {
   onResponse(data) {
+    eventID.value = data?.response?._data?.data?.live_event?.id;
     connectPusher(data?.response?._data?.data?.live_event?.id);
   },
 });
@@ -238,10 +240,17 @@ const {
   data: host_events_data,
   error: host_events_error,
   status: host_events_status,
+  refresh: host_events_refresh,
 } = useCustomFetch<ApiResponse<MakeARequestRes>>(
-  `/user/live/event/${route.params.host}`
+  `/user/live/event/${route.params.host}`,
+  {
+    onResponse() {
+      connectPusher(eventID.value);
+    },
+  }
 );
 
+// console.log("33333pppp", host_events_data?.value?.data?.requests);
 const host = computed(() => data?.value?.data?.user);
 
 const { authEmail, auth_user } = useAuth();
@@ -345,16 +354,18 @@ const connectPusher = (id?: number | string) => {
   console.log({ channel });
 
   channel.bind("HostEndsEvent", (data: PusherEndEvent) => {
-    // console.log("HOST ENDED EVENT", data);
+    console.log("HOST ENDED EVENT", data);
     showToast({ title: `${data.spr_event_name} ended`, duration: 5000 });
     refresh();
+    host_events_refresh();
     ended.value = true;
   });
 
   channel.bind("HostGoesLive", (data: any) => {
-    console.log("HOST GONE LIVE", data);
+    // console.log("HOST GONE LIVE", data);
     showToast({ title: "Host is now live" });
     refresh();
+    host_events_refresh();
   });
 
   channel.bind("StatusChangedToCompleted", (data: PusherRequestUpdate) => {
@@ -362,7 +373,9 @@ const connectPusher = (id?: number | string) => {
   });
 
   channel.bind("StatusChangedToNowPlaying", (data: PusherRequestUpdate) => {
-    console.log("NOW PLAYING", data);
+    // console.log("NOW PLAYING", data, auth_user.value);
+    refresh();
+    host_events_refresh();
     if (data.audience.id === auth_user.value?.id) {
       showToast({
         title: `${data.host.name ?? data.host.title} now playing your ${
@@ -370,7 +383,6 @@ const connectPusher = (id?: number | string) => {
         } request`,
       });
     }
-    refresh();
   });
 
   channel.bind("StatusChangedToPending", (data: PusherRequestUpdate) => {
@@ -378,7 +390,9 @@ const connectPusher = (id?: number | string) => {
   });
 
   channel.bind("StatusChangedToRejected", (data: PusherRequestUpdate) => {
-    console.log("NOW REJCTED", data);
+    // console.log("NOW REJCTED", data);
+    refresh();
+    host_events_refresh();
     if (data.audience.id === auth_user.value?.id) {
       showToast({
         title: `${data.host.name ?? data.host.title} rejected your ${
@@ -387,11 +401,13 @@ const connectPusher = (id?: number | string) => {
       });
       request_rejected.value = true;
     }
-    refresh();
   });
 
   channel.bind_global((event, data) => {
-    console.log(`The event ${event} was triggered with data ${data}`);
+    console.log(
+      `The event ${event} was triggered with data ${data?.message || "--"}`,
+      data
+    );
   });
 };
 
