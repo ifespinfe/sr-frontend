@@ -2,7 +2,7 @@
   <TableContainer
     :heading="heading"
     :data="mergedOrders"
-    :loading="!data && status === 'pending'"
+    :loading="status === 'pending'"
     :pagination-meta="{
       page: meta?.current_page || 1,
       per_page: meta?.per_page || DEFAULT_PAGE_LIMIT,
@@ -50,7 +50,7 @@ interface CreditType {
   description: string;
   event_price: string;
   reference: string;
-  type: "credit";
+  type: "credit" | "debit";
 }
 const currentPage = ref(1);
 const perPage = ref(DEFAULT_PAGE_LIMIT);
@@ -61,22 +61,21 @@ const heading = ref([
   "DATE",
   "DESCRIPTION",
   "TRANSACTION ID",
-  "STATUS",
-  "PAYMENT METHOD",
-  "",
+  // "STATUS",
+  // "PAYMENT METHOD",
+  // "",
 ]);
 
-const { data, status, refresh } = useCustomFetch<Pagination<CreditType>>(
-  "/wallets",
-  {
-    params: computed(() => ({
-      page: currentPage.value,
-      per_page: perPage.value,
-    })),
-    watch: [currentPage, perPage],
-    immediate: true,
-  }
-);
+const { data, status, refresh } = useCustomFetch<
+  Pagination<CreditType, "transactions">
+>("/wallets", {
+  params: computed(() => ({
+    page: currentPage.value,
+    per_page: perPage.value,
+  })),
+  watch: [currentPage, perPage],
+  immediate: true,
+});
 
 // console.log("55551ppppp", data?.value?.data);
 const meta = computed(() => {
@@ -90,7 +89,7 @@ const meta = computed(() => {
 // });
 
 const mergedOrders = computed(() => {
-  const orders = data.value?.data ?? [];
+  const orders = data.value?.transactions ?? [];
 
   return orders?.map((item, idx) => {
     const x: Order = {

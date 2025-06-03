@@ -1,3 +1,5 @@
+import type { LinkMetaData, MetaData } from "./pagination";
+
 export interface PaymentVerificationResponse {
   id: string | number;
   user_id: string | number;
@@ -59,6 +61,7 @@ export interface WalletHistory {
   description: string;
   reference: string;
   type: "credit" | "debit";
+  event_price: string;
 }
 
 export interface Wallet {
@@ -73,7 +76,9 @@ export interface Wallet {
   hype_earnings: number;
   account: string;
   current_page: number;
-  data: WalletHistory[];
+  transactions: WalletHistory[];
+  meta_data: MetaData;
+  link: LinkMetaData;
   first_page_url: string;
   from: number | null;
   last_page: number;
