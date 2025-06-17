@@ -242,6 +242,7 @@ onMounted(() => {
 
   channel.bind("StatusChangedToPending", (data:PusherRequestUpdate) => {
     console.log("NOW PENDING", data);
+    refresh()
   });
 
   channel.bind("StatusChangedToRejected", (data:PusherRequestUpdate) => {
