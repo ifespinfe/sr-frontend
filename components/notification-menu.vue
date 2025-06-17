@@ -20,6 +20,7 @@
       <Teleport to="#teleports">
         <Notifications
           :notifications="notifications"
+          :loading="loading"
           v-if="show"
           @close="closeNotification"
         />
@@ -45,6 +46,7 @@ const {
   updating,
 } = useNotifications();
 
+console.log("9999notssss", notifications);
 const show = ref(false);
 const openNotification = () => {
   markAllNotificationsAsRead;
