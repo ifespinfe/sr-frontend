@@ -52,7 +52,7 @@
               <!-- label and time -->
               <div class="w-full flex justify-between items-start gap-4">
                 <h5 class="font-medium text-base capitalize">
-                  {{ item?.data?.message }}
+                  {{ item?.data?.message?.header || "uuu" }}
                 </h5>
                 <div
                   class="pt-1 text-muted-foreground text-sm font-normal shrink-0 flex gap-2 items-start"
@@ -72,11 +72,13 @@
               </div>
 
               <div
-                v-if="item?.data?.details || item?.data?.icon == 'exclamation'"
+                v-if="
+                  item?.data?.message?.body || item?.data?.icon == 'exclamation'
+                "
                 class="w-full mt-1"
               >
                 <p class="text-muted-foreground">
-                  {{ item?.data?.details }}
+                  {{ item?.data?.message?.body }}
                 </p>
 
                 <div
@@ -134,7 +136,7 @@ interface Notification {
   notifiable_type: string;
   notifiable_id: string | number;
   data: {
-    message: string;
+    message: { body: string; header: string };
     status: string;
     type: string;
     details?: string;
@@ -150,7 +152,7 @@ const props = defineProps<{
   loading: boolean;
 }>();
 
-console.log("wellllll", props.notifications);
+console.log("33wellllll", props.notifications);
 const prepareNotifications = computed(() => {
   for (let i = 0; i < props.notifications.length; i++) {
     if (props.notifications[i].data.status == "rejected")
@@ -160,6 +162,13 @@ const prepareNotifications = computed(() => {
     else if ((props.notifications[i].data.type = "song"))
       props.notifications[i].data.icon = "music_note";
     else props.notifications[i].data.icon = "bell";
+
+    if (typeof props.notifications[i].data.message == "string") {
+      props.notifications[i].data.message = {
+        header: props.notifications[i].data.message as unknown as string,
+        body: "",
+      };
+    }
   }
   return props.notifications;
 });
