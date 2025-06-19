@@ -10,18 +10,30 @@
         "
       >
         <SvgIcon
+          v-if="!isCredit"
           :name="
             order.status === 'refunded'
               ? 'dotted-arrow-down'
               : 'dotted-arrow-up'
           "
         />
+        <SvgIcon
+          v-else
+          :name="
+            order.type === 'credit' ? 'dotted-arrow-down' : 'dotted-arrow-up'
+          "
+        />
       </div>
     </td>
     <td>
       <div class="space-y-p">
-        <div class="text-foreground font-semibold">
+        <div v-if="!isCredit" class="text-foreground font-semibold">
           {{ order.status === "refunded" ? "-" : "" }} ₦{{
+            formatMoney(order.amount ?? 0)
+          }}
+        </div>
+        <div v-if="isCredit" class="text-foreground font-semibold">
+          {{ order.type === "credit" ? "+" : "-" }} ₦{{
             formatMoney(order.amount ?? 0)
           }}
         </div>

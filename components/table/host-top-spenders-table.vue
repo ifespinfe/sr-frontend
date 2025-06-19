@@ -123,6 +123,6 @@ import type { ApiResponse } from "~/types";
 import type { HostAudience } from "~/types/event";
 const heading = ref(["#", "NAME", "SONG REQUEST", "HYPE REQUESTS", "TOTAL"]);
 const { data, status } =
-  useCustomFetch<ApiResponse<HostAudience[]>>("/user/top-audience");
+  useCustomFetch<ApiResponse<HostAudience[]>>("/top-audience");
 const spenders = computed(() => data.value?.data ?? []);
 </script>

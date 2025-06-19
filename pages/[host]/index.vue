@@ -362,7 +362,7 @@ const connectPusher = (id?: number | string) => {
   });
 
   channel.bind("HostGoesLive", (data: any) => {
-    // console.log("HOST GONE LIVE", data);
+    console.log("HOST GONE LIVE", data);
     showToast({ title: "Host is now live" });
     refresh();
     host_events_refresh();
@@ -373,7 +373,7 @@ const connectPusher = (id?: number | string) => {
   });
 
   channel.bind("StatusChangedToNowPlaying", (data: PusherRequestUpdate) => {
-    // console.log("NOW PLAYING", data, auth_user.value);
+    console.log("NOW PLAYING", data, auth_user.value);
     refresh();
     host_events_refresh();
     if (data.audience.id === auth_user.value?.id) {
@@ -387,10 +387,12 @@ const connectPusher = (id?: number | string) => {
 
   channel.bind("StatusChangedToPending", (data: PusherRequestUpdate) => {
     console.log("NOW PENDING", data);
+    refresh();
+    host_events_refresh();
   });
 
   channel.bind("StatusChangedToRejected", (data: PusherRequestUpdate) => {
-    // console.log("NOW REJCTED", data);
+    console.log("NOW REJCTED", data);
     refresh();
     host_events_refresh();
     if (data.audience.id === auth_user.value?.id) {

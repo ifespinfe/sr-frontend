@@ -43,7 +43,7 @@
       >
         <CheckCircle2 class="size-10 text-primary" />
         <div class="text-2xl md:text-3xl font-semibold text-center mb-6">
-          Email ({{ authEmail }}) verified
+          Email {{ authEmail ? `(${authEmail})` : "" }} verified
         </div>
 
         <NuxtLink :to="successRoute">
@@ -106,6 +106,7 @@ const successRoute = computed(() => {
 const userID = computed(() => auth_user.value?.id);
 const route = useRoute();
 const emailVerifyUrl = computed(() => route?.query?.email_verify_url);
+const userIDFromQuery = computed(() => route?.query?.user_id as string);
 const {
   verificationStatus,
   verificationError,
@@ -113,7 +114,10 @@ const {
   resending,
   verifyEmail,
   authState,
-} = useEmailVerification(userID.value, emailVerifyUrl.value as string);
+} = useEmailVerification(
+  userID.value || userIDFromQuery.value,
+  emailVerifyUrl.value as string
+);
 
 watch(
   authState,

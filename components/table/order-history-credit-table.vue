@@ -96,7 +96,6 @@ const mergedOrders = computed(() => {
       amount: item.amount,
       date: useDateFormat(item.created_at, "DD-MM-YYYY").value,
       dj: "--",
-      // @ts-expect-error type err
       description: item.description,
       id: (Number(currentPage) || 1) * idx,
       parent_id: 0,
@@ -108,7 +107,7 @@ const mergedOrders = computed(() => {
       status: "refunded",
       time: item.created_at,
       // @ts-expect-error type err
-      type: item.request_type || "song",
+      type: item.type,
       title: "no title",
       start_date: item.created_at,
       address: "--",
