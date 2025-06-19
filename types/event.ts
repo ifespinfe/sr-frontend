@@ -228,7 +228,10 @@ export interface AppNotification {
   notifiable_type: string;
   notifiable_id: number;
   data: {
-    message: string;
+    message: {
+      body: string;
+      header: string;
+    };
   };
   read_at: null | string;
   created_at: string;
