@@ -367,6 +367,12 @@ const connectPusher = (id?: number | string) => {
     refresh();
     host_events_refresh();
   });
+  channel.bind("DJGoesLive", (data: any) => {
+    console.log("DJ GONE LIVE", data);
+    showToast({ title: "Host is now live" });
+    refresh();
+    host_events_refresh();
+  });
 
   channel.bind("StatusChangedToCompleted", (data: PusherRequestUpdate) => {
     console.log("NOW COMPLETED", data);

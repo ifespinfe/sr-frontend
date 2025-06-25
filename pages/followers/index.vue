@@ -9,11 +9,11 @@
           <div
             class="font-display text-xl sm:text-2xl font-semibold ml-2 text-white"
           >
-            Following
+            Followers
           </div>
           <Dot class="size-12" />
           <div class="text-lg sm:text-xl shrink-0">
-            {{ following.length }} people
+            {{ followers.length }} people
           </div>
         </div>
         <div class="w-[450px] max-w-full ml-auto rounded-full relative">
@@ -43,12 +43,12 @@
         <ListboxRoot class="py-8">
           <ListboxContent class="space-y-1 relative">
             <ListboxItem
-              v-for="user in following"
+              v-for="user in followers"
               :key="user.id"
               :value="user.id"
             >
               <NuxtLink
-                :to="`/following/${user.slug}`"
+                :to="`/followers/${user.slug}`"
                 class="p-3 bg-white/5 border rounded-md transition-colors hover:bg-white/10 grid grid-cols-[50px,_1fr,_auto] gap-x-2 items-center [&:hover_>_.arrow]:block"
               >
                 <Avatar
@@ -79,11 +79,11 @@
 import { Dot, Loader } from "lucide-vue-next";
 import { ChevronRight, Search } from "lucide-vue-next";
 import type { ApiResponse } from "~/types";
-import type { Follower, Following } from "~/types/user";
+import type { Follower } from "~/types/user";
 
 const search = ref("");
-const { data, status, error } = useCustomFetch<ApiResponse<Following>>(
-  "/followings",
+const { data, status, error } = useCustomFetch<ApiResponse<Follower>>(
+  "/followers",
   {
     query: {
       search,
@@ -91,7 +91,7 @@ const { data, status, error } = useCustomFetch<ApiResponse<Following>>(
   }
 );
 
-const following = computed(() => {
-  return data?.value?.data?.following?.data ?? [];
+const followers = computed(() => {
+  return data?.value?.data?.follower?.data ?? [];
 });
 </script>

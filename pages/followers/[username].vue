@@ -1,7 +1,7 @@
 <template>
   <div class="container pt-6 pb-20">
-    <SharedBackButton to="/following" class="relative z-10" />
-    <SharedLoadingArea :loading="!data && status === 'pending'" :error="error">
+    <SharedBackButton to="/followers" class="relative z-10" />
+    <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
         class="grid grid-cols-1 md:grid-cols-[1fr_350px] justify-between gap-6 mt-10 relative"
       >
@@ -16,19 +16,19 @@
           <div class="grid lg:grid-cols-[auto_1fr] items-center gap-4">
             <Avatar
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
-              :initials="getInitials(data?.data?.following?.user_name ?? '')"
-              :image="data?.data?.following?.profile_picture"
+              :initials="getInitials(data?.data?.follower?.user_name ?? '')"
+              :image="data?.data?.follower.profile_picture"
             />
             <div class="py-2">
               <div class="font-display text-3xl md:text-4xl font-semibold">
-                {{ data?.data?.following?.user_name ?? "" }}
+                {{ data?.data?.follower?.user_name ?? "" }}
               </div>
               <div class="flex flex-wrap gap-4 items-center my-4 mb-6">
                 <div class="flex items-center gap-2">
                   <SvgIcon name="account_circle" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data?.following?.followers
+                      data?.data?.follower.followers
                     }}</span>
                     <span class="text-muted-foreground">FOLLOWERS</span>
                   </div>
@@ -37,7 +37,7 @@
                   <SvgIcon name="celebration" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data?.following?.total_events
+                      data?.data?.follower.total_events
                     }}</span>
                     <span class="text-muted-foreground">EVENTS</span>
                   </div>
@@ -46,7 +46,7 @@
                   <SvgIcon name="genres" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data?.following?.requests
+                      data?.data?.follower.requests
                     }}</span>
                     <span class="text-muted-foreground">REQUESTS</span>
                   </div>
@@ -55,7 +55,7 @@
                   <SvgIcon name="genres" />
                   <div class="flex items-center gap-1">
                     <span class="font-semibold">{{
-                      data?.data?.following?.fulfilled
+                      data?.data?.follower.fulfilled
                     }}</span>
                     <span class="text-muted-foreground">FUFILLED</span>
                   </div>
@@ -89,11 +89,11 @@
 
         <div
           class="mt-4 space-y-2 text-muted-foreground relative z-10"
-          v-if="data?.data?.following?.role === 'host'"
+          v-if="data?.data?.follower.role === 'host'"
         >
           <div>ABOUT ME</div>
           <div class="max-w-[550px]">
-            {{ data.data?.following?.bio }}
+            {{ data.data.follower.bio }}
           </div>
           <div
             class="inline-flex bg-white/10 items-center rounded-xl p-3 gap-4"
@@ -101,8 +101,8 @@
             <SvgIcon name="badge" />
             <div>
               <div class="text-lg font-semibold text-foreground">
-                {{ data.data?.following?.fulfilled }} of
-                {{ data.data?.following?.requests }}
+                {{ data.data.follower.fulfilled }} of
+                {{ data.data.follower.requests }}
               </div>
               <div class="text-muted-foreground">Request fufilled</div>
             </div>
@@ -121,25 +121,25 @@ import type { Fan } from "~/types/user";
 
 const username = useRoute()?.params?.username;
 const { status, data, error, refresh } = useCustomFetch<
-  ApiResponse<{ following: Fan }>
->(`/following/details/${username}`);
+  ApiResponse<{ follower: Fan }>
+>(`/follower/details/${username}`);
 
 const isHost = computed(() => {
   if (!data.value?.data) return false;
-  return data.value.data.following.role === "host";
+  return data.value.data.follower.role === "host";
 });
 
 const { followUser, following, subOrUnsubscribeUser, subscribing } =
   useFollowActions();
 
 const handleFollow = () => {
-  const id = data.value?.data?.following.id;
+  const id = data.value?.data?.follower.id;
   if (!id) return;
   followUser(id, refresh);
 };
 
 const handleSubscription = () => {
-  const id = data.value?.data?.following.id;
+  const id = data.value?.data?.follower.id;
   if (!id) return;
   subOrUnsubscribeUser(id, "subscribe", refresh);
 };
