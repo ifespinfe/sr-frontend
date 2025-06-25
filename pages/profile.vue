@@ -62,15 +62,18 @@
               <div
                 class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
               >
-                <div class="flex items-center gap-x-2">
+                <NuxtLink
+                  class="text-primary flex items-center gap-x-2"
+                  to="/followers"
+                >
                   <SvgIcon name="account_circle" />
                   <b>{{
                     isHost
                       ? data?.data?.stats?.followers ?? "0"
                       : data?.data?.followers ?? "0"
                   }}</b>
-                  FOLLOWERS
-                </div>
+                  <span>FOLLOWERS</span> <ChevronRight />
+                </NuxtLink>
                 <NuxtLink
                   class="text-primary flex items-center gap-x-2"
                   to="/following"

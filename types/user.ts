@@ -143,3 +143,22 @@ export interface Follower {
     };
   };
 }
+export interface Following {
+  following: {
+    data: Fan[];
+    links: {
+      first: string;
+      last: string;
+      next: string | null;
+      prev: string | null;
+    };
+    meta: {
+      current_page: number;
+      from: number;
+      last_page: number;
+      per_page: number;
+      to: number;
+      total: number;
+    };
+  };
+}
