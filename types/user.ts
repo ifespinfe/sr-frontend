@@ -123,6 +123,8 @@ export interface Fan {
   total_events?: number;
   requests?: number;
   fulfilled?: number;
+  subscribed?: boolean;
+  followed?: boolean;
 }
 export interface Follower {
   follower: {
