@@ -70,11 +70,16 @@
                     :variant="'secondary'"
                     class="w-full md:w-auto"
                     :size="'lg'"
-                    @click="handleFollow"
-                    :loading="following"
+                    @click="
+                      data.data?.following?.followed
+                        ? handleUnFollow()
+                        : handleFollow()
+                    "
+                    :loading="following || unfollowing"
+                    :disabled="following || unfollowing"
                     hide_loading_text
                   >
-                    Follow
+                    {{ data.data?.following?.followed ? "Unfollow" : "Follow" }}
                   </Button>
 
                   <Button
@@ -82,9 +87,14 @@
                     :size="'lg'"
                     @click="handleSubscription"
                     :loading="subscribing"
+                    :disabled="subscribing"
                     hide_loading_text
                   >
-                    Notify me when Host Goes Live.
+                    {{
+                      data.data?.following?.subscribed
+                        ? "Unsubscribe"
+                        : "Notify me when Host Goes Live."
+                    }}
                   </Button>
                 </div>
               </div>
@@ -143,8 +153,14 @@ const isHost = computed(() => {
   return data.value.data?.following?.role === "host";
 });
 
-const { followUser, following, subOrUnsubscribeUser, subscribing } =
-  useFollowActions();
+const {
+  followUser,
+  unFollowUser,
+  following,
+  unfollowing,
+  subOrUnsubscribeUser,
+  subscribing,
+} = useFollowActions();
 
 const handleFollow = () => {
   const id = data.value?.data?.following.id;
@@ -154,12 +170,24 @@ const handleFollow = () => {
     refresh();
   });
 };
+const handleUnFollow = () => {
+  const id = data.value?.data?.following.id;
+  if (!id) return;
+  unFollowUser(id, () => {
+    showToast({ title: "Unfollowed successfully", variant: "normal" });
+    refresh();
+  });
+};
 
 const handleSubscription = () => {
   const id = data.value?.data?.following.id;
+  const isSubscrided = data.value?.data?.following?.subscribed;
   if (!id) return;
-  subOrUnsubscribeUser(id, "subscribe", () => {
-    showToast({ title: "You have subscribed", variant: "normal" });
+  subOrUnsubscribeUser(id, isSubscrided ? "unsubscribe" : "subscribe", () => {
+    showToast({
+      title: isSubscrided ? "You have unsubscribed" : "You have subscribed",
+      variant: "normal",
+    });
     refresh();
   });
 };
