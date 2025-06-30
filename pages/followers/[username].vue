@@ -13,7 +13,10 @@
         />
 
         <div class="relative z-10">
-          <div class="grid lg:grid-cols-[auto_1fr] items-center gap-4">
+          <div
+            v-if="data?.data?.follower"
+            class="grid lg:grid-cols-[auto_1fr] items-center gap-4"
+          >
             <Avatar
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
               :initials="getInitials(data?.data?.follower?.user_name ?? '')"
@@ -85,6 +88,13 @@
               </div>
             </div>
           </div>
+
+          <div
+            v-if="status === 'success' && !data?.data?.follower"
+            class="bg-red h-40flex items-center justify-center"
+          >
+            <p>User not found</p>
+          </div>
         </div>
 
         <div
@@ -135,12 +145,18 @@ const { followUser, following, subOrUnsubscribeUser, subscribing } =
 const handleFollow = () => {
   const id = data.value?.data?.follower.id;
   if (!id) return;
-  followUser(id, refresh);
+  followUser(id, () => {
+    showToast({ title: "Followed successfully", variant: "normal" });
+    refresh();
+  });
 };
 
 const handleSubscription = () => {
   const id = data.value?.data?.follower.id;
   if (!id) return;
-  subOrUnsubscribeUser(id, "subscribe", refresh);
+  subOrUnsubscribeUser(id, "subscribe", () => {
+    showToast({ title: "You have subscribed", variant: "normal" });
+    refresh();
+  });
 };
 </script>
