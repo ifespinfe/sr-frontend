@@ -57,16 +57,13 @@ import EventTopSpenders from "~/components/event-top-spenders.vue";
 import { promiseTimeout } from "@vueuse/core";
 
 const route = useRoute();
-const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
-  `events/${route.params.event_id}`
-);
-
 const reference = computed(() => {
   // check route
   return route?.query?.reference ?? ("" as string);
 });
 
-console.log("reference3333", reference.value);
+// console.log("events ish2", status.value);
+
 const {
   data: verification,
   status: verification_status,
@@ -85,6 +82,12 @@ const {
   refresh: refreshTopSpenders,
 } = useCustomFetch<ApiResponse<EventSpender[]>>(
   `/events/top/spenders/${route.params.event_id}?includeLiveEvent=1`
+);
+const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
+  `events/${route.params.event_id}`,
+  {
+    server: false,
+  }
 );
 
 const { authEmail } = useAuth();

@@ -117,10 +117,18 @@ export interface EventHistory {
 }
 
 export interface HostAudience {
-  audience_name: string;
-  hype_earnings: number;
-  song_earnings: number;
-  total_earnings: number;
+  // audience_name: string;
+  // hype_earnings: number;
+  // song_earnings: number;
+  // total_earnings: number;
+
+  total: string;
+  song_total: string;
+  hype_total: string;
+  user_id: number;
+  email: string;
+  name?: string;
+  stage_name?: string;
 }
 
 export interface EventFormDetails {

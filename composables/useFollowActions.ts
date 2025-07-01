@@ -14,6 +14,7 @@ export const useFollowActions = () => {
     onInitiation?: () => void
   ) => {
     try {
+      following.value = true;
       onInitiation?.();
       // following.value = true;
       const response = await user.followUser({ parent_id });
@@ -40,6 +41,7 @@ export const useFollowActions = () => {
     onInitiation?: () => void
   ) => {
     try {
+      unfollowing.value = true;
       onInitiation?.();
       // unfollowing.value = true;
       const response = await user.unFollowUser({ parent_id });
