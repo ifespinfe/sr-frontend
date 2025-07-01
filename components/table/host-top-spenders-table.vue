@@ -8,27 +8,33 @@
     <tr
       class="!h-20 text-muted-foreground"
       v-for="(spender, index) in spenders"
-      :key="spender.audience_name + index"
+      :key="spender.user_id + index"
     >
       <td>{{ index + 1 }}</td>
       <td>
         <div class="flex gap-x-2 items-center">
           <Avatar
-            :initials="getInitials(spender?.audience_name)"
+            :initials="
+              getInitials(spender?.stage_name || spender.name || 'Aud')
+            "
             class="font-bold text-lg"
             :style="{
               backgroundColor: getHexColor(
-                spender?.audience_name?.charAt(0) ?? 'A'
+                spender?.stage_name?.charAt(0) ||
+                  spender?.name?.charAt(0) ||
+                  'A'
               ),
               color: 'black',
             }"
           />
-          <div class="font-semibold">{{ spender.audience_name }}</div>
+          <div class="font-semibold">
+            {{ spender.name || spender.stage_name || "n/a" }}
+          </div>
         </div>
       </td>
-      <td>₦{{ formatMoney(spender.song_earnings ?? 0) }}</td>
-      <td>₦{{ formatMoney(spender.hype_earnings ?? 0) }}</td>
-      <td>₦{{ formatMoney(spender.total_earnings ?? 0) }}</td>
+      <td>₦{{ formatMoney(spender.song_total ?? 0) }}</td>
+      <td>₦{{ formatMoney(spender.hype_total ?? 0) }}</td>
+      <td>₦{{ formatMoney(spender.total ?? 0) }}</td>
     </tr>
     <template #empty>
       <div class="min-h-[297px] grid place-items-center">
@@ -52,25 +58,29 @@
     <template v-else>
       <CollapsibleRoot
         v-for="(spender, index) in spenders"
-        :key="spender.audience_name + index"
+        :key="spender.user_id + index"
         class="rounded-lg bg-white/5"
       >
         <CollapsibleTrigger
           class="grid grid-cols-[auto_1fr_15px] gap-x-4 items-center w-full p-4 [&[data-state='open']_.caret]:rotate-180"
         >
           <Avatar
-            :initials="getInitials(spender?.audience_name)"
+            :initials="
+              getInitials(spender?.name || spender?.stage_name || 'Aud')
+            "
             class="font-bold text-lg"
             :style="{
               backgroundColor: getHexColor(
-                spender?.audience_name?.charAt(0) ?? 'A'
+                spender?.name?.charAt(0) ||
+                  spender?.stage_name?.charAt(0) ||
+                  'A'
               ),
               color: 'black',
             }"
           />
 
           <div class="font-semibold text-left">
-            {{ spender.audience_name }}
+            {{ spender.name || spender.stage_name || "n/a" }}
           </div>
 
           <ChevronDown class="size-5 caret transition-transform relative" />
@@ -81,17 +91,15 @@
           <div class="space-y-4 px-4 pb-4">
             <div class="space-y-1">
               <div class="text-sm text-muted-foreground">SONG REQUESTS</div>
-              <div class="">₦{{ formatMoney(spender.song_earnings ?? 0) }}</div>
+              <div class="">₦{{ formatMoney(spender.song_total ?? 0) }}</div>
             </div>
             <div class="space-y-1">
               <div class="text-sm text-muted-foreground">HYPE REQUESTS</div>
-              <div class="">₦{{ formatMoney(spender.hype_earnings ?? 0) }}</div>
+              <div class="">₦{{ formatMoney(spender.hype_total ?? 0) }}</div>
             </div>
             <div class="space-y-1">
               <div class="text-sm text-muted-foreground">TOTAL</div>
-              <div class="">
-                ₦{{ formatMoney(spender.total_earnings ?? 0) }}
-              </div>
+              <div class="">₦{{ formatMoney(spender.total ?? 0) }}</div>
             </div>
           </div>
         </CollapsibleContent>
