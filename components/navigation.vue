@@ -61,7 +61,7 @@
             </div>
           </template>
         </UiPopover>
-        <NuxtLink
+        <!-- <NuxtLink
           v-if="auth_user?.role === 'host'"
           to="/wallet"
           class="hidden md:block"
@@ -72,7 +72,7 @@
             </div>
             <SvgIcon name="wallet" class="text-primary relative scale-75" />
           </UiButton>
-        </NuxtLink>
+        </NuxtLink> -->
 
         <NuxtLink to="/audience">
           <UiTooltip message="Search host" :delay="50">
