@@ -181,11 +181,14 @@ const { data: wallet, status: wallet_status } =
   useCustomFetch<Wallet>("/wallets");
 
 const deleteEvent = (id: number | string) => {
-  if (!data.value) return;
+  if (!data.value?.data?.event_data) return;
+
   const updatedEvents = data.value?.data?.event_data?.filter(
     (item) => item.id !== id
   );
-  Object.assign(data.value, { data: updatedEvents });
+
+  data.value.data.event_data = updatedEvents;
+  // Object.assign(data.value, { data: updatedEvents });
 };
 
 const hostNewEvents = computed(() =>
