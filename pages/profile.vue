@@ -268,6 +268,8 @@
             </div>
           </div>
 
+          <ProfileManageLinks />
+
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
           >
@@ -279,6 +281,7 @@
             /> -->
             <PasswordChange />
           </div>
+
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
             v-if="isHost"

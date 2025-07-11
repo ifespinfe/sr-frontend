@@ -125,6 +125,8 @@ export interface Fan {
   fulfilled?: number;
   subscribed?: boolean;
   followed?: boolean;
+  url: string | null;
+  url_name: string | null;
 }
 export interface Follower {
   follower: {
