@@ -134,7 +134,7 @@ const pageError = computed(() => error.value ?? verification_error.value);
 const request_id = route.params.request_id as string;
 
 const request = computed(() => {
-  return data.value?.data?.requests.find(
+  return data.value?.data?.requests?.find(
     (item) => `${item.id}` === `${request_id}`
   );
 });

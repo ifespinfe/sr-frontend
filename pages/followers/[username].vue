@@ -105,6 +105,10 @@
           >
             <p>User not found</p>
           </div>
+
+          <div class="mt-8 pb-4 lg:mt-32" v-if="userLinks.length">
+            <ProfileViewLinks :links="userLinks" />
+          </div>
         </div>
 
         <div
@@ -143,6 +147,17 @@ const username = useRoute()?.params?.username;
 const { status, data, error, refresh } = useCustomFetch<
   ApiResponse<{ follower: Fan }>
 >(`/follower/details/${username}`);
+
+const userLinks = computed(() => {
+  if (!data?.value?.data?.follower?.url) return [];
+
+  return [
+    {
+      url: data?.value?.data?.follower?.url,
+      url_name: data?.value?.data?.follower?.url_name,
+    },
+  ];
+});
 
 const isHost = computed(() => {
   if (!data.value?.data) return false;
