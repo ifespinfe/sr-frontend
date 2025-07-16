@@ -5,8 +5,7 @@
     <div class="space-y-2">
       <div class="font-semibold">My Links</div>
       <div class="text-muted-foreground lg:pr-2">
-        Links allow you to showcase your work, mixtapes, and social media. You
-        can add up to 4 links.
+        Links allow you to showcase your work, mixtapes, and social media.
       </div>
     </div>
 
