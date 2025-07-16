@@ -1,11 +1,15 @@
 <template>
   <header class="flex items-center justify-between container">
-    <NuxtLink class="flex items-center gap-x-px" :to="homeRoute">
+    <div
+      class="flex items-center gap-x-px"
+      @click="handleLogoClick"
+      :role="'button'"
+    >
       <SvgIcon class="scale-75" />
       <div class="text-lg font-semibold font-display hidden sm:block">
         SpinRequest
       </div>
-    </NuxtLink>
+    </div>
 
     <nav class="flex items-center gap-x-2">
       <template v-if="isLoggedIn">
@@ -101,6 +105,27 @@ import Button from "./ui/button.vue";
 import { Search } from "lucide-vue-next";
 
 const { isLoggedIn, auth_user } = useAuth();
+const router = useRouter();
+const route = useRoute();
+
+const rolePathMap = {
+  audience: "/audience",
+  host: "/dashboard",
+};
+
+const handleLogoClick = () => {
+  const currentPath = route.path;
+  const targetPath = auth_user.value?.role
+    ? rolePathMap[auth_user.value?.role]
+    : "/";
+
+  if (currentPath === targetPath) {
+    window.location.reload();
+  } else {
+    router.push(targetPath);
+  }
+};
+
 const homeRoute = computed(() => {
   if (!isLoggedIn.value) return "/";
   return auth_user.value?.role === "audience" ? "/audience" : "/dashboard";
