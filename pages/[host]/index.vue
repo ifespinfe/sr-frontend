@@ -102,7 +102,7 @@
                   </Button>
                 </NuxtLink>
 
-                <Button
+                <!-- <Button
                   class="w-full md:w-auto"
                   :size="'lg'"
                   v-else-if="!data?.data?.live_event && false"
@@ -110,7 +110,7 @@
                   :loading="subscribing"
                 >
                   Notify me when Host Goes Live.
-                </Button>
+                </Button> -->
               </div>
             </div>
           </div>
