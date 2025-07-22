@@ -29,11 +29,13 @@ export interface AuthUser {
   following?: number;
   total_requests?: number;
   stats?: {
+    user_name: string;
     events: number;
     followers: number;
     following: number;
     fulfilled: number;
     requests: number;
+    total_requests: number;
   };
 }
 
