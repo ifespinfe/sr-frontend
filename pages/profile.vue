@@ -42,15 +42,13 @@
               <div class="space-y-1">
                 <div class="text-xl font-semibold flex items-center gap-2">
                   <span>{{
-                    data?.data?.user_name ??
+                    stats?.user_name ??
                     data?.data?.stage_name ??
                     data?.data?.email ??
                     "Add a username"
                   }}</span>
                   <ModalsEditUsername
-                    :username="
-                      data?.data?.user_name ?? data?.data?.stage_name ?? ''
-                    "
+                    :username="stats?.user_name ?? data?.data?.stage_name ?? ''"
                     :updating="updating"
                     @save="updateUsername"
                   />
@@ -59,46 +57,41 @@
                   {{ data?.data?.email ?? "Add email" }}
                 </div>
               </div>
-              <div
-                class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
-              >
-                <NuxtLink
-                  class="text-primary flex items-center gap-x-2"
-                  to="/followers"
-                >
-                  <SvgIcon name="account_circle" />
-                  <b>{{
-                    isHost
-                      ? data?.data?.stats?.followers ?? "0"
-                      : data?.data?.followers ?? "0"
-                  }}</b>
-                  <span>FOLLOWERS</span> <ChevronRight />
-                </NuxtLink>
-                <NuxtLink
-                  class="text-primary flex items-center gap-x-2"
-                  to="/following"
-                >
-                  <SvgIcon name="account_circle" />
-                  <b>{{
-                    isHost
-                      ? data?.data?.stats?.following ?? "0"
-                      : data?.data?.following ?? "0"
-                  }}</b>
-                  <span>FOLLOWING</span> <ChevronRight />
-                </NuxtLink>
-
-                <div class="flex items-center gap-x-2">
-                  <SvgIcon name="genres" />
-                  <b>{{
-                    isHost
-                      ? data?.data?.stats?.requests
-                      : data?.data?.total_requests ?? "0"
-                  }}</b>
-                  REQUESTS
+              <div>
+                <div class="w-fit h-10" v-if="userStatsStatus === 'pending'">
+                  <Loader class="size-5 animate-spin" />
                 </div>
-                <div class="flex items-center gap-x-2" v-if="isHost">
-                  <SvgIcon name="celebration" />
-                  <b>{{ data?.data?.stats?.events ?? "" }}</b> EVENTS
+
+                <div
+                  v-else
+                  class="flex items-center gap-x-6 flex-wrap gap-y-4 text-muted-foreground text-sm sm:text-base"
+                >
+                  <NuxtLink
+                    class="text-primary flex items-center gap-x-2"
+                    to="/followers"
+                  >
+                    <SvgIcon name="account_circle" />
+                    <b>{{ stats?.followers ?? "0" }}</b>
+                    <span>FOLLOWERS</span> <ChevronRight />
+                  </NuxtLink>
+                  <NuxtLink
+                    class="text-primary flex items-center gap-x-2"
+                    to="/following"
+                  >
+                    <SvgIcon name="account_circle" />
+                    <b>{{ stats?.following ?? "0" }}</b>
+                    <span>FOLLOWING</span> <ChevronRight />
+                  </NuxtLink>
+
+                  <div class="flex items-center gap-x-2">
+                    <SvgIcon name="genres" />
+                    <b>{{ stats?.total_requests ?? stats?.requests ?? "0" }}</b>
+                    REQUESTS
+                  </div>
+                  <div class="flex items-center gap-x-2" v-if="isHost">
+                    <SvgIcon name="celebration" />
+                    <b>{{ stats?.events ?? "" }}</b> EVENTS
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,36 +171,28 @@
               <div class="flex items-center gap-2">
                 <SvgIcon name="account_circle" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{
-                    data?.data?.stats?.followers ?? 0
-                  }}</span>
+                  <span class="font-semibold">{{ stats?.followers ?? 0 }}</span>
                   <span class="text-muted-foreground">FOLLOWERS</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <SvgIcon name="celebration" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{
-                    data?.data?.stats?.events ?? 0
-                  }}</span>
+                  <span class="font-semibold">{{ stats?.events ?? 0 }}</span>
                   <span class="text-muted-foreground">EVENTS</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <SvgIcon name="genres" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{
-                    data?.data?.stats?.requests ?? 0
-                  }}</span>
+                  <span class="font-semibold">{{ stats?.requests ?? 0 }}</span>
                   <span class="text-muted-foreground">REQUESTS</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <SvgIcon name="genres" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{
-                    data?.data?.stats?.fulfilled ?? 0
-                  }}</span>
+                  <span class="font-semibold">{{ stats?.fulfilled ?? 0 }}</span>
                   <span class="text-muted-foreground">FUFILLED</span>
                 </div>
               </div>
@@ -268,6 +253,8 @@
             </div>
           </div>
 
+          <ProfileManageLinks />
+
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
           >
@@ -279,6 +266,7 @@
             /> -->
             <PasswordChange />
           </div>
+
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
             v-if="isHost"
@@ -348,8 +336,8 @@
             v-else-if="data?.data?.id"
           />
         </div>
-        <div v-else-if="data?.data?.user_name">
-          <ProfileCard :username="data?.data?.user_name" />
+        <div v-else-if="stats?.user_name">
+          <ProfileCard :username="stats.user_name" />
         </div>
       </div>
     </SharedLoadingArea>
@@ -393,9 +381,13 @@ const dateLimit = computed(() => {
 
 const isHost = computed(() => auth_user.value?.role === "host");
 
-const { data, status, error, refresh } = useCustomFetch<ApiResponse<AuthUser>>(
-  isHost.value ? "/user?stat=true" : "/user?stat=true"
-);
+const { data: userStats, status: userStatsStatus } =
+  useCustomFetch<ApiResponse<{ stats: AuthUser["stats"] }>>("/user?stat=true");
+const stats = computed(() => {
+  return userStats?.value?.data?.stats ?? null;
+});
+const { data, status, error, refresh } =
+  useCustomFetch<ApiResponse<AuthUser>>("/user");
 
 const { data: bank, status: bank_status } =
   useCustomFetch<ApiResponse<Bank[]>>("/bankaccount/list");
@@ -417,7 +409,7 @@ const bankNames = computed(() =>
 const name = computed(
   () =>
     data.value?.data?.stage_name ??
-    data.value?.data?.user_name ??
+    stats.value?.user_name ??
     data.value?.data?.email
 );
 const initials = computed(() => getInitials(name.value ?? ""));
@@ -430,10 +422,8 @@ const hostLink = computed(
 const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
   return {
     user: {
-      stage_name:
-        data.value?.data?.stage_name ?? data.value?.data?.user_name ?? "",
-      user_name:
-        data.value?.data?.user_name ?? data.value?.data?.stage_name ?? "",
+      stage_name: data.value?.data?.stage_name ?? stats.value?.user_name ?? "",
+      user_name: stats.value?.user_name ?? data.value?.data?.stage_name ?? "",
       name: data.value?.data?.name ?? "",
       bio: data.value?.data?.bio ?? "",
       dob: data.value?.data?.dob ?? null,
@@ -456,7 +446,7 @@ const audience_profile = useState<AudienceProfileUpdate>(
   () => {
     return {
       user: {
-        user_name: data.value?.data?.user_name ?? "",
+        user_name: stats.value?.user_name ?? "",
         dob: data.value?.data?.dob ?? null,
         gender: data.value?.data?.gender ?? "",
         country: data.value?.data?.country ?? "",
@@ -477,7 +467,7 @@ watchEffect(() => {
         gender: user.gender,
         profession: user.profession,
         stage_name: user.stage_name,
-        user_name: user.user_name,
+        user_name: user.user_name ?? stats.value?.user_name ?? "",
         profile_picture: user.profile_picture,
         bank_account: data.value?.data?.bank_account,
       };
@@ -491,11 +481,13 @@ watchEffect(() => {
     audience_profile.value.user.dob = user.dob ?? null;
     profile.value.user.gender = user.gender ?? null;
     audience_profile.value.user.gender = user.gender ?? null;
-    audience_profile.value.user.user_name = user.user_name ?? "";
+    audience_profile.value.user.user_name =
+      user.user_name ?? stats.value?.user_name ?? "";
     // audience_profile.value.user.name = user.stage_name ?? "";
     profile.value.user.name = user.name ?? "";
     profile.value.user.stage_name = user.stage_name ?? "";
-    profile.value.user.user_name = user.user_name ?? user.stage_name ?? "";
+    profile.value.user.user_name =
+      user.user_name ?? user.stage_name ?? stats.value?.user_name ?? "";
     profile.value.user.profession = user.profession ?? null;
     profile.value.bank_account.account_name =
       user.bank_account?.account_name ?? "";

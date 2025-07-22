@@ -53,6 +53,8 @@ export interface HostProfile {
     stage_name: string;
     is_live: boolean;
     bank_account: null;
+    url?: string | null;
+    url_name?: string | null;
   };
   live_event?: LiveEvent;
 }
@@ -125,6 +127,8 @@ export interface Fan {
   fulfilled?: number;
   subscribed?: boolean;
   followed?: boolean;
+  url: string | null;
+  url_name: string | null;
 }
 export interface Follower {
   follower: {

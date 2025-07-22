@@ -51,6 +51,6 @@ const timePassed = computed(() => {
   const now = useNow();
   const start_date = props.startDate;
   if (!start_date) return "00:00:00";
-  return formattedTimeDifference(start_date, now.value);
+  return formattedTimeDifference(start_date, now.value, "timer");
 });
 </script>

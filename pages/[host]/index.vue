@@ -28,6 +28,7 @@
       >
         <div>
           <div class="grid lg:grid-cols-[auto_1fr] items-center gap-4">
+            <!--   @click="ended = true" -->
             <Avatar
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
               :initials="
@@ -36,8 +37,8 @@
                 )
               "
               :image="host.profile_picture"
-              @click="ended = true"
             />
+
             <div class="py-2">
               <div class="font-display text-3xl md:text-4xl font-semibold">
                 {{ host?.user_name ?? host?.stage_name ?? host.name ?? "" }}
@@ -101,7 +102,7 @@
                   </Button>
                 </NuxtLink>
 
-                <Button
+                <!-- <Button
                   class="w-full md:w-auto"
                   :size="'lg'"
                   v-else-if="!data?.data?.live_event && false"
@@ -109,7 +110,7 @@
                   :loading="subscribing"
                 >
                   Notify me when Host Goes Live.
-                </Button>
+                </Button> -->
               </div>
             </div>
           </div>
@@ -133,6 +134,10 @@
                 <div class="text-muted-foreground">Request fufilled</div>
               </div>
             </div>
+          </div>
+
+          <div class="mt-8 pb-4 lg:mt-24" v-if="userLinks.length">
+            <ProfileViewLinks :links="userLinks" />
           </div>
         </div>
 
@@ -236,6 +241,18 @@ const { data, error, status, refresh } = useCustomFetch<
     connectPusher(data?.response?._data?.data?.live_event?.id);
   },
 });
+
+const userLinks = computed(() => {
+  if (!data?.value?.data?.user?.url) return [];
+
+  return [
+    {
+      url: data?.value?.data?.user?.url! as string,
+      url_name: data?.value?.data?.user?.url_name! as string,
+    },
+  ];
+});
+
 const {
   data: host_events_data,
   error: host_events_error,
