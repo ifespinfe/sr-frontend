@@ -31,8 +31,7 @@
 import ArcProgress from "~/components/shared/arc-progress.vue";
 import type { ApiResponse } from "~/types";
 import type { AuthUser } from "~/types/auth";
-const { data, status } =
-  useCustomFetch<ApiResponse<AuthUser>>("/user?stat=true");
+const { data, status } = useCustomFetch<ApiResponse<AuthUser>>("/user");
 
 const required_fields = [
   "stage_name",
