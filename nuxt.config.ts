@@ -64,6 +64,9 @@ export default defineNuxtConfig({
   alias: {
     "@spinlander": r("./components/lander"),
   },
+  plugins: [
+    '~/plugins/clarity.client.js'
+  ],
   // gtag: {
   //   id: "G-E298NRK4DP",
   // },
