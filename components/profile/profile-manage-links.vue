@@ -109,7 +109,7 @@
           <FormInput
             name="url"
             label="Url"
-            placeholder="Enter the full URL"
+            placeholder="Enter the full URL e.g https://example.com"
             type="text"
           />
 
