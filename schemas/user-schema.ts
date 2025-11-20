@@ -12,14 +12,14 @@ export const BioSchema = string()
 
 export const passwordSchema = string()
   .required("Enter your password")
-  .min(8, "Password should be at least 8 characters long")
-  .matches(/[0-9]/, "Password should contain at least one number")
-  .matches(/[a-z]/, "Password should contain at least one lowercase letter")
-  .matches(/[A-Z]/, "Password should contain at least one uppercase letter")
-  .matches(
-    /[!@#$%^&*(),.?":{}|<>]/,
-    "Password should contain at least a special character"
-  );
+  .min(5, "Password should be at least 5 characters long");
+  // .matches(/[0-9]/, "Password should contain at least one number")
+  // .matches(/[a-z]/, "Password should contain at least one lowercase letter")
+  // .matches(/[A-Z]/, "Password should contain at least one uppercase letter")
+  // .matches(
+  //   /[!@#$%^&*(),.?":{}|<>]/,
+  //   "Password should contain at least a special character"
+  // );
 
 export const AudienceSchema = object({
   name: string().optional().min(3, "Name should be at least 3 characters long"),
