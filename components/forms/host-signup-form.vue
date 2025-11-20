@@ -21,7 +21,6 @@
       placeholder="Enter your password"
       type="password"
       label="Password"
-      rules="min:5"
       show-error-on-touch
     />
 
