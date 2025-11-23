@@ -65,7 +65,8 @@ export default defineNuxtConfig({
     "@spinlander": r("./components/lander"),
   },
   plugins: [
-    '~/plugins/clarity.client.js'
+    '~/plugins/clarity.client.js',
+    '~/plugins/tawk.client.ts'
   ],
   // gtag: {
   //   id: "G-E298NRK4DP",
