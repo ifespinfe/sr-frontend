@@ -188,10 +188,24 @@ export interface RequestPaymentPayload {
   gateway?: "paystack";
 }
 
+export interface FundWalletPayload {
+  redirect_url: string;
+  type: string;
+  gateway: string;
+  amount: number;
+}
+
 export interface RequestPaymentResponse {
   status: string;
   message: string;
   redirect_url: string;
+}
+
+export interface FundWalletResponse {
+  status: string;
+  message: string;
+  redirect_url: string;
+  amount: number;
 }
 
 export interface EventSpender {
