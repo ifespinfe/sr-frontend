@@ -8,6 +8,8 @@ import type {
   LiveEvent,
   RequestPaymentPayload,
   RequestPaymentResponse,
+  FundWalletResponse,
+  FundWalletPayload
 } from "~/types/event";
 import type {
   HypeRequestPayload,
@@ -133,5 +135,19 @@ export default class Auth {
 
   async countUnreadNotification() {
     return await this.call("GET", this.COUNT_UNREAD_NOTIFICATION);
+  }
+
+  async fundWallet(
+    payload: FundWalletPayload
+  ) {
+    return await this.call<FundWalletResponse>(
+      "POST",
+      `/wallets/fund/payment/create`,
+      payload
+    );
+  }  
+
+  async verifyFundWalletPayment(reference: string) {
+    return await this.call("GET", `/wallets/fund/${reference}/payment/confirm`);
   }
 }
