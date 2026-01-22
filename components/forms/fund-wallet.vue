@@ -14,6 +14,7 @@
         @click="fundWallet"
         :disabled="loading"
         class="w-full bg-green-600 text-white p-3 rounded-full hover:bg-green-700 transition-colors"
+        style="background-color: #a799ff"
       >
         {{ loading ? 'Redirecting...' : 'Proceed' }}
       </button>

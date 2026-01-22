@@ -41,15 +41,15 @@
           :class="
             cn(
               'flex items-center gap-x-px  text-xs',
-              order.type === 'hype' ? 'text-[#FF99F1]' : 'text-[#FFEE99]'
+              order.type === 'hype' ? 'text-[#FF99F1]' : order.type === 'song' ? 'text-[#FFEE99]' : 'text-[#6DC9FC]'
             )
           "
         >
           <SvgIcon
-            :name="order.type === 'hype' ? 'mic' : 'music'"
+            :name="order.type === 'hype' ? 'mic' : order.type === 'song' ? 'music' : 'wallet-top-up'"
             class="scale-50 -ml-1.5"
           />
-          <div>{{ order.type === "hype" ? "Hype" : "Song" }} request</div>
+          <div>{{ order.type === "hype" ? "Hype request" : order.type === "song" ? "Song request" : "wallet-top-up" }}</div>
         </div>
       </div>
     </td>
