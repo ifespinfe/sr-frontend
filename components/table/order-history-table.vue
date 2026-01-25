@@ -24,7 +24,7 @@
             No Song or Hype Requests Yet
           </div>
           <div class="text-sm text-muted-foreground text-center">
-            You haven’t requested a song or hype from the DJ. Once you do, your
+            You haven' t requested a song or hype from the DJ. Once you do, your
             requests will appear here
           </div>
         </div>

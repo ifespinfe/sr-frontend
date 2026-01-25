@@ -46,7 +46,7 @@
           "
         >
           <SvgIcon
-            :name="order.type === 'hype' ? 'mic' : order.type === 'song' ? 'music' : 'wallet-top-up'"
+            :name="order.type === 'hype' ? 'mic' : order.type === 'song' ? 'music' : 'wallet'"
             class="scale-50 -ml-1.5"
           />
           <div>{{ order.type === "hype" ? "Hype request" : order.type === "song" ? "Song request" : "wallet-top-up" }}</div>
