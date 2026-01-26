@@ -5,14 +5,14 @@
         :class="
           cn(
             ' size-10 rounded-full grid place-items-center',
-            order.status === 'refunded' ? 'bg-[#38F08D]/15' : 'bg-[#F04438]/15'
+            order.status === 'refunded' || order.status === 'top_up' ? 'bg-[#38F08D]/15' : 'bg-[#F04438]/15'
           )
         "
       >
         <SvgIcon
           v-if="!isCredit"
           :name="
-            order.status === 'refunded'
+            order.status === 'refunded' || order.status === 'top_up'
               ? 'dotted-arrow-down'
               : 'dotted-arrow-up'
           "
