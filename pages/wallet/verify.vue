@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-md mx-auto mt-20 text-center">
+    <div class=" bg-white/5 border rounded-3xl p-6 max-w-md mx-auto mt-20 text-center">
       <p v-if="loading">Verifying payment...</p>
   
       <div v-else>
@@ -10,9 +10,10 @@
         <h1 v-else class="text-red-600 text-xl">
           Payment Failed ❌
         </h1>
-        <p class="mt-4">
-          <a href="/order-history" class="text-blue-500 underline">Go to Spin Credit</a>
-        </p>
+        <div class="flex items-center justify-center mt-8 gap-4">
+          <SharedBackButton :to="'/order-history'" />
+          <h1 class="text-2xl font-medium font-display">Go to Spin Credit</h1>
+        </div>
       </div>
     </div>
 </template>

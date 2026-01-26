@@ -1,7 +1,5 @@
 <template>
     <div class="max-w-md mx-auto mt-20 mb-20 p-6 border rounded">
-      <h1 class="text-xl font-semibold mb-4">Fund Wallet</h1>
-  
       <input
         v-model="amount"
         type="number"
@@ -14,6 +12,7 @@
         @click="fundWallet"
         :disabled="loading"
         class="w-full bg-green-600 text-white p-3 rounded-full hover:bg-green-700 transition-colors"
+        style="background-color: #a799ff"
       >
         {{ loading ? 'Redirecting...' : 'Proceed' }}
       </button>
